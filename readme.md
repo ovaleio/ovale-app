@@ -1,3 +1,3 @@
-# Electron + Next.js
+`npm start`
 
-You can read more about this concept [here](https://leo.im/2017/electron-next).
+Launches electron app with nextjs, listens on 8000
