@@ -12,14 +12,14 @@ app.on('ready', async () => {
   await prepareNext('./renderer')
 
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600
+    width: 1024,
+    height: 800
   })
 
-  const devPath = 'http://localhost:8000/start'
+  const devPath = 'http://localhost:8000/'
 
   const prodPath = format({
-    pathname: resolve('renderer/out/start/index.html'),
+    pathname: resolve('renderer/out/index.html'),
     protocol: 'file:',
     slashes: true
   })

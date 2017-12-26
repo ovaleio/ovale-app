@@ -1,0 +1,138 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<div id="leftColumn">
+			<div id="searchBox"><!-- SearchBox -->
+				<form>
+					<input id="searchInput" autocomplete="off" type="text" name="search" placeholder="Search" />
+				</form>
+			</div>
+			<div id="tickersList"> <!-- TIckersList -->
+				<div class="tickersPerExchange category">
+					<div class="categoryHeader">
+						BITFINEX
+					</div>
+					<div class="categoryItems">
+						<div class="categoryItem row">
+							<div class="symbol">BTC</div>
+							<div class="spacer"></div>
+							<div class="symbolPrice alignRight">17 817.33 USD</div>
+						</div>
+						<div class="categoryItem row">
+							<div class="symbol">BTC</div>
+							<div class="spacer"></div>
+							<div class="symbolPrice alignRight">15 120.23 EUR</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="socketStatus">Status: connected</div>
+		</div>
+		<div id="mainColumn">
+			<div id="tickerMainContainer" class="row">
+				<div id="tickerChart">
+					<iframe src="https://embed.cryptowat.ch/poloniex/ethbtc" frameborder="0" allowfullscreen="true" style="width: 100%; height: 100%;"></iframe>
+				</div>
+				<div id="tickerInfoContainer">
+					<div id="tickerInfo">
+						<p>BTC-USD</p>
+						<p>
+							<span class="tickerPrice">18 817.33</span>
+							<span class="tickerVariation tickerRed">(caret) 5.20%</span>
+						</p>
+					</div>
+					<div id="tickerForm">
+						<div class="row bottom20">
+							<div class="inputContainer">
+								<label for="amount">AMOUNT</label>
+								<input type="text" class="orderInput" autocomplete="off" name="amount" id="amount"/>
+							</div>
+							<div class="inputContainer alignRight">
+								<label for="price">PRICE</label>
+								<input type="text" class="orderInput" autocomplete="off" name="price" id="price"/>
+							</div>
+						</div>
+						<div class="row bottom20">
+							<select name="orderType" id="orderTypeSelect">
+								<option>LIMIT ORDER</option>
+								<option>MARKET ORDER</option>
+								<option>MARGIN ORDER</option>
+							</select>
+						</div>
+						<div class="row">
+							<div class="buttonContainer">
+								<button class="orderButton buy" onClick="">BUY</button>
+							</div>
+							<div class="spacer"></div>
+							<div class="buttonContainer alignRight">
+								<button class="orderButton sell" onClick="">SELL</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="userDataContainer">
+				<div class="orders category">
+					<div class="categoryHeader">
+						ORDERS
+					</div>
+					<table class="categoryItems">
+						<th>
+							<td>Exchange</td>
+							<td>Symbol</td>
+							<td>Type</td>
+							<td>Amount</td>
+							<td>Price</td>
+							<td>Value</td>
+							<td>Current Price</td>
+							<td>Actions</td>
+						</th>
+						<tr class="categoryItem row">
+							<td>BITFINEX</td>
+							<td class="symbol">BTC-USD</td>
+							<td class="buy">BUY</td>
+							<td>0.00012</td>
+							<td>0.0238</td>
+							<td>0.00000002</td>
+							<td>0.0342</td>
+							<td>
+								<a href="#">cancel</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="balances category">
+					<div class="categoryHeader">
+						BALANCES
+					</div>
+					<table class="categoryItems">
+						<th>
+							<td>Exchange</td>
+							<td>Symbol</td>
+							<td>Type</td>
+							<td>Amount</td>
+							<td>Price</td>
+							<td>Value</td>
+							<td>Current Price</td>
+							<td>Actions</td>
+						</th>
+						<tr class="categoryItem row">
+							<td>BITFINEX</td>
+							<td class="symbol">BTC-USD</td>
+							<td class="buy">BUY</td>
+							<td>0.00012</td>
+							<td>0.0238</td>
+							<td>0.00000002</td>
+							<td>0.0342</td>
+							<td>
+								<a href="#">cancel</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

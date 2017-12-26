@@ -26,7 +26,14 @@
   },
   "dependencies": {
     "app-root-path": "2.0.1",
+    "babel-plugin-inline-import": "^2.0.6",
+    "bufferutil": "^3.0.3",
+    "css-loader": "^0.28.7",
     "electron-is-dev": "0.3.0",
-    "electron-next": "3.1.1"
+    "electron-next": "3.1.1",
+    "material-ui": "^0.20.0",
+    "socket.io-client": "^2.0.4",
+    "style-loader": "^0.19.1",
+    "utf-8-validate": "^4.0.0"
   }
 }
