@@ -1,7 +1,5 @@
 import react from 'react'
 import ReactDom from 'react-dom'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Snackbar from 'material-ui/Snackbar'
 
 const styles = {
 	bottom20: {
@@ -82,9 +80,7 @@ class NewOrderForm extends react.Component {
 
     this.state = {
       amount: "0",
-      price: "0",
-      openSnackbar: false,
-      requestMessage: ""
+      price: "0"
     }
   }
 
@@ -95,10 +91,6 @@ class NewOrderForm extends react.Component {
   handleInputChange (e) {
     console.log(e.target.name, e.target.value);
     this.setState({[e.target.name]: e.target.value});
-  }
-
-  handleSnackbarClose () {
-    this.setState({openSnackbar: false, requestMessage: ""})
   }
 
   setPriceToLast () {
@@ -112,54 +104,19 @@ class NewOrderForm extends react.Component {
   	return parseFloat(this.state.amount) * parseFloat(this.state.price);
   }
 
-  snackbarMessage (message, success) {
-    var icon = success ? 'check circle' : 'error';
-    var style = success ? {color: "white"} : {color: 'red'};
-    return (<div style={style}>{message}</div>)
-  }
-
-  postRequest (url, payload, callback) {
-    fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json'
-        //,'Content-Type': 'application/json' hack to prevent option instead of post
-      },
-      body: JSON.stringify(payload)
-    })
-    //.then(this.handleErrors)
-    .then(res => res.json())
-    .then(callback)
-    .catch(err => console.log())
-  }
-
-  handleNewOrder (payload) {
-  	console.log("handleNewOrder called");
-    this.postRequest('http://localhost:8080/orders', payload, res => {
-      //if there is an error, we have a res.code & res.message
-      if (res.code) {
-        this.setState({openSnackbar: true, requestMessage: this.snackbarMessage(res.message)})
-      }
-      else {
-        console.log(res);
-        this.setState({openSnackbar: true, requestMessage: this.snackbarMessage(`${res.length} orders added`, true)})
-      }
-    });
-  }
 
   handleBuy (e) {
   	e.preventDefault();
   	const {amount, price} = this.state;
     var payload = {"orders": [{symbol: this.props.currentTicker, type: 'buy', amount: amount, rate: price}]}
-    this.handleNewOrder(payload);
+    this.props.handleNewOrder(payload);
   }
 
   handleSell (e) {
   	e.preventDefault();
   	const {amount, price} = this.state;
     var payload = {"orders": [{symbol: this.props.currentTicker, type: 'sell', amount: amount, rate: price}]}
-    this.handleNewOrder(payload);
+    this.props.handleNewOrder(payload);
   }
 
   render () {
@@ -168,11 +125,11 @@ class NewOrderForm extends react.Component {
 			<div style={styles.bottom20} className="row">
 				<div className="col-xs-6">
 					<label htmlFor="amount" style={styles.label}>AMOUNT</label>
-					<input style={styles.inputText} type="text" autoComplete="off" name="amount" id="amount" value={this.state.amount} onChange={this.handleInputChange.bind(this)} />
+					<input style={styles.inputText} type="number" autoComplete="off" name="amount" id="amount" value={this.state.amount} onChange={this.handleInputChange.bind(this)} />
 				</div>
 				<div  className="col-xs-6" style={styles.alignRight}>
 					<label htmlFor="price" style={styles.label} onClick={this.setPriceToLast.bind(this)}>PRICE</label>
-					<input style={styles.inputText} type="text" autoComplete="off" name="price" id="price" value={this.state.price} onChange={this.handleInputChange.bind(this)} />
+					<input style={styles.inputText} type="number" autoComplete="off" name="price" id="price" value={this.state.price} onChange={this.handleInputChange.bind(this)} />
 				</div>
 			</div>
 			<div style={styles.selectRow} className="row">
@@ -193,15 +150,6 @@ class NewOrderForm extends react.Component {
 			<div className="row">
 				Total: {this.computeTotal()}
 			</div>
-
-        	<MuiThemeProvider>
-		        <Snackbar
-		          open={this.state.openSnackbar}
-		          message={this.state.requestMessage}
-		          onRequestClose={this.handleSnackbarClose.bind(this)}
-		          autoHideDuration={6000}
-		        />
-		    </MuiThemeProvider>
 		</form>
   	)
   }

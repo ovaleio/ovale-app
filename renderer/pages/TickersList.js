@@ -31,10 +31,6 @@ class TickersList extends react.Component {
     super(props)
   }
 
-  componentDidMount () {
-  	console.log(this.props.tickers);
-  }
-
   handleClick (symbol) {
   	this.props.onClickTicker(symbol);
   }

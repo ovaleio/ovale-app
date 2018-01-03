@@ -1,19 +1,25 @@
 import react from 'react'
 import ReactDom from 'react-dom';
+import Head from 'next/head'
 import io from 'socket.io-client';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import format from '../format.js';
 import SearchBox from './SearchBox.js';
 import TickersList from './TickersList.js';
 import SocketStatus from './SocketStatus.js';
 import TickerContainer from './TickerContainer.js';
 import Orders from './Orders.js';
+import Trades from './Trades.js';
 import Balances from './Balances.js';
 import flexbox from '../static/flexbox.css'
+import Snackbar from 'material-ui/Snackbar'
+import {clients} from 'cryptoclients'
 
-//import '../static/style.css';
+const config = require('/Users/johnthillaye/config.js');
 
-//allow react dev tools work
+const lib = clients(config) //pass apikeys to clients
+
+const muiTheme = getMuiTheme({ userAgent: 'all'});
 
 const styles = {
   main: {
@@ -31,14 +37,10 @@ const styles = {
     padding: 0,
     borderRight: "1px solid #D2E4E1"
   },
-  mainColumn: {
-    // height: "100%",
-  }, 
   userDataContainer: {
     borderTop: "1px solid #D2E4E1",
     height: "45vh",
     overflow: "scroll"
-    // minHeight: "300px"
   }
 };
 
@@ -52,12 +54,16 @@ class Main extends react.Component {
       data: {
         orders: [],
         balances: [],
+        trades: [],
         tickers: {},
         status: {}
       },
       currentTicker: "bitfinex:USD-BTC",
+      currentTab: 'Orders',
       baseCurrency: "BTC",
-      searchQuery: ""
+      searchQuery: "",
+      openSnackbar: false,
+      requestMessage: ""
     }
 
     this.onClickTicker = this.onClickTicker.bind(this)
@@ -65,31 +71,90 @@ class Main extends react.Component {
   }
 
   handleInputChange (e) {
-    //console.log(e.target.name, e.target.value);
     this.setState({[e.target.name]: e.target.value});
   }
 
-  onCancelOrder (order) {
-    fetch('http://localhost:8080/orders/delete', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json'
-        //,'Content-Type': 'application/json' hack to prevent option instead of post
-      },
-      body: JSON.stringify(order)
+  handleSnackbarClose () {
+    this.setState({openSnackbar: false, requestMessage: ""})
+  }
+
+  handleNewOrder (payload) {
+    if (!payload || !payload.orders) return false;
+
+    payload.orders.forEach((order) => {
+      lib.passOrder(order, (err, res) => {
+        if (err) {
+          console.log(err, res)
+          this.showSnackbar(res.message || res.error || err);
+        } 
+        else {
+          this.showSnackbar(`Order successfully added`);
+
+          //Reload orders
+          lib.getOrders((err, res) => {
+            this.setState(({data}) => ({data: {
+                ...data,
+                orders: res
+              }
+            }));
+          });
+        }
+      });
     })
-    .then(res => {
-      console.log(res)
-      if (res.ok) {
-        //remove order from array
-        var index = this.state.orders.indexOf(order);
-        this.setState({
-          data: this.state.data.filter((_,i) => i !== index)
-        })
+  }
+
+  showSnackbar (message, success) {
+    var style = success ? {color: "white"} : {color: 'red'};
+    this.setState({openSnackbar: true, requestMessage: <div style={style}>{message.toString()}</div>});
+  }
+
+  showOrdersTradesTab () {
+    if (this.state.currentTab === 'Trades') {
+      return (
+        <Trades 
+          trades={this.state.data.trades} 
+          tickers={this.state.data.tickers}
+          onClickTicker={this.onClickTicker}
+          onSwitch={this.switchOrdersTradesTab.bind(this)}
+          ref="childComponents">
+        </Trades>
+      )
+    }
+    else {
+      return (
+        <Orders 
+          orders={this.state.data.orders} 
+          tickers={this.state.data.tickers}
+          onClickTicker={this.onClickTicker}
+          onCancelOrder={this.onCancelOrder.bind(this)}
+          onSwitch={this.switchOrdersTradesTab.bind(this)}
+          ref="childComponents">
+        </Orders>
+      )
+    }
+  }
+
+  switchOrdersTradesTab () {
+    var tab = this.state.currentTab === 'Orders' ? 'Trades' : 'Orders'
+    this.setState({currentTab: tab});
+  }
+
+  onCancelOrder (order) {
+    lib.cancelOrder(order, (err, res) => {
+      if (err) {
+        this.showSnackbar('Could not cancel order');
+        console.log("could not cancel order", order, err)
       }
       else {
-        console.log("could not cancel order", order)
+        //remove order from array
+        var index = this.state.data.orders.indexOf(order);
+        this.setState(({data}) => ({
+          data: {
+            ...data,
+            orders: this.state.data.orders.filter((_,i) => i !== index)
+          }
+        }));
+        this.showSnackbar('Orders succesfully cancelled', true);
       }
     })
   }
@@ -103,12 +168,24 @@ class Main extends react.Component {
 
   componentDidMount() {
     if (this.refs.childComponents) {
-      
+      //Get rest data
+      const getRestData = lib.getRestData;
+
+      //e = orders, balances, ..
+      Object.keys(getRestData).map((e,i) => {
+        getRestData[e]((err, res) => {
+          this.setState(({data}) => ({data: {
+              ...data,
+              [e]: res
+            }
+          }));
+        })
+      });
+
       //Receive channels message and set data in state
       var channels = ['tickers', 'orders', 'balances', 'status'];
       channels.map((e,i) => {
         socket.on(e, res => {
-          console.log(e, res);
           this.setState(({data}) => ({data: {
               ...data,
               [e]: res
@@ -121,49 +198,67 @@ class Main extends react.Component {
 
   render() {
     return (
-      <div style={styles.main}>
-        <style global jsx>{`
-          body, div, p {
-            margin: 0;
-          }
-
-          input:focus, select:focus, textarea:focus,button:focus {
-            outline: "none";
-          }
-        `}</style>
-        <style global jsx>
-          {flexbox}
-        </style>
-        <div id="leftColumn" style={styles.leftColumn} className="col-xs-2">
-          <SearchBox searchQuery={this.state.searchQuery} onChange={this.handleInputChange} ref="childComponents"></SearchBox>
-          <TickersList 
-            tickers={this.state.data.tickers}
-            searchQuery={this.state.searchQuery}
-            currentTicker={this.state.currentTicker}
-            onClickTicker={this.onClickTicker}
-            style="flex-grow:1"
-            ref="childComponents" 
-          ></TickersList>
-          <SocketStatus status={this.state.data.status} ref="childComponents"></SocketStatus>
-        </div>
-        <div id="mainColumn" style={styles.mainColumn} className="col-xs-10">
-          <TickerContainer currentTicker={this.state.currentTicker} tickers={this.state.data.tickers} className="row"></TickerContainer>
-          <div id="userData" style={styles.userDataContainer} className="row">
-            <Orders 
-              orders={this.state.data.orders} 
-              tickers={this.state.data.tickers}
-              onClickTicker={this.onClickTicker} 
-              ref="childComponents">
-            </Orders>
-            <Balances 
-              balances={this.state.data.balances}
-              tickers={this.state.data.tickers}
-              baseCurrency={this.state.baseCurrency}
-              onClickTicker={this.onClickTicker} 
-              ref="childComponents"
-            ></Balances>
+      <div>
+        <Head>
+          <title>CryptoTrader</title>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+          <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        </Head>
+        <MuiThemeProvider muiTheme={muiTheme}>
+          <div style={styles.main}>
+            <style global jsx>{`
+              body, div, p, th, td {
+                margin: 0,
+                padding: 0
+              }
+              table {
+                  border-collapse: collapse;
+              }
+              input:focus, select:focus, textarea:focus,button:focus {
+                outline: "none"
+              }
+              ::selection { background: white; /* WebKit/Blink Browsers */ }
+            `}</style>
+            <style global jsx>
+              {flexbox}
+            </style>
+            <div id="leftColumn" style={styles.leftColumn} className="col-xs-3 col-sm-2">
+              <SearchBox searchQuery={this.state.searchQuery} onChange={this.handleInputChange} ref="childComponents"></SearchBox>
+              <TickersList 
+                tickers={this.state.data.tickers}
+                searchQuery={this.state.searchQuery}
+                currentTicker={this.state.currentTicker}
+                onClickTicker={this.onClickTicker}
+                ref="childComponents" 
+              ></TickersList>
+              <SocketStatus status={this.state.data.status} ref="childComponents"></SocketStatus>
+            </div>
+            <div id="mainColumn" className="col-xs-9 col-sm-10">
+              <TickerContainer 
+                currentTicker={this.state.currentTicker} 
+                tickers={this.state.data.tickers}
+                handleNewOrder={this.handleNewOrder.bind(this)}
+                className="row"
+              ></TickerContainer>
+              <div id="userData" style={styles.userDataContainer} className="row">
+                {this.showOrdersTradesTab()}
+                <Balances 
+                  balances={this.state.data.balances}
+                  tickers={this.state.data.tickers}
+                  baseCurrency={this.state.baseCurrency}
+                  onClickTicker={this.onClickTicker} 
+                  ref="childComponents"
+                ></Balances>
+              </div>
+            </div>          
+              <Snackbar
+                open={this.state.openSnackbar}
+                message={this.state.requestMessage}
+                onRequestClose={this.handleSnackbarClose.bind(this)}
+                autoHideDuration={6000}
+              />
           </div>
-        </div>
+        </MuiThemeProvider>
       </div>
     )
   }

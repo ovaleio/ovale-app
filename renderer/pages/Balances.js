@@ -1,9 +1,28 @@
 import react from 'react'
 import ReactDom from 'react-dom';
-import format from '../format.js';
+import {format} from 'cryptoclients';
 
 const styles = {
-
+  table: {
+    width: "100%",
+    fontFamily: 'Lato',
+    fontSize: '13px',
+  },
+  tr: {
+    padding: "5px 5px"
+  },
+  tHead: {
+    backgroundColor: "rgba(0,0,0,0.15)"
+  },
+  categoryHeader: {
+    padding: "2px 5px",
+    lineHeight: "26px",
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
+    fontSize: "14px",
+    fontHeight: "bold",
+    color: "#72EAD6"
+  },
+  alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}}
 };
 
 class Balances extends react.Component {
@@ -28,13 +47,14 @@ class Balances extends react.Component {
     var symbol = exchange + ':' + baseCurrency + '-' + currency;
 
     if (currency == baseCurrency) {
-      var btcTicker = 1;
+      return 1;
     }
     else if (tickers && tickers[symbol]) {
-      var btcTicker = tickers[symbol];
+      return  tickers[symbol];
     }
-
-    return btcTicker;
+    else {
+      return 0;
+    }
   }
 
   cleanBalances () {
@@ -69,15 +89,11 @@ class Balances extends react.Component {
   }
 
   render () {
-    let {balances, total} = this.cleanBalances();
-
-    if (!balances.length) {
-      return (<div>No balance</div>)
-    }
+    var {balances, total} = this.cleanBalances();
 
     const rows = balances.map((balance, i) => {
       return (
-        <tr key={i}>
+        <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td onClick={() => this.handleClick(balance.symbol)}>
             {balance.currency}
           </td>
@@ -86,7 +102,8 @@ class Balances extends react.Component {
               {balance.exchange}
             </a>
           </td>
-          <td>{balance.balance}</td>
+          <td>{balance.balance.toPrecision(4)}</td>
+          <td>{balance.available.toPrecision(4)}</td>
           <td><strong>{balance.ticker.rate}</strong></td>
           <td>{balance.ticker.totalValue.toFixed(4)}</td>
           <td>{(balance.ticker.share * 100).toFixed(2)} %</td>
@@ -95,27 +112,31 @@ class Balances extends react.Component {
     })
 
     return (
-      <table className="col-xs-6">
-        <thead>
-          <tr>
-            <th>Currenc.</th>
-            <th>Exchange</th>
-            <th>Amount</th>
-            <th>Price</th>
-            <th>Total Value</th>
-            <th>Share</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-          <tr style={{fontWeight: "bold"}}>
-            <td>Total</td>
-            <td>{total.btc.toFixed(4)} BTC</td>
-            <td>{Math.round(total.usd)} USD</td>
-            <td>1 BTC = {this.getUsdTicker()} USD</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="col-xs-6 col-lg-5">
+        <div style={styles.categoryHeader} className="row">Balances</div>
+        <table style={styles.table}>
+          <thead style={styles.tHead}>
+            <tr>
+              <th>Currenc.</th>
+              <th>Exchange</th>
+              <th>Amount</th>
+              <th>(Available)</th>
+              <th>Price</th>
+              <th>Total Value</th>
+              <th>Share</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+            <tr style={{fontWeight: "bold"}}>
+              <td>Total</td>
+              <td>{total.btc.toFixed(2)} BTC</td>
+              <td colSpan="2">{Math.round(total.usd)} USD</td>
+              <td colSpan="2">1 BTC = {this.getUsdTicker()} USD</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

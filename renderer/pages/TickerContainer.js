@@ -24,14 +24,14 @@ class TickerContainer extends react.Component {
 	}
 
 	render () { 
-		const {currentTicker, tickers} = this.props;
+		const {currentTicker, tickers, handleNewOrder} = this.props;
 
 		return (
 			<div style={styles.main} className="row">
-		        <TickerChart currentTicker={currentTicker} width="800" height="420"></TickerChart>
+		        <TickerChart currentTicker={currentTicker}></TickerChart>
 		        <div style={styles.tickerCol}>
 		          <TickerInfo currentTicker={currentTicker} tickers={tickers}></TickerInfo>
-		          <NewOrderForm currentTicker={currentTicker} tickers={tickers}></NewOrderForm>
+		          <NewOrderForm currentTicker={currentTicker} tickers={tickers} handleNewOrder={handleNewOrder}></NewOrderForm>
 		        </div>
 		    </div>
 		)

@@ -1,10 +1,10 @@
 {
   "name": "electron-next-skeleton",
-  "productName": "ElectronNext",
+  "productName": "CryptoTrader",
   "version": "1.0.0",
   "main": "main/index.js",
   "license": "MIT",
-  "repository": "leo/electron-next-skeleton",
+  "repository": "johnthillaye/cryptotrader-app",
   "scripts": {
     "start": "electron .",
     "build": "next build renderer && next export renderer",
@@ -20,20 +20,22 @@
   "devDependencies": {
     "electron": "1.7.5",
     "electron-builder": "19.22.1",
+    "electron-packager": "^10.1.0",
     "next": "3.0.6",
-    "react": "15.6.1",
-    "react-dom": "15.6.1"
+    "react": "^15.6.2",
+    "react-dom": "^15.6.1"
   },
   "dependencies": {
-    "app-root-path": "2.0.1",
     "babel-plugin-inline-import": "^2.0.6",
-    "bufferutil": "^3.0.3",
+    "cryptoclients": "^1.0.6",
     "css-loader": "^0.28.7",
-    "electron-is-dev": "0.3.0",
+    "electron-context-menu": "^0.9.1",
+    "electron-debug": "^1.4.0",
+    "electron-is-dev": "^0.3.0",
     "electron-next": "3.1.1",
     "material-ui": "^0.20.0",
+    "react-moment": "^0.6.8",
     "socket.io-client": "^2.0.4",
-    "style-loader": "^0.19.1",
-    "utf-8-validate": "^4.0.0"
+    "style-loader": "^0.19.1"
   }
 }
