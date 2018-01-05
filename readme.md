@@ -40,6 +40,9 @@ Add your `apikey` & `apisecret` for the exchanges you want to connect to, as sho
 ````
 
 
+/!\ Warning: Do not give withdrawal privileges to your apikeys. We are not responsible for any rogue use of your keys.
+
+
 ## How to run
 
 Make sure you have node 8+ installed. You can check this by running `node -v` in your shell.

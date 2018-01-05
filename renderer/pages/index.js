@@ -203,8 +203,8 @@ class Main extends react.Component {
         <MuiThemeProvider muiTheme={muiTheme}>
           <div style={styles.main}>
             <style global jsx>{`
-              body, div, p, th, td {
-                margin: 0,
+              body, div, p {
+                margin: 0;
                 padding: 0
               }
               table {

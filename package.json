@@ -1,5 +1,7 @@
 {
-  "name": "electron-next-skeleton",
+  "name": "CryptoTrader",
+  "author": "John Thillaye <johnthillaye@gmail.com>",
+  "description": "A unified trading station for cryptocurrency exchanges",
   "productName": "CryptoTrader",
   "version": "1.0.0",
   "main": "main/index.js",

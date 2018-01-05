@@ -4,9 +4,9 @@ module.exports = {
   webpack(config) {
     config.target = 'electron-renderer'
     config.plugins.push(new webpack.IgnorePlugin(/vertx/))
-    // config.plugins = config.plugins.filter(
-    //   (plugin) => (plugin.constructor.name !== 'UglifyJsPlugin')
-    // )
+    config.plugins = config.plugins.filter(
+      (plugin) => (plugin.constructor.name !== 'UglifyJsPlugin')
+    )
     return config
   },
   exportPathMap() {
