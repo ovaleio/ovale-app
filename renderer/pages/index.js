@@ -15,9 +15,7 @@ import flexbox from '../static/flexbox.css'
 import Snackbar from 'material-ui/Snackbar'
 import {clients} from 'cryptoclients'
 
-const config = require('/Users/johnthillaye/config.js');
-
-const lib = clients(config) //pass apikeys to clients
+const {getRestData, passOrder, cancelOrder, getOrders} = clients();
 
 const muiTheme = getMuiTheme({ userAgent: 'all'});
 
@@ -82,7 +80,7 @@ class Main extends react.Component {
     if (!payload || !payload.orders) return false;
 
     payload.orders.forEach((order) => {
-      lib.passOrder(order, (err, res) => {
+      passOrder(order, (err, res) => {
         if (err) {
           console.log(err, res)
           this.showSnackbar(res.message || res.error || err);
@@ -91,7 +89,7 @@ class Main extends react.Component {
           this.showSnackbar(`Order successfully added`);
 
           //Reload orders
-          lib.getOrders((err, res) => {
+          getOrders((err, res) => {
             this.setState(({data}) => ({data: {
                 ...data,
                 orders: res
@@ -140,7 +138,7 @@ class Main extends react.Component {
   }
 
   onCancelOrder (order) {
-    lib.cancelOrder(order, (err, res) => {
+    cancelOrder(order, (err, res) => {
       if (err) {
         this.showSnackbar('Could not cancel order');
         console.log("could not cancel order", order, err)
@@ -168,10 +166,8 @@ class Main extends react.Component {
 
   componentDidMount() {
     if (this.refs.childComponents) {
-      //Get rest data
-      const getRestData = lib.getRestData;
 
-      //e = orders, balances, ..
+      //Load all data via rest ONCE
       Object.keys(getRestData).map((e,i) => {
         getRestData[e]((err, res) => {
           this.setState(({data}) => ({data: {
@@ -182,8 +178,8 @@ class Main extends react.Component {
         })
       });
 
-      //Receive channels message and set data in state
-      var channels = ['tickers', 'orders', 'balances', 'status'];
+      //Receive almost realtime updates from websocket
+      var channels = ['tickers', 'orders', 'balances', 'trades', 'status'];
       channels.map((e,i) => {
         socket.on(e, res => {
           this.setState(({data}) => ({data: {

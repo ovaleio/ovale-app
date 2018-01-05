@@ -89,14 +89,12 @@ class NewOrderForm extends react.Component {
   }
 
   handleInputChange (e) {
-    console.log(e.target.name, e.target.value);
     this.setState({[e.target.name]: e.target.value});
   }
 
   setPriceToLast () {
     const {tickers, currentTicker} = this.props;
 	const price = tickers ? tickers[currentTicker] : 0;
-	console.log(price);
 	this.setState({price: price.toString()});
   }
 

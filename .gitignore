@@ -1,3 +1,6 @@
+#config
+config.js
+
 # build output
 dist
 renderer/.next
