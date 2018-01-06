@@ -45,6 +45,10 @@ Add your `apikey` & `apisecret` for the exchanges you want to connect to, as sho
 
 ## How to run
 
+Make sure you have a websocket server, listening to port 7070, that sends tickers update to the app.
+
+You can find one at https://github.com/johnthillaye/cryptotrader-server
+
 Make sure you have node 8+ installed. You can check this by running `node -v` in your shell.
 
 Clone this repo:
@@ -59,9 +63,10 @@ Install dependencies
 Launch the electron app
 `npm start`
 
-Make sure you have a websocket server to send the app tickers updates & keep orders, balances in sync with the exchanges. 
 
-You can find one at https://github.com/johnthillaye/cryptotrader-server
+## How to build
+
+`npm run-script build`
 
 ## Dev mode
 

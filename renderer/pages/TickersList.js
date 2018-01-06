@@ -50,11 +50,14 @@ class TickersList extends react.Component {
   			}
   		}
   	}
+
+  	var  message = (this.props.searchQuery.length && !rows.length) ? 'No ticker found for ' + this.props.searchQuery : ''
   	
   	return (
   		<div style={styles.main}>
-  			<div style={styles.categoryHeader}>BITFINEX</div>
+  			<div style={styles.categoryHeader}>Tickers</div>
   			<div>
+  				{message}
   				{rows}
   			</div>
   		</div>
