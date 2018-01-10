@@ -1,6 +1,7 @@
 import react from 'react'
 import ReactDom from 'react-dom';
 import {format, clients} from 'cryptoclients'
+import Moment from 'react-moment'
 // import { red, teal } from 'material-ui/styles/colors';
 
 
@@ -62,43 +63,25 @@ class Orders extends react.Component {
     super(props);
   }
 
-  cleanOrders () {
-    const { orders, tickers, baseCurrency } = this.props
-
-    orders.map((order, i) => {
-      if (!order || !order.pair) return;
-
-      var lastPrice = tickers ? tickers[order.symbol] : 0;
-
-      if (typeof lastPrice == 'number' && lastPrice > 0) {
-        order.lastPrice = lastPrice.toPrecision(4);
-        order.togo = ((order.rate/lastPrice - 1) * 100).toPrecision(4);
-      }
-    });
-
-    return orders;
-  }
-
   handleClick (symbol) {
     this.props.onClickTicker(symbol);
   }
 
   render () {
-    const { onCancelOrder, onSwitch } = this.props
+    const { orders, onCancelOrder, onSwitch , onSort} = this.props
 
-    var cleanedOrders = this.cleanOrders();
-
-    const rows = cleanedOrders.map((order, i) => {
+    const rows = orders.map((order, i) => {
       if (order === null) return;
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td onClick={() => this.handleClick(order.symbol)}>{order.pair}</td>
           <td>{order.type}</td>
+          <td><Moment fromNow>{order.date}</Moment></td>
           <td>{order.amount}</td>
           <td><strong>{order.rate}</strong></td>
           <td>{order.exchange}</td>
-          <td>{order.lastPrice}</td>
-          <td style={styles.bgPercent(order.togo)}>{order.togo} %</td>
+          <td>{order.price}</td>
+          <td style={styles.bgPercent(order.deltaPercent)}>{order.deltaPercent} %</td>
           <td><button onClick={() => {onCancelOrder(order)}} style={styles.cancelButton}>cancel</button></td>
         </tr>
       )
@@ -113,13 +96,14 @@ class Orders extends react.Component {
         <table style={styles.table}>
           <thead style={styles.tHead}>
             <tr>
-              <th>Pair</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Rate</th>
-              <th>Exchange</th>
-              <th>Last Price</th>
-              <th>To Go %</th>
+              <th onClick={() => {onSort('orders', 'pair')}}>Pair</th>
+              <th onClick={() => {onSort('orders', 'type')}}>Type</th>
+              <th onClick={() => {onSort('orders', 'date')}}>Date</th>
+              <th onClick={() => {onSort('orders', 'amount')}}>Amount</th>
+              <th onClick={() => {onSort('orders', 'rate')}}>Rate</th>
+              <th onClick={() => {onSort('orders', 'exchange')}}>Exchange</th>
+              <th onClick={() => {onSort('orders', 'price')}}>Last Price</th>
+              <th onClick={() => {onSort('orders', 'deltaPercent')}}>To Go %</th>
               <th>Actions</th>
             </tr>
           </thead>

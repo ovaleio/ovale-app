@@ -54,10 +54,25 @@ class Main extends react.Component {
         balances: [],
         trades: [],
         tickers: {},
-        status: {}
+        status: {},
+        totalBalance: {'BTC': 0, 'USD': 0}
       },
-      currentTicker: "bitfinex:USD-BTC",
+      currentTicker: 'bitfinex:USD-BTC',
       currentTab: 'Orders',
+      sort: {
+        'orders': {
+          sortKey: 'date',
+          direction: -1
+        },
+        'balances': {
+          sortKey: 'currency',
+          direction: 1
+        },
+        'trades': {
+          sortKey: 'date',
+          direction: -1
+        }
+      },
       baseCurrency: "BTC",
       searchQuery: "",
       openSnackbar: false,
@@ -96,6 +111,7 @@ class Main extends react.Component {
               }
             }));
           });
+          this.computeData();
         }
       });
     })
@@ -126,10 +142,26 @@ class Main extends react.Component {
           onClickTicker={this.onClickTicker}
           onCancelOrder={this.onCancelOrder.bind(this)}
           onSwitch={this.switchOrdersTradesTab.bind(this)}
+          onSort={this.sortTable.bind(this)}
           ref="childComponents">
         </Orders>
       )
     }
+  }
+
+  sortTable (type, key, direction) {
+    const sort = this.state.sort[type];
+    var direction = direction ? direction : (sort.key === key ?  -1 * sort.direction : sort.direction)
+    var change = {
+      sort: {
+        ...this.state.sort,
+        [type]: {
+          sortKey: key,
+          direction: direction
+        }
+      }
+    }
+    this.setState(change);
   }
 
   switchOrdersTradesTab () {
@@ -175,6 +207,7 @@ class Main extends react.Component {
               [e]: res
             }
           }));
+          this.computeData();
         })
       });
 
@@ -187,10 +220,105 @@ class Main extends react.Component {
               [e]: res
             }
           }));
+          this.computeData();
         }) 
       })
     }
   }
+
+  getTicker (exchange, currency1, currency2) {
+    const {tickers} = this.state.data;
+    const btcusd = tickers['bitfinex:BTC-USD'] || tickers['poloniex:BTC-USDT'] || 0;
+
+
+
+    var symbol = exchange + ':' + currency1 + '-' + currency2;
+    var symbol_inverse = exchange + ':' + currency2 + '-' + currency1;
+    var symbol_tryusdt = exchange + ':USDT' + '-' + currency2;
+    var symbol_btc_fallback = exchange + ':BTC-' + currency2;
+
+    //If pair is symetric
+    if (currency1 == currency2) {
+      return 1;
+    } //If the symbols exists
+    else if (tickers[symbol]) {
+      return tickers[symbol]
+    } //If the opposite symbol exists
+    else if (tickers[symbol_inverse]) {
+      return 1 / tickers[symbol_inverse]
+    } //If no ticker exist when base currency is USD, try a fallback on btc
+    else if (currency1 === 'USD') {
+      if (tickers[symbol_tryusdt]) return tickers[symbol_tryusdt];
+      else if (tickers[symbol_btc_fallback]) return (1 / btcusd) * tickers[symbol_btc_fallback];
+      else return 0;
+    }
+    else {
+      return 0;
+    }
+  }
+
+  computeData (obj) {
+    const {baseCurrency, sort} = this.state;
+    const {tickers, orders, balances, trades} = this.state.data;
+    
+    var totalBalance = {'BTC': 0, 'USD': 0};
+
+
+    console.log(sort);
+
+    var newOrders = orders
+      .map((order) => {
+        var price = tickers[order.symbol] ? tickers[order.symbol] : '0'
+        return {
+          ...order,
+          price: price,
+          deltaPercent: ((1 - (price / order.rate)) * 100).toPrecision(4)
+        }
+      }).sort((a,b) => {
+        return (a[sort['orders'].sortKey] > b[sort['orders'].sortKey]) ? sort['orders'].direction : ((b[sort['orders'].sortKey] > a[sort['orders'].sortKey]) ? -1 * sort['orders'].direction : 0)
+      });
+
+    var newBalances = balances.map((balance) => {
+      if (!balance) return;
+
+      var price = this.getTicker(balance.exchange, baseCurrency, balance.currency) || 0;
+
+      var totalValue = {
+        BTC: balance.balance * price,
+        USD: balance.balance * price 
+      }
+      
+      //add to total balance aggregeate
+      totalBalance = {
+        BTC: totalBalance.BTC + parseFloat(totalValue.BTC),
+        USD: totalBalance.USD + parseFloat(totalValue.USD)
+      }
+
+      //add to balance object
+      var balance = {
+        ...balance,
+        price: price,
+        totalValue: totalValue
+      }
+
+      return balance;
+    })
+
+
+    newBalances = newBalances
+      .map((b) => ({...b, share: b.totalValue[baseCurrency] / totalBalance[baseCurrency]}))
+      .sort((a,b) => {
+        return (a[sort['balances'].sortKey] > b[sort['balances'].sortKey]) ? sort['balances'].direction : ((b[sort['balances'].sortKey] > a[sort['balances'].sortKey]) ? -1 * sort['balances'].direction : 0)
+      });
+
+    this.setState( ({data}) => ({data: {
+      ...data,
+      orders: newOrders,
+      balances: newBalances,
+      totalBalance: totalBalance
+    }}));
+  }
+   
 
   render() {
     return (
@@ -240,9 +368,10 @@ class Main extends react.Component {
                 {this.showOrdersTradesTab()}
                 <Balances 
                   balances={this.state.data.balances}
-                  tickers={this.state.data.tickers}
+                  total={this.state.data.totalBalance}
                   baseCurrency={this.state.baseCurrency}
-                  onClickTicker={this.onClickTicker} 
+                  onClickTicker={this.onClickTicker}
+                  onSort={this.sortTable.bind(this)}
                   ref="childComponents"
                 ></Balances>
               </div>

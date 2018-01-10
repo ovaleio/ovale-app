@@ -133,8 +133,8 @@ class NewOrderForm extends react.Component {
 			<div style={styles.selectRow} className="row">
 				<select style={styles.select} name="orderType">
 					<option>LIMIT ORDER</option>
-					<option>MARKET ORDER</option>
-					<option>MARGIN ORDER</option>
+					{/*<option>MARKET ORDER</option>
+					<option>MARGIN ORDER</option>*/}
 				</select>
 			</div>
 			<div className="row">

@@ -66,21 +66,3 @@ class TickersList extends react.Component {
 }
 
 export default TickersList;
-
-  // 		<Category>
-		// 	<CategoryHeader>
-		// 		BITFINEX
-		// 	</CategoryHeader>
-		// 	<CategoryItems>
-		// 		<div class="categoryItem row">
-		// 			<div class="symbol">BTC</div>
-		// 			<div class="spacer"></div>
-		// 			<div class="symbolPrice alignRight">17 817.33 USD</div>
-		// 		</div>
-		// 		<div class="categoryItem row">
-		// 			<div class="symbol">BTC</div>
-		// 			<div class="spacer"></div>
-		// 			<div class="symbolPrice alignRight">15 120.23 EUR</div>
-		// 		</div>
-		// 	</CategoryItems>
-		// </Category>
