@@ -41,6 +41,8 @@ const createWindow = async () => {
 
   const url = isDev ? devPath : prodPath
   mainWindow.loadURL(url)
+  mainWindow.addDevToolsExtension('/Users/johnthillaye/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi')
+
 }
 
 // Prepare the renderer once the app is ready
