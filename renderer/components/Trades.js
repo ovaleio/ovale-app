@@ -1,16 +1,15 @@
 import react from 'react'
 import { connect } from 'react-redux'
-import { switchTab } from '../actions/common'
-import { fetchTrades } from '../actions/trades'
-import { setCurrentTicker } from '../actions/ticker' 
+import { mapStateToProps } from '../selectors/trades'
+import { switchTab, requestTrades, setCurrentTicker } from '../actions/actions'
 import Moment from 'react-moment'
 import styles from '../styles/Orders'
 
 class Trades extends react.Component {
   render () {
-    const { filteredTrades, dispatch} = this.props
+    const { trades, dispatch} = this.props
 
-    const rows = filteredTrades.map((trade, i) => {
+    const rows = trades.map((trade, i) => {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td onClick={() => setCurrentTicker(trade.symbol)}>{trade.pair}</td>
@@ -48,14 +47,6 @@ class Trades extends react.Component {
         </table>
       </div>
     );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    ...state.tradesReducer,
-    filteredTrades: state.tradesReducer.data
-                    .filter((t) => t.symbol.match(state.tradesReducer.searchQuery))
   }
 }
 

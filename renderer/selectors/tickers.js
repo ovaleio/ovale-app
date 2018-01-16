@@ -15,7 +15,7 @@ export const currentTickerSelector = createSelector(
 export const filteredTickersSelector = createSelector(
   tickersSelector,
   searchQuerySelector,
-  (items, searchQuery) => items.filter((t) => t.symbol.match(searchQuery))
+  (items, searchQuery) => items.filter((t) => t.symbol.match(new RegExp(searchQuery, 'i')))
 )
 
 export const sortTickersSelector = createSelector(
@@ -30,7 +30,6 @@ export const sortTickersSelector = createSelector(
 )
 
 export const mapStateToProps = (state) => {
-  console.log(sortTickersSelector(state));
   return {
   	tickers: sortTickersSelector(state)
   }

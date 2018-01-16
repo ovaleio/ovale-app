@@ -1,8 +1,7 @@
 import react from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/balances'
-import { fetchBalances, setSort} from '../actions/balances'
-import { setCurrentTicker } from '../actions/ticker' 
+import { setCurrentTicker, requestBalances, setSortBalances} from '../actions/actions'
 import styles from '../styles/Balances'
 
 class Balances extends react.Component {

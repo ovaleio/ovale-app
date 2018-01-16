@@ -1,19 +1,15 @@
 import { handleActions } from 'redux-actions';
-import { 
-	setSearchQuery,
-	setSort,
-	fetchBalances
-} from '../actions/balances'
+import * as actions from '../actions/actions'
 import initialState from './initialState';
 
 const balancesReducer = handleActions({
-  [setSearchQuery](state, { payload: { query } }) {
+  [actions.setSearchQueryBalances](state, { payload: { query } }) {
     return { 
       ...state, 
       searchQuery: query 
     }
   },
-  [setSort](state, { payload: { sortKey } }) {
+  [actions.setSortBalances](state, { payload: { sortKey } }) {
     console.log(state)
     return { 
       ...state, 
@@ -21,7 +17,8 @@ const balancesReducer = handleActions({
       sortDirection: sortKey === state.sortKey ? state.sortDirection * -1 : state.sortDirection
     }
   },
-  [fetchBalances](state, {payload: data}) {
+  [actions.receiveBalances](state, {payload: data}) {
+    console.log(data);
     return { ...state, data: data}
   }
 }, initialState.balances);

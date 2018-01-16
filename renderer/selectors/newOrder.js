@@ -9,5 +9,6 @@ export const mapStateToProps = (state) => {
 		...state.newOrderReducer,
 		availableBalance: currentBalance ? currentBalance.balance : 0,
 		currentPrice: currentTicker ? currentTicker.price : 0,
+		tickerSymbol: currentTicker ? currentTicker.symbol : ''
 	}
 }

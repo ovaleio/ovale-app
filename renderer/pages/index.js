@@ -6,9 +6,11 @@ import NewOrderForm from '../components/NewOrderForm'
 import Balances from '../components/Balances'
 import Orders from '../components/Orders'
 import Trades from '../components/Trades'
+import Snackbar from 'material-ui/Snackbar'
 
 import withRedux from 'next-redux-wrapper'
 import initStore from '../initStore'
+import { closeSnackbar } from '../actions/actions'
 import { mapStateToProps } from '../selectors/common'
 
 import flexbox from '../static/flexbox.css'
@@ -21,7 +23,7 @@ const muiTheme = getMuiTheme({ userAgent: 'all'});
 class Main extends React.Component {
 
   render () {
-    const { currentTab } = this.props;
+    const { currentTab, showSnackbar, message, dispatch} = this.props;
 
     const OrdersOrTabs = currentTab === 'Orders' ? (<Orders />) : (<Trades />)
 
@@ -63,6 +65,12 @@ class Main extends React.Component {
                 <Balances />
               </div>
             </div>
+            <Snackbar
+              open={showSnackbar}
+              message={message}
+              onRequestClose={() => dispatch(closeSnackbar())}
+              autoHideDuration={2000}
+            />
           </div>
         </MuiThemeProvider>
       </div>

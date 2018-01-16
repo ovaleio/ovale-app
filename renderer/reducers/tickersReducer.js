@@ -1,24 +1,24 @@
 import { handleActions } from 'redux-actions';
-import { setSearchQuery, setSort, fetchTickers } from '../actions/tickers'
+import * as actions from '../actions/actions'
 import initialState from './initialState';
 
 const tickersReducer = handleActions({
-  [setSearchQuery](state, { payload: { query } }) {
+  [actions.setSearchQueryTickers](state, { payload: { query } }) {
     return { 
       ...state, 
       searchQuery: query 
     }
   },
-  [setSort](state, { payload: { sortKey, sortDirection } }) {
+  [actions.setSortTickers](state, { payload: { sortKey, sortDirection } }) {
     return { 
       ...state, 
       sortKey: sortKey, 
       sortDirection: sortDirection 
     }
   },
-  [fetchTickers](state, {payload: data}) {
+  [actions.receiveTickers](state, {payload: data}) {
     return { ...state, data: data}
-  }
+  },
 }, initialState.tickers);
 
 export default tickersReducer

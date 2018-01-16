@@ -15,7 +15,7 @@ export const sortDirectionSelector = state => state.ordersReducer.sortDirection
 export const filterSearchSelector = createSelector(
   ordersSelector,
   searchQuerySelector,
-  (items, searchQuery) => items.filter((o) => o.symbol.match(searchQuery))
+  (items, searchQuery) => items.filter((o) => o.symbol.match(new RegExp(searchQuery, 'i')))
 )
 
 export const cleanOrdersSelector = createSelector(

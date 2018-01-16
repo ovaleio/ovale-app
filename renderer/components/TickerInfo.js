@@ -1,7 +1,6 @@
 import react from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { setCurrentTicker } from '../actions/ticker'
 import styles from '../styles/TickerInfo'
 
 class TickerInfo extends react.Component {

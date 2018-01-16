@@ -2,16 +2,13 @@ import react from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/tickers'
 import SearchTickerForm from './SearchTickerForm'
-import { setCurrentTicker } from '../actions/ticker'
-import { setSearchQuery } from '../actions/tickers'
+import { setCurrentTicker, setSearchQueryTickers } from '../actions/actions'
 import styles from '../styles/Tickers'
 
 class Tickers extends react.Component {
 
   render () {
   	const {dispatch, tickers} = this.props;
-
-  	console.log(tickers);
 
   	var rows = tickers.map((ticker) => {
   		return (
@@ -24,7 +21,7 @@ class Tickers extends react.Component {
 
   	return (
   		<div>
-	      	<SearchTickerForm onChange={(e) => dispatch(setSearchQuery({query: e.target.value}))}/>
+	      	<SearchTickerForm onChange={(e) => dispatch(setSearchQueryTickers({query: e.target.value}))}/>
 	  		<div style={styles.main}>
 	  			<div style={styles.categoryHeader}>Tickers</div>
 	  			<div>

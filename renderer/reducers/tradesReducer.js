@@ -1,26 +1,22 @@
 import { handleActions } from 'redux-actions';
-import { 
-	setSearchQuery,
-	setSort,
-	fetchTrades
-} from '../actions/trades'
+import * as actions from '../actions/actions'
 import initialState from './initialState';
 
 const tradesReducer = handleActions({
-  [setSearchQuery](state, { payload: { query } }) {
+  [actions.setSearchQueryTrades](state, { payload: { query } }) {
     return { 
       ...state, 
       searchQuery: query 
     }
   },
-  [setSort](state, { payload: { sortKey, sortDirection } }) {
+  [actions.setSortTrades](state, { payload: { sortKey, sortDirection } }) {
     return { 
       ...state, 
       sortKey: sortKey, 
       sortDirection: sortDirection 
     }
   },
-  [fetchTrades](state, {payload: data}) {
+  [actions.receiveTrades](state, {payload: data}) {
     return { ...state, data: data}
   }
 }, initialState.trades);

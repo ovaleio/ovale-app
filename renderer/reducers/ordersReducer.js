@@ -1,21 +1,15 @@
 import { handleActions } from 'redux-actions';
-import { 
-	setSearchQuery,
-	setSort,
-	fetchOrders,
-	cancelOrder,
-	cancelAll
-} from '../actions/orders'
+import * as actions from '../actions/actions'
 import initialState from './initialState';
 
 const ordersReducer = handleActions({
-  [setSearchQuery](state, { payload: { query } }) {
+  [actions.setSearchQueryOrders](state, { payload: { query } }) {
     return { 
       ...state, 
       searchQuery: query 
     }
   },
-  [setSort](state, { payload: { sortKey } }) {
+  [actions.setSortOrders](state, { payload: { sortKey } }) {
     console.log(state);
     return { 
       ...state, 
@@ -23,17 +17,10 @@ const ordersReducer = handleActions({
       sortDirection: sortKey === state.sortKey ? state.sortDirection * -1 : state.sortDirection
     }
   },
-  [fetchOrders](state, {payload: data}) {
+  [actions.receiveOrders](state, {payload: data}) {
     return {...state, data: data}
   },
-  [cancelOrder](state, {payload: { orderId } }) {
-    var asyncData = [];
-    return { 
-    	...state, 
-    	data: asyncData
-    }
-  },
-  [cancelAll](state) {
+  [actions.cancelAll](state) {
     var asyncData = [];
     return { 
     	...state, 

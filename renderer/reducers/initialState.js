@@ -12,6 +12,7 @@ export default {
 		variation: 0
 	},
 	newOrder: {
+		ticker: '',
 		type: 'limit',
 		amount: 0,
 		price: 0
@@ -26,14 +27,14 @@ export default {
 		data: [],
 		sortKey: 'symbol',
 		sortDirection: 1,
-		searchQuery: 'ETH'
+		searchQuery: ''
 	},
 	balances: {
 		data: [],
 		total: {'BTC': 0, 'USD': 0},
 		sortKey: 'currency',
 		sortDirection: 1,
-		searchQuery: 'BTC'
+		searchQuery: ''
 	},
 	trades: {
 		data: [],

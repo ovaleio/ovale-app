@@ -1,13 +1,22 @@
 import { handleActions } from 'redux-actions';
-import { switchTab, connectSocket } from '../actions/common'
+import * as actions from '../actions/actions'
 import initialState from './initialState';
 
 const commonReducer = handleActions({
- [switchTab](state, { payload: { tab } }) {
+ [actions.switchTab](state, { payload: { tab } }) {
    return { ...state, currentTab: tab }
  },
- [connectSocket](state, { payload: { socket } }) {
-   return { ...state, socket: socket}
+ [actions.closeSnackbar](state) {
+    return { ...state, showSnackbar: false, message: ''}
+ },
+ [actions.webSocketError](state, { payload: { message } }) {
+   return { ...state, message: message, showSnackbar: true}
+ },
+ [actions.webSocketSuccess](state, { payload: { message } }) {
+   return { ...state, message: message, showSnackbar: true}
+ },
+ [actions.webSocketPending](state, { payload: { message } }) {
+   return { ...state, message: message, showSnackbar: true}
  }
 }, initialState.common);
 
