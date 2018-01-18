@@ -1,6 +1,6 @@
 const {clients, format} = require('cryptoclients'); //grab dev version if exists
 const settings = require('electron-settings');
-const credentials = settings.get('credentials');
+const credentials = settings.get('credentials') || {};
 const {libraries, exchanges, getRestData, cancelOrder, passOrders} = clients(credentials);
 
 const app = require('express')();
