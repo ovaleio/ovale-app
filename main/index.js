@@ -14,7 +14,7 @@ const webSocketServer = require('./websocket-server.js')
 
 
 const createWindow = () => {
-  //settings.set('supportedExchanges', ['bitfinex', 'bittrex', 'poloniex'])
+  settings.set('supportedExchanges', ['bitfinex', 'bittrex', 'poloniex'])
 
   //spawn websocket
   webSocketServer();
