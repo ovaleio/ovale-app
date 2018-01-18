@@ -29,19 +29,20 @@ class Balances extends react.Component {
     return (
       <div className="col-xs-6 col-lg-5">
         <div style={styles.categoryHeader} className="row">
-          <div className="col-xs-8">Balances</div>
-          <div className="col-xs-4">Total: {total.toFixed(4)} BTC</div>
+          <div className="col-xs-4">Balances</div>
+          <div className="col-xs-3" onClick={() => dispatch(requestBalances())}>Refresh</div>
+          <div className="col-xs-5">Total: {total.toFixed(4)} BTC</div>
         </div>
         <table style={styles.table}>
           <thead style={styles.tHead}>
             <tr>
-              <th onClick={() => dispatch(setSort({sortKey: 'currency'})) }>Currency</th>
-              <th onClick={() => dispatch(setSort({sortKey: 'exchange'})) }>Exchange</th>
-              <th onClick={() => dispatch(setSort({sortKey: 'balance'})) }>Amount</th>
-              <th onClick={() => dispatch(setSort({sortKey: 'available'})) }>(Available)</th>
-              <th onClick={() => dispatch(setSort({sortKey: 'price'})) }>Price</th>
-              <th onClick={() => dispatch(setSort({sortKey: 'totalValue'})) }>Total Value</th>
-              <th onClick={() => dispatch(setSort({sortKey: 'share'})) }>Share</th>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'currency'})) }>Currency</th>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'exchange'})) }>Exchange</th>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'balance'})) }>Amount</th>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'available'})) }>(Available)</th>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'price'})) }>Price</th>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'totalValue'})) }>Total Value</th>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'share'})) }>Share</th>
             </tr>
           </thead>
           <tbody>

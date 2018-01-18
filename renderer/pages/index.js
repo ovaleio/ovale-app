@@ -7,6 +7,7 @@ import Balances from '../components/Balances'
 import Orders from '../components/Orders'
 import Trades from '../components/Trades'
 import Snackbar from 'material-ui/Snackbar'
+import SettingsDialog from '../components/SettingsDialog'
 
 import withRedux from 'next-redux-wrapper'
 import initStore from '../initStore'
@@ -71,6 +72,7 @@ class Main extends React.Component {
               onRequestClose={() => dispatch(closeSnackbar())}
               autoHideDuration={2000}
             />
+            <SettingsDialog />
           </div>
         </MuiThemeProvider>
       </div>

@@ -8,10 +8,16 @@ const isDev = require('electron-is-dev')
 const prepareNext = require('electron-next')
 const { resolve } = require('app-root-path')
 require('electron-debug')({showDevTools: true});
+const settings = require('electron-settings');
+
+const webSocketServer = require('./websocket-server.js')
 
 
-const createWindow = async () => {
-  await prepareNext('./renderer')
+const createWindow = () => {
+  //settings.set('supportedExchanges', ['bitfinex', 'bittrex', 'poloniex'])
+
+  //spawn websocket
+  webSocketServer();
 
   const mainWindow = new BrowserWindow({
     backgroundColor: '#123932',
@@ -41,12 +47,15 @@ const createWindow = async () => {
 
   const url = isDev ? devPath : prodPath
   mainWindow.loadURL(url)
-  mainWindow.addDevToolsExtension('/Users/johnthillaye/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi')
+  if (isDev) mainWindow.addDevToolsExtension('/Users/johnthillaye/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi')
 
-}
+} 
 
 // Prepare the renderer once the app is ready
-app.on('ready', createWindow)
+app.on('ready', async () => {
+  await prepareNext('./renderer')
+  createWindow()
+})
 
 // Quit the app once all windows are closed
 app.on('window-all-closed', app.quit)

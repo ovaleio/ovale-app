@@ -41,5 +41,8 @@ export default {
 		sortKey: 'date',
 		sortDirection: -1,
 		searchQuery: ''
+	},
+	settingsDialog: {
+		open: false
 	}
 }

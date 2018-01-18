@@ -2,7 +2,7 @@ import react from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/tickers'
 import SearchTickerForm from './SearchTickerForm'
-import { setCurrentTicker, setSearchQueryTickers } from '../actions/actions'
+import { setCurrentTicker, setSearchQueryTickers, openSettingsDialog } from '../actions/actions'
 import styles from '../styles/Tickers'
 
 class Tickers extends react.Component {
@@ -23,7 +23,10 @@ class Tickers extends react.Component {
   		<div>
 	      	<SearchTickerForm onChange={(e) => dispatch(setSearchQueryTickers({query: e.target.value}))}/>
 	  		<div style={styles.main}>
-	  			<div style={styles.categoryHeader}>Tickers</div>
+	  			<div style={styles.categoryHeader} className="row">
+	  				<div className="col-xs-8">Tickers</div>
+	  				<div className="col-xs-4" onClick={() => dispatch(openSettingsDialog())}>Settings</div>
+	  			</div>
 	  			<div>
 	  				{rows}
 	  			</div>

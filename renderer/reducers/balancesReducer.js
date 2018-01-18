@@ -10,7 +10,6 @@ const balancesReducer = handleActions({
     }
   },
   [actions.setSortBalances](state, { payload: { sortKey } }) {
-    console.log(state)
     return { 
       ...state, 
       sortKey: sortKey, 
@@ -18,7 +17,6 @@ const balancesReducer = handleActions({
     }
   },
   [actions.receiveBalances](state, {payload: data}) {
-    console.log(data);
     return { ...state, data: data}
   }
 }, initialState.balances);

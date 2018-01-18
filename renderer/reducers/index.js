@@ -6,6 +6,7 @@ import tickersReducer from './tickersReducer'
 import ordersReducer from './ordersReducer'
 import tradesReducer from './tradesReducer'
 import balancesReducer from './balancesReducer'
+import settingsDialogReducer from './settingsDialogReducer'
 
 const rootReducer = combineReducers({
   commonReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   tickersReducer,
   ordersReducer,
   tradesReducer,
-  balancesReducer
+  balancesReducer,
+  settingsDialogReducer
 })
 
 export default rootReducer;
