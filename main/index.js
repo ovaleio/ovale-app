@@ -9,15 +9,16 @@ const prepareNext = require('electron-next')
 const { resolve } = require('app-root-path')
 require('electron-debug')({showDevTools: true});
 const settings = require('electron-settings');
-
-const webSocketServer = require('./websocket-server.js')
-
+const ws = require('../renderer/websocket-server');
 
 const createWindow = () => {
-  settings.set('supportedExchanges', ['bitfinex', 'bittrex', 'poloniex'])
+  if (!settings.has('init')) {
+    const supportedExchanges = ['bitfinex', 'bittrex', 'poloniex'];
+    const credentials = supportedExchanges.reduce((o, exchange) => {o[exchange] = {"apikey": "", "apisecret": ""}; return o; }, {})
+    settings.setAll({init: Date.now(), supportedExchanges: supportedExchanges, credentials: credentials});
+  }
 
-  //spawn websocket
-  webSocketServer();
+  console.log(settings.getAll());
 
   const mainWindow = new BrowserWindow({
     backgroundColor: '#123932',
@@ -29,6 +30,8 @@ const createWindow = () => {
 
   mainWindow.once('ready-to-show', () => {
      mainWindow.show()
+     const credentials = settings.get('credentials');
+     if (Object.keys(credentials).length) ws(credentials);
    })
 
   //for muiTheme
@@ -37,8 +40,8 @@ const createWindow = () => {
     callback({ cancel: false, requestHeaders: details.requestHeaders });
   });
 
-  const devPath = 'http://localhost:8000/'
 
+  const devPath = 'http://localhost:8000/'
   const prodPath = format({
     pathname: resolve('renderer/out/index.html'),
     protocol: 'file:',
@@ -47,7 +50,7 @@ const createWindow = () => {
 
   const url = isDev ? devPath : prodPath
   mainWindow.loadURL(url)
-  if (isDev) mainWindow.addDevToolsExtension('/Users/johnthillaye/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi')
+  //if (isDev) mainWindow.addDevToolsExtension('/Users/johnthillaye/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi')
 
 } 
 

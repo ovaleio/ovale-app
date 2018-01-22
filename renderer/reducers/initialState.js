@@ -1,7 +1,14 @@
+import settings from 'electron-settings';
+
+//Dirty ?
+const mySettings = settings.getAll() || {};
+
 export default {
 	common: {
 		showSnackbar: false,
 		message: '',
+		messageType: '',
+		style: {},
 		baseCurrency: 'BTC',
 		currentTab: 'Orders',
 		status: {}
@@ -42,7 +49,5 @@ export default {
 		sortDirection: -1,
 		searchQuery: ''
 	},
-	settingsDialog: {
-		open: false
-	}
+	settings: mySettings
 }

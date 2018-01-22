@@ -1,5 +1,8 @@
 import { createSelector } from 'reselect'
 
 export const mapStateToProps = (state) => {
-	return state.settingsDialogReducer
+	console.log(state);
+	return {
+		exchanges: state.settingsReducer.supportedExchanges
+	}
 }

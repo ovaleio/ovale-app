@@ -10,7 +10,7 @@ const init = (store) => {
   // add listeners to socket messages so we can re-dispatch them as actions
   messageTypes.map(type => socket.on(type, (payload) => store.dispatch({ type, payload })))
 
-  //maybe not the best place ?
+  //send all requests for data on start
   requestTypes.map(type => emit(type))
 }
 

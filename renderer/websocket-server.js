@@ -1,13 +1,14 @@
-const {clients, format} = require('cryptoclients'); //grab dev version if exists
-const settings = require('electron-settings');
-const credentials = settings.get('credentials') || {};
-const {libraries, exchanges, getRestData, cancelOrder, passOrders} = clients(credentials);
+const {clients, format} = require('/Users/johnthillaye/Code/cryptotrader/cryptoclients'); //grab dev version if exists
 
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-module.exports = () => {
+module.exports = (credentials) => {
+    if (!credentials) throw 'No API credentials';
+
+    const {libraries, exchanges, getRestData, cancelOrder, passOrders} = clients(credentials);
+
     http.listen(7070, function(){
       console.log('listening on *:7070');
     });
@@ -16,66 +17,74 @@ module.exports = () => {
     const async = require('async');
 
     const channels = ['ORDERS', 'TICKERS', 'BALANCES', 'TRADES'];
-    const delays = {TICKERS: 10000, ORDERS: 30010, BALANCES: 61020, TRADES: 100314};
+    const delays = {TICKERS: 3000, ORDERS: 30010, BALANCES: 61020, TRADES: 100314};
 
     let socketState = {
-        status: exchanges.reduce((o, exchange) => (Object.assign(o, {[exchange]: false})), {}),
-        channels: channels.reduce((o, channelName) => (Object.assign(o, {[channelName]: {data: {}, lastSent: 0}})), {})
+        status: exchanges.reduce((o, exchange) => {o[exchange] = false; return o; }, {}),
+        channels: channels.reduce((o, channelName) => {o[channelName] = {data: {}, lastSent: 0}; return o;}, {})
     };
 
+    console.log('Initialized Socket', socketState);
 
-    const handleSocketsOpen = {
-        'poloniex': () => {
-            libraries['poloniex'].openWebSocket({ version: 2 });
-
-            libraries['poloniex'].on('open', () => {
-              console.log(`Poloniex WebSocket Connected`);
-              subscribeTickers.poloniex();
-              updateStatus('poloniex', true);
-            })
-        },
+    const exchangeSockets = {
         'bitfinex': () => {
-            libraries['bitfinex'].ws.on('open', () => {
+            const ws = libraries['bitfinex'].ws();
+
+            ws.on('open', () => {
                 console.log("Bitfinex Websocket connected");
-                subscribeTickers.bitfinex();
                 updateStatus('bitfinex', true);
+                libraries['bitfinex'].rest(2).symbols((err, symbols) => {
+                    symbols.forEach((symbol) => {
+                        var betaSymbol = 't' + symbol.toUpperCase()
+                        ws.subscribeTicker(betaSymbol)
+                        ws.onTicker({symbol: betaSymbol}, (ticker) => {
+                          updateTickers("bitfinex", symbol, ticker[6])
+                        });
+                    })
+                })
             })
-        },
-        'bittrex' : () => {
-            libraries['bittrex'].websockets.client(function() {
-                console.log('Bittrex Websocket connected');
-                subscribeTickers.bittrex();
-                updateStatus('bittrex', true);
-            });
-        }
-    }
 
-    const handleSocketsError = {
-        'bitfinex': () => {
-            libraries['bitfinex'].ws.on('error', console.error);
-        },
-        'poloniex': () => {
-            libraries['poloniex'].on('error', (error) => {
-              console.log(`Poloniex Websocket An error has occured`);
-            });
-        },
-        'bittrex': () => {}
-    }
-
-    const handleSocketsClose = {
-        'bitfinex': () => {
-            libraries['bitfinex'].ws.on('close', () => {
+            ws.on('error', console.error);
+            ws.on('close', () => {
                 console.log("Bitfinex Websocket disconnected");
                 updateStatus("bitfinex", false);
             })
+
+            ws.open()
+
         },
         'poloniex': () => {
-            libraries['poloniex'].on('close', (reason, details) => {
-              console.log(`Poloniex WebSocket Disconnected`, reason, details);
-              updateStatus("poloniex", false);
+
+            libraries['poloniex'].on('open', () => {
+              updateStatus('poloniex', true);
+              libraries['poloniex'].subscribe('ticker');
+              libraries['poloniex'].on('message', handleTickerData.poloniex);
+            })
+
+            libraries['poloniex'].on('error', (err) => {
+              console.log(`Poloniex Websocket An error has occured`, err);
             });
+            libraries['poloniex'].on('close', (reason, details) => {
+              updateStatus("poloniex", false, reason);
+            });
+            libraries['poloniex'].openWebSocket({ version: 2 });
         },
-        'bittrex': () => {}
+        'bittrex': () => {
+
+            libraries['bittrex'].websockets.client(function() {
+                updateStatus('bittrex', true);
+
+                libraries['bittrex'].getmarketsummaries(function (res, err) {
+                    if (err) console.log(err);
+
+                    var symbols = res.result.map((e,i) => { 
+                        updateTickers('bittrex', e.MarketName, e.Last)
+                        return e.MarketName
+                    })
+                    libraries['bittrex'].websockets.subscribe(symbols, handleTickerData.bittrex)
+                });
+            });
+        }
     }
 
     const handleTickerData = {
@@ -89,9 +98,6 @@ module.exports = () => {
               });
             }
         },
-        "bitfinex": (pair, data)  => {
-          updateTickers("bitfinex", pair, data.lastPrice);
-        },
         "poloniex": (channelName, data, seq) => {
           if (channelName === 'ticker') {
             updateTickers("poloniex", data.currencyPair, data.last);
@@ -99,40 +105,7 @@ module.exports = () => {
         }
     }
 
-
-    const subscribeTickers = {
-        'bitfinex': () => { 
-            libraries['bitfinex'].ws.on('ticker', handleTickerData.bitfinex)
-
-            request.get('https://api.bitfinex.com/v1/symbols', { json: true }, (err, res, body) => {
-                if (err) console.log(err);
-
-                if (body) {
-                    setInterval( () => {
-                        var pair = body.pop();
-                        libraries['bitfinex'].ws.subscribeTicker(pair);
-                    }, 500)
-                }
-            })
-        },
-        'bittrex': () => {
-            libraries['bittrex'].getmarketsummaries(function (res, err) {
-                if (err) console.log(err);
-
-                var symbols = res.result.map((e,i) => { return e.MarketName})
-                libraries['bittrex'].websockets.subscribe(symbols, handleTickerData.bittrex)
-            });
-        },
-        'poloniex': () => { 
-            libraries['poloniex'].subscribe('ticker');
-            libraries['poloniex'].on('message', handleTickerData.poloniex)
-        }
-    }
-
     function updateTickers (exchange, pair, price) {
-
-        //console.log(pair, price);
-
         pair = format[exchange].from.pair(pair);
         var symbol = exchange + ':' + pair;
         socketState.channels.TICKERS.data[symbol] =  parseFloat(price); //write perf to check here
@@ -187,11 +160,7 @@ module.exports = () => {
     setInterval(() => updateRestData('BALANCES'), delays.BALANCES);
     setInterval(() => updateRestData('TRADES'), delays.TRADES);
 
-    exchanges.map((e) => { 
-        handleSocketsOpen[e]();
-        handleSocketsError[e]();
-        handleSocketsClose[e]();
-    });
+    exchanges.map((e) => exchangeSockets[e]());
 
     io.on('connection', (socket) => {
         console.log('Tickers WS connected');
@@ -233,14 +202,20 @@ module.exports = () => {
 
             passOrders(orders, (err,res) => {
                 console.log(err,res);
-                err ? io.emit('WEBSOCKET_ERROR', {message: err}) : io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
+
+                //this should be handled higher up in the cryptoclients lib
+                var errorMessage = err && typeof err === 'Error' ? err.toString() : err.message || err;
+                err ? io.emit('WEBSOCKET_ERROR', {message: errorMessage}) : io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
             })
         })
 
         socket.on('SELL_LIMIT', ({orders}) => {
             passOrders(orders, (err,res) => {
                 console.log(err,res);
-                err ? io.emit('WEBSOCKET_ERROR', {message: err}) : io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
+
+                //this should be handled higher up in the cryptoclients lib
+                var errorMessage = err && typeof err === 'Error' ? err.toString() : err.message || err;
+                err ? io.emit('WEBSOCKET_ERROR', {message: errorMessage}) : io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
             })
         })
     })

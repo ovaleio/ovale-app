@@ -76,6 +76,6 @@ export const requestBalances = () => {
 	}
 };
 
-//SETTINGS DIALOG
-export const openSettingsDialog = createAction('OPEN_SETTINGS_DIALOG');
-export const closeSettingsDialog = createAction('CLOSE_SETTINGS_DIALOG');
+//SETTINGS
+export const saveSettings = createAction('SAVE_SETTINGS');
+export const handleChangeSettings = createAction('HANDLE_CHANGE_SETTINGS');

@@ -6,7 +6,8 @@ import tickersReducer from './tickersReducer'
 import ordersReducer from './ordersReducer'
 import tradesReducer from './tradesReducer'
 import balancesReducer from './balancesReducer'
-import settingsDialogReducer from './settingsDialogReducer'
+import settingsReducer from './settingsReducer'
+import { routerReducer } from 'react-router-redux';
 
 const rootReducer = combineReducers({
   commonReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   ordersReducer,
   tradesReducer,
   balancesReducer,
-  settingsDialogReducer
+  settingsReducer,
+  routing: routerReducer
 })
 
 export default rootReducer;
