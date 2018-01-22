@@ -20,6 +20,8 @@ import history from '../history';
 const muiTheme = getMuiTheme({ userAgent: 'all'});
 const store = initStore();
 
+const redir = (store.getState().settingsReducer.lastSaved) ? false : (<Redirect to="/settings" />)
+
 class Root extends React.Component {
   render () {
     return (
@@ -45,9 +47,9 @@ class Root extends React.Component {
               {flexbox}
             </style>
             <MuiThemeProvider muiTheme={muiTheme}>
-              {store.getState().settingsReducer.lastSaved ? (<Redirect to="/app"/>) : (<Redirect to="/settings" />)}
               <Switch>
-                <Route path="/app" component={App} />
+                { redir }
+                <Route exact path="/" component={App} />
                 <Route path="/settings" component={Settings} />
               </Switch>
             </MuiThemeProvider>

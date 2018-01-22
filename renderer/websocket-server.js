@@ -1,4 +1,4 @@
-const {clients, format} = require('/Users/johnthillaye/Code/cryptotrader/cryptoclients'); //grab dev version if exists
+const {clients, format} = process.NODE_ENV === 'dev' ? require('/Users/johnthillaye/Code/cryptotrader/cryptoclients') : require('cryptoclients'); //grab dev version if exists
 
 const app = require('express')();
 const http = require('http').Server(app);

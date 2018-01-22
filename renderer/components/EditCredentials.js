@@ -36,7 +36,7 @@ class EditCredentials extends React.Component {
 			<div>
 				<div className="row">
 					<h1 className="col-xs-offset-1 col-xs-8">Edit "{exchange}" API Credentials</h1>
-					<div className="col-xs-1"><Link to="/app">Close</Link></div>
+					<div className="col-xs-1"><Link to="/">Close</Link></div>
 				</div>
 				<div className="row">
 					<form className="col-xs-offset-1 col-xs-10 col-lg-8" style={styles.form}>
