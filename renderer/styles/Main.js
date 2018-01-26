@@ -16,11 +16,12 @@ const styles = {
   },
   userDataContainer: {
     borderTop: "1px solid #D2E4E1",
-    height: "45vh",
-    overflow: "scroll"
+    height: "50vh",
+    overflow: "hidden",
+    overflowY: "scroll"
   },
   tickerContainer: {
-    height: "55vh",
+    height: "50vh",
     minHeight: "300px"
   },
   tickerCol: { /* ok in ticker container */

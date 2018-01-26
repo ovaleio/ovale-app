@@ -5,7 +5,8 @@ const styles = {
 	    maxHeight: "110px"
 	},
 	tickerPrice: {
-		fontWeight: "bold"
+		fontWeight: "bold",
+		color: 'rgba(255,255,255,1)'
 	},
 	tickerVariation: {
 		color: "#EA3147",

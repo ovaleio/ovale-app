@@ -9,6 +9,10 @@ export const webSocketError = createAction('WEBSOCKET_ERROR');
 export const webSocketSuccess = createAction('WEBSOCKET_SUCCESS');
 export const webSocketPending = createAction('WEBSOCKET_PENDING');
 
+//SNACKBAR
+export const openSnackbarError = createAction('OPEN_SNACKBAR_ERROR');
+export const openSnackbarSuccess = createAction('OPEN_SNACKBAR_SUCCESS');
+
 //TICKER
 export const setCurrentTicker = createAction('SET_CURRENT_TICKER');
 

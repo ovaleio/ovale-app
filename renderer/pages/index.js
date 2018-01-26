@@ -13,14 +13,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import App from '../components/App'
 import Settings from '../components/Settings'
+import MessageBar from '../components/MessageBar'
 
 import initStore from '../initStore'
 import history from '../history';
 
 const muiTheme = getMuiTheme({ userAgent: 'all'});
 const store = initStore();
-
-const redir = (store.getState().settingsReducer.lastSaved) ? false : (<Redirect to="/settings" />)
 
 class Root extends React.Component {
   render () {
@@ -32,14 +31,17 @@ class Root extends React.Component {
               {`
                 body, div, p {
                   margin: 0;
-                  padding: 0
+                  padding: 0;
                 }
                 table {
                     border-collapse: collapse;
                 }
                 input:focus, select:focus, textarea:focus,button:focus {
-                  outline: "none"
-                }
+                  outline: none
+                },
+                .rowHover {
+                  backgroundColor: rgba(0,0,0,0.7)
+                },
                 ::selection { background: white; /* WebKit/Blink Browsers */ }
               `}
             </style>
@@ -47,11 +49,13 @@ class Root extends React.Component {
               {flexbox}
             </style>
             <MuiThemeProvider muiTheme={muiTheme}>
-              <Switch>
-                { redir }
-                <Route exact path="/" component={App} />
-                <Route path="/settings" component={Settings} />
-              </Switch>
+              <div>
+                <Switch>
+                  <Route exact path="/" component={App} />
+                  <Route path="/settings" component={Settings} />
+                </Switch>
+                <MessageBar />
+              </div>
             </MuiThemeProvider>
           </div>
         </ConnectedRouter>

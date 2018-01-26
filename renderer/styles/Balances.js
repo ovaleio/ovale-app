@@ -19,7 +19,15 @@ const styles =
     fontHeight: "bold",
     color: "#72EAD6"
   },
-  alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}}
+  currency: {
+    cursor: 'pointer',
+    fontWeight: 'bold'
+  },
+  alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}},
+  logoExchange: {
+    width: '16px',
+    height: '16px'
+  }
 }
 
 export default styles

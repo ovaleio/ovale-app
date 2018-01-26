@@ -8,16 +8,14 @@ import NewOrderForm from '../components/NewOrderForm'
 import Balances from '../components/Balances'
 import Orders from '../components/Orders'
 import Trades from '../components/Trades'
-import Snackbar from 'material-ui/Snackbar'
 
-import { closeSnackbar } from '../actions/actions'
 import { mapStateToProps } from '../selectors/common'
 import styles from '../styles/Main'
 
 class App extends React.Component {
 
   render () {
-    const { currentTab, showSnackbar, message, style, dispatch} = this.props;
+    const { currentTab, dispatch} = this.props;
     
     const OrdersOrTabs = currentTab === 'Orders' ? (<Orders />) : (<Trades />)
 
@@ -34,18 +32,11 @@ class App extends React.Component {
               <NewOrderForm></NewOrderForm>
             </div>
           </div>
-          <div id="userData" style={styles.userDataContainer} className="row">
+          <div style={styles.userDataContainer} className="row">
             {OrdersOrTabs}
             <Balances />
           </div>
         </div>
-        <Snackbar
-          open={showSnackbar}
-          message={message}
-          contentStyle={style}
-          onRequestClose={() => dispatch(closeSnackbar())}
-          autoHideDuration={style.color === 'red' ? 4800 : 1500}
-        />
       </div>
     )
   }

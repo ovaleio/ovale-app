@@ -13,15 +13,8 @@ class TickerInfo extends react.Component {
 			<div className="row">
 				{ currentTickerSymbol }
 			</div>
-			<div className="row">
-				<div style={styles.tickerPrice} className="col-xs-7">{price}</div>
-				<div style={styles.tickerVariation} className="col-xs-5">
-					{/*<FontIcon
-				      className="material-icons"
-				      style={styles.iconStyle}
-				    >arrow_downward</FontIcon>*/}
-				   <span>{variation}%</span>
-			    </div>
+			<div className="row" style={styles.tickerPrice}>
+				{ price }
 			</div>
 		</div>
 	)

@@ -5,10 +5,6 @@ const mySettings = settings.getAll() || {};
 
 export default {
 	common: {
-		showSnackbar: false,
-		message: '',
-		messageType: '',
-		style: {},
 		baseCurrency: 'BTC',
 		currentTab: 'Orders',
 		status: {}
@@ -48,6 +44,12 @@ export default {
 		sortKey: 'date',
 		sortDirection: -1,
 		searchQuery: ''
+	},
+	messageBar: {
+		showSnackbar: false,
+		message: '',
+		messageType: '',
+		style: {}
 	},
 	settings: mySettings
 }

@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/balances'
 import { setCurrentTicker, requestBalances, setSortBalances} from '../actions/actions'
 import styles from '../styles/Balances'
+import IconButton from 'material-ui/IconButton';
+import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 
 class Balances extends react.Component {
   render () {
@@ -12,10 +14,10 @@ class Balances extends react.Component {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) }>
-            {balance.currency}
+            <img style={styles.logoExchange} src={`static/images/exchanges/${balance.exchange}.png`} />
           </td>
-          <td>
-            {balance.exchange}
+          <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={styles.currency}>
+            {balance.currency}
           </td>
           <td>{balance.balance.toFixed(2)}</td>
           <td>{balance.available.toFixed(2)}</td>
@@ -27,17 +29,19 @@ class Balances extends react.Component {
     })
 
     return (
-      <div className="col-xs-6 col-lg-5">
+      <div className="col-xs-6 col-xl-5">
         <div style={styles.categoryHeader} className="row">
-          <div className="col-xs-4">Balances</div>
-          <div className="col-xs-3" onClick={() => dispatch(requestBalances())}>Refresh</div>
-          <div className="col-xs-5">Total: {total.toFixed(4)} BTC</div>
+          <div className="col-xs-8">Balances</div>
+          <div className="col-xs-3">Total: {total.toFixed(2)} BTC</div>
+          <div className="col-xs-1" onClick={() => dispatch(requestBalances())}>
+            <IconButton tooltip='Refresh' style={{width: '20px', height: '20px', margin: 0, padding: 0, border: 0}} iconStyle={{width: '20px', height: '20px', color: 'white'}}><NavigationRefresh /></IconButton>
+          </div>
         </div>
         <table style={styles.table}>
           <thead style={styles.tHead}>
             <tr>
+              <th onClick={() => dispatch(setSortBalances({sortKey: 'exchange'})) }></th>
               <th onClick={() => dispatch(setSortBalances({sortKey: 'currency'})) }>Currency</th>
-              <th onClick={() => dispatch(setSortBalances({sortKey: 'exchange'})) }>Exchange</th>
               <th onClick={() => dispatch(setSortBalances({sortKey: 'balance'})) }>Amount</th>
               <th onClick={() => dispatch(setSortBalances({sortKey: 'available'})) }>(Available)</th>
               <th onClick={() => dispatch(setSortBalances({sortKey: 'price'})) }>Price</th>

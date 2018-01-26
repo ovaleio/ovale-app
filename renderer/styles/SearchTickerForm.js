@@ -1,14 +1,13 @@
 const styles = {
   form: {
-    padding: "10px",
-    height: "5vh"
+    height: "5vh",
+    padding: '5px 5px 2px 5px'
   },
   input: {
     lineHeight: "26px",
     fontSize: "13px",
     width: "100%",
     border: "none",
-    borderBottom: "1px solid #D2E4E1",
     background: "transparent",
     color: "white"
   }

@@ -27,10 +27,23 @@ const styles = {
 		color: "#72EAD6"
 	},
 	"categoryItem": {
-		padding: "2px 5px",
-		maxWidth: "100%",
-		fontSize: "12px"
-	}
+		padding: "0 10px",
+		fontSize: "13px",
+		lineHeight: "20px",
+		textTransform: 'capitalize'
+	},
+	"symbol": {
+		fontWeight: "bold"
+	},
+	logoExchange: {
+		height: "12px",
+		width: "12px"
+	},
+	link: {
+		color: 'white',
+		textDecoration: 'none'
+	},
+	alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}}
 }
 
 class Settings extends React.Component {
@@ -38,9 +51,9 @@ class Settings extends React.Component {
   render() {
   	const { exchanges } = this.props;
 
-	const listExchanges = exchanges.map((e) => (
-		<div style={styles.categoryItem}  className="row">
-			<Link to={ `/settings/${e}`}>{e}</Link>
+	const listExchanges = exchanges.map((e, i) => (
+		<div className="row" style={styles.categoryItem} key={i}>
+			<Link style={styles.link} to={ `/settings/${e}`} style={styles.link}>{e}</Link>
 		</div>
 	))
 
@@ -53,6 +66,10 @@ class Settings extends React.Component {
     			{listExchanges}
         	</div>
         	<div id="mainColumn" className="col-xs-9 col-sm-10">
+        		<div className="row">
+        			<div className="col-xs-offset-10"><Link to="/" style={styles.link}>Close</Link></div>
+        		</div>
+        		<Route exact path="/settings" render={() => (<div>Choose an exchange on the left</div>)} />
         		<Route path="/settings/:exchange" component={EditCredentials} />
         	</div>
         </div>

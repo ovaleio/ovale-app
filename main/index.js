@@ -18,7 +18,7 @@ const createWindow = () => {
     settings.setAll({init: Date.now(), supportedExchanges: supportedExchanges, credentials: credentials});
   }
 
-  console.log(settings.getAll());
+  //console.log(settings.getAll());
 
   const mainWindow = new BrowserWindow({
     backgroundColor: '#123932',

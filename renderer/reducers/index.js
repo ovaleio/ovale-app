@@ -7,6 +7,7 @@ import ordersReducer from './ordersReducer'
 import tradesReducer from './tradesReducer'
 import balancesReducer from './balancesReducer'
 import settingsReducer from './settingsReducer'
+import messageBarReducer from './messageBarReducer'
 import { routerReducer } from 'react-router-redux';
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   tradesReducer,
   balancesReducer,
   settingsReducer,
+  messageBarReducer,
   routing: routerReducer
 })
 

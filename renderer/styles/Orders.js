@@ -38,7 +38,30 @@ const styles = {
     opacity: 0.80,
     borderRadius: 0
   },
-  alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}}
+  alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}},
+  logoExchange: {
+    width: '16px',
+    height: '16px'
+  },
+  sellType: {
+    borderRadius: '50%',
+    width: '12px',
+    height: '12px',
+    backgroundColor: '#ce3a00',
+    padding: 0
+  },
+  buyType: {
+    borderRadius: '50%',
+    width: '12px',
+    height: '12px',
+    backgroundColor: '#14ae35',
+    padding: 0
+  },
+  refresh: {
+    color: 'rgba(255,255,255,0.9)',
+    width: '20px',
+    height: '20px'
+  }
 };
 
 export default styles;

@@ -11,7 +11,7 @@ class SearchTickerForm extends react.Component {
 	          autoComplete="off" 
 	          type="text"
 	          onChange={onChange}
-	          placeholder="Search"
+	          placeholder="Search tickers"
 	          style={styles.input}
 	        />
 		</form>

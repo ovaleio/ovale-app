@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { saveSettings, handleChangeSettings } from '../actions/actions'
+import { saveSettings, handleChangeSettings, openSnackbarSuccess } from '../actions/actions'
 import { mapStateToProps } from '../selectors/editCredentials'
 
 const styles = {
@@ -36,7 +36,6 @@ class EditCredentials extends React.Component {
 			<div>
 				<div className="row">
 					<h1 className="col-xs-offset-1 col-xs-8">Edit "{exchange}" API Credentials</h1>
-					<div className="col-xs-1"><Link to="/">Close</Link></div>
 				</div>
 				<div className="row">
 					<form className="col-xs-offset-1 col-xs-10 col-lg-8" style={styles.form}>
@@ -49,7 +48,14 @@ class EditCredentials extends React.Component {
 			    			<input type="text" size="64" name="apisecret" className="col-xs-9 col-xs-offset-1" style={styles.input} onChange={(e) => dispatch(handleChangeSettings({target: e.target, exchange: exchange}))} value={credentials.apisecret} />
 			    		</div>
 			    		<div className="row">
-			    			<button onClick={(e) => { e.preventDefault(); dispatch(saveSettings({exchange}))}} className="col-xs-offset-8 col-xs-4" style={styles.saveButton}>SAVE</button>
+			    			<button onClick={(e) => {
+				    				e.preventDefault(); 
+				    				dispatch(saveSettings());
+				    				dispatch(openSnackbarSuccess({message: 'Saved !'}));
+				    			}}
+				    			className="col-xs-offset-8 col-xs-4"
+				    			style={styles.saveButton}
+			    			>SAVE</button>
 			    		</div>
 					</form>
 				</div>

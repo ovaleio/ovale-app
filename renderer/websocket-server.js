@@ -17,7 +17,7 @@ module.exports = (credentials) => {
     const async = require('async');
 
     const channels = ['ORDERS', 'TICKERS', 'BALANCES', 'TRADES'];
-    const delays = {TICKERS: 3000, ORDERS: 30010, BALANCES: 61020, TRADES: 100314};
+    const delays = {TICKERS: 3000, ORDERS: 30010, BALANCES: 61020, TRADES: 300314};
 
     let socketState = {
         status: exchanges.reduce((o, exchange) => {o[exchange] = false; return o; }, {}),
@@ -119,7 +119,10 @@ module.exports = (credentials) => {
     }
 
     function sendTickers () {
-        var cleanData = Object.keys(socketState.channels.TICKERS.data).map((symbol) => ({symbol: symbol, price: socketState.channels.TICKERS.data[symbol]}))
+        var cleanData = Object.keys(socketState.channels.TICKERS.data).map((symbol) => {
+            var [exchange,pair] = symbol.split(':');
+            return {symbol: symbol, price: socketState.channels.TICKERS.data[symbol], pair: pair, currencies: pair.split('-'), exchange: exchange}
+        })
         console.log("TICKERS sent !")
         return io.emit('TICKERS', cleanData);
     }
@@ -197,26 +200,22 @@ module.exports = (credentials) => {
             console.log('cancelOrder', order)
         })
 
-        socket.on('BUY_LIMIT', ({orders}) => {
+
+        const handleOrder = ({orders}) => {
             io.emit('WEBSOCKET_PENDING', {message: 'Passing order...'})
 
             passOrders(orders, (err,res) => {
                 console.log(err,res);
-
-                //this should be handled higher up in the cryptoclients lib
-                var errorMessage = err && typeof err === 'Error' ? err.toString() : err.message || err;
-                err ? io.emit('WEBSOCKET_ERROR', {message: errorMessage}) : io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
+                
+                if (err) {
+                    io.emit('WEBSOCKET_ERROR', {message: err && typeof err === 'Error' ? err.toString() : err}) 
+                } else {
+                    io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
+                }
             })
-        })
+        }
 
-        socket.on('SELL_LIMIT', ({orders}) => {
-            passOrders(orders, (err,res) => {
-                console.log(err,res);
-
-                //this should be handled higher up in the cryptoclients lib
-                var errorMessage = err && typeof err === 'Error' ? err.toString() : err.message || err;
-                err ? io.emit('WEBSOCKET_ERROR', {message: errorMessage}) : io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
-            })
-        })
+        socket.on('BUY_LIMIT', handleOrder)
+        socket.on('SELL_LIMIT', handleOrder)
     })
 }

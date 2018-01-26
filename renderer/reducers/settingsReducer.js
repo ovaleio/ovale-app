@@ -6,10 +6,8 @@ import settings from 'electron-settings'
 
 const settingsReducer = handleActions({
   [actions.saveSettings](state) {
-    console.log(state.credentials);
     settings.set('credentials', state.credentials)
     settings.set('lastSaved', Date.now())
-    //display message it has been saved
     return state;
   },
   [actions.handleChangeSettings](state, {payload: {target, exchange}}) {
