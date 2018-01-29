@@ -6,6 +6,7 @@ import { setCurrentTicker, setSearchQueryTickers } from '../actions/actions'
 import { Link } from 'react-router-dom'
 import styles from '../styles/Tickers'
 import ActionSettings from 'material-ui/svg-icons/action/settings';
+import IconButton from 'material-ui/IconButton';
 
 class Tickers extends react.Component {
   toggleHover () {
@@ -23,11 +24,11 @@ class Tickers extends react.Component {
 				onClick={() => dispatch(setCurrentTicker({symbol: ticker.symbol}))} 
 				key={ticker.symbol}
 			>
-				<div className="col-xs-2 col-lg-1">
+				<div className="col-xs-1" style={{padding:0}}>
 					<img style={styles.logoExchange} src={`static/images/exchanges/${ticker.exchange}.png`} />
 				</div>
-				<div className="col-xs-5 col-lg-5" style={styles.symbol}>{ticker.pair}</div>
-				<div className="col-xs-5 col-lg-6">{ticker.price}</div>
+				<div className="col-xs-6" style={styles.symbol}>{ticker.pair}</div>
+				<div className="col-xs-5">{ticker.price}</div>
 			</div>
 		)
 	})
@@ -40,9 +41,9 @@ class Tickers extends react.Component {
 	  				<div className="col-xs-10">Tickers</div>
 	  				<div className="col-xs-2" style={{margin: 'auto', 'fontSize': '12px'}}>
 	  					<Link to="/settings" className="row middle-xs" style={{textDecoration: 'none', color: '#DDD'}}>
-	  						<ActionSettings
-	  							style={{color: 'rgba(255,255,255,0.9)', width: '16px', height: '16px', display: 'flex'}} 
-	  						/>
+	  						<IconButton tooltip='Settings' style={{width: '16px', height: '16px', margin: 0, padding: 0, border: 0}} iconStyle={{color: 'rgba(255,255,255,0.9)', width: '16px', height: '16px', display: 'flex'}}>
+	  							<ActionSettings/>
+	  						</IconButton>
 	  					</Link>
 	  				</div>
 	  			</div>

@@ -13,7 +13,7 @@ class Balances extends react.Component {
     const rows = balances.map((balance, i) => {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
-          <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) }>
+          <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={{textAlign: 'center'}}>
             <img style={styles.logoExchange} src={`static/images/exchanges/${balance.exchange}.png`} />
           </td>
           <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={styles.currency}>
@@ -29,7 +29,7 @@ class Balances extends react.Component {
     })
 
     return (
-      <div className="col-xs-6 col-xl-5">
+      <div className="col-xs-6 col-xl-5" style={{overflowY: 'scroll', borderLeft: '1px solid rgba(255,255,255, 0.9)', padding: 0}}>
         <div style={styles.categoryHeader} className="row">
           <div className="col-xs-8">Balances</div>
           <div className="col-xs-3">Total: {total.toFixed(2)} BTC</div>

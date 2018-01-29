@@ -5,8 +5,9 @@ const styles = {
     fontSize: '13px',
   },
   tr: {
-    padding: "5px 5px",
-    cursor: "pointer"
+    padding: '0px 5px',
+    border: '2px solid rgba(255,255,255,0)',
+    cursor: 'pointer'
   },
   tHead: {
     backgroundColor: "rgba(0,0,0,0.15)"
@@ -16,8 +17,8 @@ const styles = {
     lineHeight: "26px",
     backgroundColor: "rgba(0, 0, 0, 0.25)",
     fontSize: "14px",
-    fontHeight: "bold",
-    color: "#72EAD6"
+    color: "#72EAD6",
+    margin: 0
   },
   categoryHeaderTab: {
     cursor: 'pointer'

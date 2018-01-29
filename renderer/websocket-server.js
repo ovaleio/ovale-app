@@ -34,6 +34,8 @@ module.exports = (credentials) => {
                 console.log("Bitfinex Websocket connected");
                 updateStatus('bitfinex', true);
                 libraries['bitfinex'].rest(2).symbols((err, symbols) => {
+                    if (err) return;
+
                     symbols.forEach((symbol) => {
                         var betaSymbol = 't' + symbol.toUpperCase()
                         ws.subscribeTicker(betaSymbol)
@@ -194,10 +196,10 @@ module.exports = (credentials) => {
               }
               else {
                 //NEED TO CREATE CANCEL_ORDER_SUCCESS to remove order from client
+                io.emit('REMOVE_ORDER', {order_id: order.id})
                 io.emit('WEBSOCKET_SUCCESS', {message: 'Order cancelled !'})
               }
             })
-            console.log('cancelOrder', order)
         })
 
 
@@ -210,6 +212,7 @@ module.exports = (credentials) => {
                 if (err) {
                     io.emit('WEBSOCKET_ERROR', {message: err && typeof err === 'Error' ? err.toString() : err}) 
                 } else {
+                    io.emit('ADD_ORDERS', {orders});
                     io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
                 }
             })

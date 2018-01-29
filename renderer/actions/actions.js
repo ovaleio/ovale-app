@@ -59,6 +59,8 @@ export const cancelOrder = ({order}) => {
 	}
 }
 export const cancelAllOrders = createAction('CANCEL_ALL_ORDERS');
+export const addOrders = createAction('ADD_ORDERS')
+export const removeOrder = createAction('REMOVE_ORDER')
 
 //TRADES
 export const setSearchQueryTrades = createAction('SET_SEARCH_QUERY_TRADES');

@@ -43,6 +43,10 @@ const styles = {
 		color: 'white',
 		textDecoration: 'none'
 	},
+	exchangeLogo: {
+		width: '16px',
+		height: '16px'
+	},
 	alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}}
 }
 
@@ -53,7 +57,8 @@ class Settings extends React.Component {
 
 	const listExchanges = exchanges.map((e, i) => (
 		<div className="row" style={styles.categoryItem} key={i}>
-			<Link style={styles.link} to={ `/settings/${e}`} style={styles.link}>{e}</Link>
+			<img style={styles.exchangeLogo} src={`static/images/exchanges/${e}.png`} className="col-xs-2"/>
+			<Link style={styles.link} to={ `/settings/${e}`} className="col-xs-8">{e}</Link>
 		</div>
 	))
 

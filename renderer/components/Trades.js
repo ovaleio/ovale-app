@@ -27,7 +27,7 @@ class Trades extends react.Component {
     }, this);
 
     return (
-      <div className="col-xs-6 col-xl-7">
+      <div className="col-xs-6 col-xl-7" style={{overflowY: 'scroll'}}>
         <div style={styles.categoryHeader} className="row">
           <div className="col-xs-2" style={styles.categoryHeaderTabInactive} onClick={() => dispatch(switchTab({tab: 'Orders'})) }>Orders</div>
           <div className="col-xs-2" style={styles.categoryHeaderTab}>Trades</div>

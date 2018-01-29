@@ -4,7 +4,7 @@ const styles = {
     width: "100vw",
     height: "100vh",
     color: "#CCC",
-    fontFamily: "Helvetica",
+    fontFamily: "Helvetica, sans-serif",
     fontSize: "12px",
     display: "flex",
     flexDirection: "row",
@@ -17,8 +17,6 @@ const styles = {
   userDataContainer: {
     borderTop: "1px solid #D2E4E1",
     height: "50vh",
-    overflow: "hidden",
-    overflowY: "scroll"
   },
   tickerContainer: {
     height: "50vh",

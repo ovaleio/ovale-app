@@ -20,11 +20,25 @@ const ordersReducer = handleActions({
   [actions.receiveOrders](state, {payload: data}) {
     return {...state, data: data}
   },
+  [actions.addOrders](state, {payload: {orders} }) {
+    return { 
+      ...state, 
+      data: state.data.concat(orders).sort((a,b) => {
+        return (a[state.sortKey] > b[state.sortKey]) ? state.sortDirection : ((b[state.sortKey] > a[state.sortKey]) ? -1 * state.sortDirection : 0)
+      })
+    }
+  },
+  [actions.removeOrder](state, {payload: {order_id} }) {
+    return { 
+      ...state, 
+      data: state.data.filter((o) => o.id !== order_id)
+    }
+  },
   [actions.cancelAll](state) {
     var asyncData = [];
     return { 
-    	...state, 
-    	data: asyncData
+      ...state, 
+      data: asyncData
     }
   }
 }, initialState.orders);

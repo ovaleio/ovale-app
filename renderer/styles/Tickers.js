@@ -18,11 +18,12 @@ const styles = {
 		left: 0,
 		top: 0,
 		height: '100%',
-		backgroundColor: 'none'
+		width: '100%'
 	},
 	"categoryItem": {
 		padding: "2px 5px",
-		cursor: 'pointer'
+		cursor: 'pointer',
+		margin: 0
 	},
 	"symbol": {
 		fontWeight: "bold"

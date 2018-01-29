@@ -2,11 +2,11 @@ const styles =
 {
   table: {
     width: "100%",
-    fontFamily: 'Lato',
-    fontSize: '13px',
+    fontFamily: 'Lato, Helvetica, sans-serif',
+    fontSize: '13px'
   },
   tr: {
-    padding: "5px 5px"
+    border: '2px solid rgba(255,255,255,0)'
   },
   tHead: {
     backgroundColor: "rgba(0,0,0,0.15)"
@@ -16,7 +16,7 @@ const styles =
     lineHeight: "26px",
     backgroundColor: "rgba(0, 0, 0, 0.25)",
     fontSize: "14px",
-    fontHeight: "bold",
+    margin: 0,
     color: "#72EAD6"
   },
   currency: {
