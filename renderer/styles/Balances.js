@@ -3,7 +3,8 @@ const styles =
   table: {
     width: "100%",
     fontFamily: 'Lato, Helvetica, sans-serif',
-    fontSize: '13px'
+    fontSize: '13px',
+    borderTop: '3px solid transparent'
   },
   tr: {
     border: '2px solid rgba(255,255,255,0)'
@@ -17,7 +18,8 @@ const styles =
     backgroundColor: "rgba(0, 0, 0, 0.25)",
     fontSize: "14px",
     margin: 0,
-    color: "#72EAD6"
+    color: "#72EAD6",
+    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
   },
   currency: {
     cursor: 'pointer',
@@ -26,7 +28,7 @@ const styles =
   alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}},
   logoExchange: {
     width: '16px',
-    height: '16px'
+    height: '16px',
   }
 }
 

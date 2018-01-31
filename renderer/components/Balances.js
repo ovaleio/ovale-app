@@ -5,6 +5,7 @@ import { setCurrentTicker, requestBalances, setSortBalances} from '../actions/ac
 import styles from '../styles/Balances'
 import IconButton from 'material-ui/IconButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
+import * as ExchangesIcons from './ExchangesIcons'
 
 class Balances extends react.Component {
   render () {
@@ -14,7 +15,7 @@ class Balances extends react.Component {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={{textAlign: 'center'}}>
-            <img style={styles.logoExchange} src={`static/images/exchanges/${balance.exchange}.png`} />
+            {ExchangesIcons[`${balance.exchange}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
           </td>
           <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={styles.currency}>
             {balance.currency}
@@ -29,7 +30,7 @@ class Balances extends react.Component {
     })
 
     return (
-      <div className="col-xs-6 col-xl-5" style={{overflowY: 'scroll', borderLeft: '1px solid rgba(255,255,255, 0.9)', padding: 0}}>
+      <div className="col-xs-6 col-xl-5" style={{overflowX: 'hidden', overflowY: 'scroll', borderLeft: '1px solid rgba(0,0,0, 0.7)', padding: 0}}>
         <div style={styles.categoryHeader} className="row">
           <div className="col-xs-8">Balances</div>
           <div className="col-xs-3">Total: {total.toFixed(2)} BTC</div>

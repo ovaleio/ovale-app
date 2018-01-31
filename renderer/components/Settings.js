@@ -4,6 +4,7 @@ import { mapStateToProps } from '../selectors/settings'
 import { Link, Route } from 'react-router-dom'
 
 import EditCredentials from '../components/EditCredentials'
+import * as ExchangesIcons from '../components/ExchangesIcons'
 
 const styles = {
 	main: {
@@ -36,16 +37,12 @@ const styles = {
 		fontWeight: "bold"
 	},
 	logoExchange: {
-		height: "12px",
-		width: "12px"
+		width: '24px',
+		height: '24px'
 	},
 	link: {
 		color: 'white',
 		textDecoration: 'none'
-	},
-	exchangeLogo: {
-		width: '16px',
-		height: '16px'
 	},
 	alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}}
 }
@@ -57,7 +54,9 @@ class Settings extends React.Component {
 
 	const listExchanges = exchanges.map((e, i) => (
 		<div className="row" style={styles.categoryItem} key={i}>
-			<img style={styles.exchangeLogo} src={`static/images/exchanges/${e}.png`} className="col-xs-2"/>
+			<div className="col-xs-2">
+				{ExchangesIcons[`${e}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
+			</div>
 			<Link style={styles.link} to={ `/settings/${e}`} className="col-xs-8">{e}</Link>
 		</div>
 	))

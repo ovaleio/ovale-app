@@ -8,8 +8,10 @@ const isDev = require('electron-is-dev')
 const prepareNext = require('electron-next')
 const { resolve } = require('app-root-path')
 require('electron-debug')({showDevTools: true});
+
+
 const settings = require('electron-settings');
-const ws = require('../renderer/websocket-server');
+const ws = require('./websocket-server');
 
 const createWindow = () => {
   if (!settings.has('init')) {
@@ -17,8 +19,6 @@ const createWindow = () => {
     const credentials = supportedExchanges.reduce((o, exchange) => {o[exchange] = {"apikey": "", "apisecret": ""}; return o; }, {})
     settings.setAll({init: Date.now(), supportedExchanges: supportedExchanges, credentials: credentials});
   }
-
-  //console.log(settings.getAll());
 
   const mainWindow = new BrowserWindow({
     backgroundColor: '#123932',
@@ -30,9 +30,10 @@ const createWindow = () => {
 
   mainWindow.once('ready-to-show', () => {
      mainWindow.show()
-     const credentials = settings.get('credentials');
-     if (Object.keys(credentials).length) ws(credentials);
-   })
+
+    const credentials = settings.get('credentials');
+    if (Object.keys(credentials).length) ws(credentials);
+  })
 
   //for muiTheme
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {

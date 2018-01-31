@@ -10,7 +10,8 @@ const styles = {
 		fontSize: "14px",
 		fontHeight: "bold",
 		color: "#72EAD6",
-		margin: 0
+		margin: "0px 0px 3px 0",
+   		boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
 	},
 	"categoryContent": {
 		overflowY: "scroll",
@@ -30,7 +31,8 @@ const styles = {
 	},
 	logoExchange: {
 		height: "12px",
-		width: "12px"
+		width: "12px",
+		color: '#CCC'
 	},
 	alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}}
 }

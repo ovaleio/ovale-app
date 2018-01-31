@@ -5,6 +5,7 @@ import { switchTab, requestTrades, setCurrentTicker } from '../actions/actions'
 import Moment from 'react-moment'
 import styles from '../styles/Orders'
 import IconButton from 'material-ui/IconButton';
+import * as ExchangesIcons from './ExchangesIcons'
 
 class Trades extends react.Component {
   render () {
@@ -13,7 +14,9 @@ class Trades extends react.Component {
     const rows = trades.map((trade, i) => {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
-          <td><img style={styles.logoExchange} src={`static/images/exchanges/${trade.exchange}.png`} /></td>
+          <td style={{textAlign: 'center'}}>
+            {ExchangesIcons[`${trade.exchange}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
+          </td>
           <td onClick={() => dispatch(setCurrentTicker({symbol: trade.symbol}))}>{trade.pair}</td>
           <td>
             <IconButton tooltip={trade.type} style={styles[trade.type + 'Type']}></IconButton>
@@ -27,7 +30,7 @@ class Trades extends react.Component {
     }, this);
 
     return (
-      <div className="col-xs-6 col-xl-7" style={{overflowY: 'scroll'}}>
+      <div className="col-xs-6 col-xl-7" style={{overflowY: 'scroll', padding: 0}}>
         <div style={styles.categoryHeader} className="row">
           <div className="col-xs-2" style={styles.categoryHeaderTabInactive} onClick={() => dispatch(switchTab({tab: 'Orders'})) }>Orders</div>
           <div className="col-xs-2" style={styles.categoryHeaderTab}>Trades</div>

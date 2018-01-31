@@ -7,8 +7,10 @@ class TickerChart extends react.Component {
 		if (symbol) {
 			var obj = symbol.split(':');
 			var exchange = obj[0].toUpperCase();
-			var pair = obj[1].replace(/^(\w+)-(\w+)$/, "$2$1").toUpperCase(); //check cryptowatch input should be all lowercase symbols
-			return `http://localhost:8000/static/tv.html?symbol=${exchange}:${pair}`
+			var pair = obj[1].replace(/^(\w+)-(\w+)$/, "$2$1").toUpperCase(); //check cryptowatch input should be all lowercase symbols	
+
+			const devPath = `http://localhost:8000/static/tv.html?symbol=${exchange}:${pair}`
+			return devPath
 		}
 		else return null;
 	}

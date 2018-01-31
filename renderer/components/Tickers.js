@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import styles from '../styles/Tickers'
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import IconButton from 'material-ui/IconButton';
+import * as ExchangesIcons from './ExchangesIcons'
 
 class Tickers extends react.Component {
   toggleHover () {
@@ -25,7 +26,7 @@ class Tickers extends react.Component {
 				key={ticker.symbol}
 			>
 				<div className="col-xs-1" style={{padding:0}}>
-					<img style={styles.logoExchange} src={`static/images/exchanges/${ticker.exchange}.png`} />
+					{ExchangesIcons[`${ticker.exchange}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
 				</div>
 				<div className="col-xs-6" style={styles.symbol}>{ticker.pair}</div>
 				<div className="col-xs-5">{ticker.price}</div>

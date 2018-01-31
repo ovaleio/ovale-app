@@ -12,10 +12,10 @@ const styles = {
   },
   leftColumn: {
     padding: 0,
-    borderRight: "1px solid #D2E4E1"
+    borderRight: "1px solid rgba(0,0,0,0.7)"
   },
   userDataContainer: {
-    borderTop: "1px solid #D2E4E1",
+    borderTop: "1px solid rgba(0,0,0,0.7)",
     height: "50vh",
   },
   tickerContainer: {
@@ -24,7 +24,7 @@ const styles = {
   },
   tickerCol: { /* ok in ticker container */
     width: "280px",
-    borderLeft: "1px solid #D2E4E1",
+    borderLeft: "1px solid rgba(0,0,0,0.7)",
     display: "flex",
     flexDirection: "column"
   }

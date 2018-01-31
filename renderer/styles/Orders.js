@@ -3,14 +3,13 @@ const styles = {
     width: "100%",
     fontFamily: 'Lato',
     fontSize: '13px',
+    borderTop: '3px solid transparent'
   },
   tr: {
-    padding: '0px 5px',
-    border: '2px solid rgba(255,255,255,0)',
-    cursor: 'pointer'
+    border: '2px solid rgba(255,255,255,0)'
   },
   tHead: {
-    backgroundColor: "rgba(0,0,0,0.15)"
+    backgroundColor: "rgba(0,0,0,0.15)",
   },
   categoryHeader: {
     padding: "2px 5px",
@@ -18,7 +17,8 @@ const styles = {
     backgroundColor: "rgba(0, 0, 0, 0.25)",
     fontSize: "14px",
     color: "#72EAD6",
-    margin: 0
+    margin: 0,
+    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
   },
   categoryHeaderTab: {
     cursor: 'pointer'
@@ -42,7 +42,7 @@ const styles = {
   alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}},
   logoExchange: {
     width: '16px',
-    height: '16px'
+    height: '16px',
   },
   sellType: {
     borderRadius: '50%',
@@ -62,6 +62,10 @@ const styles = {
     color: 'rgba(255,255,255,0.9)',
     width: '20px',
     height: '20px'
+  },
+  symbol: {
+    fontWeight: 'bold',
+    cursor: 'pointer'
   }
 };
 

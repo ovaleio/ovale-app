@@ -27,6 +27,7 @@
     "next": "^4.0",
     "react": "^16.0",
     "react-dom": "^16.0",
+    "react-hot-loader": "^4.0.0-beta.18",
     "webpack": "^3.10.0"
   },
   "dependencies": {
@@ -46,7 +47,6 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
-    "react-tradingview-widget": "^1.2.2",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-devtools-extension": "^2.13.2",

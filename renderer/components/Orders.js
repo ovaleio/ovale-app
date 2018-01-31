@@ -6,6 +6,7 @@ import Moment from 'react-moment'
 import styles from '../styles/Orders'
 import IconButton from 'material-ui/IconButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
+import * as ExchangesIcons from './ExchangesIcons'
 
 class Orders extends react.Component {
   render () {
@@ -15,9 +16,11 @@ class Orders extends react.Component {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td style={{textAlign: 'center'}}>
-            <img style={styles.logoExchange} src={`static/images/exchanges/${order.exchange}.png`} />
+            {ExchangesIcons[`${order.exchange}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
           </td>
-          <td onClick={() => dispatch(setCurrentTicker({symbol: order.symbol})) }><strong>{order.pair}</strong></td>
+          <td style={styles.symbol} onClick={() => dispatch(setCurrentTicker({symbol: order.symbol})) }>
+            {order.pair}
+          </td>
           <td>
             <IconButton tooltip={order.type} style={styles[order.type + 'Type']}></IconButton>
           </td>
@@ -32,7 +35,7 @@ class Orders extends react.Component {
     }, this);
 
     return (
-      <div className="col-xs-6 col-xl-7" style={{overflowY: 'scroll', padding: 0}}>
+      <div className="col-xs-6 col-xl-7" style={{overflowX: 'hidden', overflowY: 'scroll', padding: 0}}>
         <div style={styles.categoryHeader} className="row">
           <div className="col-xs-2" style={styles.categoryHeaderTab}>Orders</div>
           <div className="col-xs-2" style={styles.categoryHeaderTabInactive} onClick={() => dispatch(switchTab({tab: 'Trades'})) }>Trades</div>

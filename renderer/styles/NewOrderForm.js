@@ -4,9 +4,8 @@ const styles = {
 	},
 	main: {
 		height: "200px",
-		backgroundColor: "rgba(0, 0, 0, 0.3)",
-		boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
-		borderTop: "1px solid #D2E4E1",
+		backgroundColor: "rgba(0, 0, 0, 0.35)",
+		borderTop: "1px solid rgba(0,0,0,0.7)",
 		flexGrow: 1,
 	    padding: "24px 30px",
 	    overflow: "hidden"

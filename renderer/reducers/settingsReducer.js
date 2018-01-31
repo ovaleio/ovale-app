@@ -1,7 +1,7 @@
 import { handleActions} from 'redux-actions';
 import * as actions from '../actions/actions'
 import initialState from './initialState';
-import settings from 'electron-settings'
+// import settings from 'electron-settings'
 
 
 const settingsReducer = handleActions({
