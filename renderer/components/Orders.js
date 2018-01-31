@@ -1,4 +1,5 @@
 import react from 'react'
+import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/orders'
 import { switchTab, cancelOrder, setSortOrders, setCurrentTicker, requestOrders } from '../actions/actions'
@@ -9,6 +10,12 @@ import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 import * as ExchangesIcons from './ExchangesIcons'
 
 class Orders extends react.Component {
+  componentDidMount() {
+    const { dispatch } = this.props
+    
+    ipcRenderer.on('REQUEST_DATA', (event, payload) => dispatch({ type, payload }))
+  }
+
   render () {
     const { orders, dispatch} = this.props
 

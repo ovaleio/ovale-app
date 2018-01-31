@@ -1,18 +1,11 @@
 // const {clients, format} = process.NODE_ENV === 'dev' ? require('/Users/johnthillaye/Code/cryptotrader/cryptoclients') : require('cryptoclients'); //grab dev version if exists
 const {clients, format} = require('cryptoclients');
-
-const app = require('express')();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const {ipcMain} = require('electron')
 
 module.exports = (credentials) => {
     if (!credentials) throw 'No API credentials';
 
     const {libraries, exchanges, getRestData, cancelOrder, passOrders} = clients(credentials);
-
-    http.listen(7070, function(){
-      console.log('listening on *:7070');
-    });
 
     const request = require('request');
     const async = require('async');
@@ -116,38 +109,69 @@ module.exports = (credentials) => {
         var now = Date.now();
         if (now > (socketState.channels.TICKERS.lastSent + delays.TICKERS)) {
           socketState.channels.TICKERS.lastSent = now;
-          sendTickers();
+          // sendTickers();
         }
 
     }
 
-    function sendTickers () {
+    function updateStatus (exchange, status) {
+        socketState.status[exchange] = status;
+        //return io.emit('STATUS', socketState.status);
+    }
+
+    const sendTickers = (event) => {
         var cleanData = Object.keys(socketState.channels.TICKERS.data).map((symbol) => {
             var [exchange,pair] = symbol.split(':');
             return {symbol: symbol, price: socketState.channels.TICKERS.data[symbol], pair: pair, currencies: pair.split('-'), exchange: exchange}
         })
         console.log("TICKERS sent !")
-        return io.emit('TICKERS', cleanData);
+        return event.sender.send('TICKERS', cleanData);
     }
 
-    function updateStatus (exchange, status) {
-        socketState.status[exchange] = status;
-        return io.emit('STATUS', socketState.status);
+    const handleCancelOrder = (event, order) => {
+        event.sender.send('WEBSOCKET_PENDING', {message: 'Cancelling order...'})
+
+        cancelOrder(order, (err, res) => {
+          console.log(err,res);
+          if (err) {
+            event.sender.send('WEBSOCKET_ERROR', {message: 'Could not cancel order' })
+          }
+          else {
+            //NEED TO CREATE CANCEL_ORDER_SUCCESS to remove order from client
+            event.sender.send('REMOVE_ORDER', {order_id: order.id})
+            event.sender.send('WEBSOCKET_SUCCESS', {message: 'Order cancelled !'})
+          }
+        })
+    }
+
+    const handleNewOrder = (event, {orders}) => {
+        event.sender.send('WEBSOCKET_PENDING', {message: 'Passing order...'})
+
+        passOrders(orders, (err,res) => {
+            console.log(err,res);
+            
+            if (err) {
+                event.sender.send('WEBSOCKET_ERROR', {message: err && typeof err === 'Error' ? err.toString() : err}) 
+            } else {
+                event.sender.send('ADD_ORDERS', {orders});
+                event.sender.send('WEBSOCKET_SUCCESS', {message: 'Order added !'})
+            }
+        })
     }
 
     //Catch orders & balances via rest api 
-    function updateRestData (channelName) {
+    const updateRestData = (event, channelName) => {
         //Check that channel has been asked for
         if (channels.indexOf(channelName) !== -1) {
             //RETURN A PENDING MESSAGE
-            io.emit('WEBSOCKET_PENDING', {message: 'Loading ' + channelName})
+            event.sender.send('WEBSOCKET_PENDING', {message: 'Loading ' + channelName})
 
             console.log(channelName, ' rest data called');
 
             getRestData[channelName.toLowerCase()]((err, data) => {
                 if (err) {
                     console.log(err);
-                    return io.emit('WEBSOCKET_ERROR',  {message: err})
+                    return event.sender.send('WEBSOCKET_ERROR',  {message: err})
                 }
 
                 //flatten should be an option somewhere
@@ -156,70 +180,16 @@ module.exports = (credentials) => {
                     lastSent: Date.now()
                 }
                 console.log(channelName + " sent !", socketState.status)
-                return io.emit(channelName, socketState.channels[channelName].data);
+                return event.sender.send(channelName, socketState.channels[channelName].data);
             });
         }
     }
 
-    //to clean
-    setInterval(() => updateRestData('ORDERS'), delays.ORDERS);
-    setInterval(() => updateRestData('BALANCES'), delays.BALANCES);
-    setInterval(() => updateRestData('TRADES'), delays.TRADES);
-
     exchanges.map((e) => exchangeSockets[e]());
 
-    io.on('connection', (socket) => {
-        console.log('Tickers WS connected');
-
-        socket.on('REQUEST_ORDERS', () => {
-            updateRestData('ORDERS');
-        })
-
-        socket.on('REQUEST_TRADES', () => {
-            updateRestData('TRADES');
-        })
-
-        socket.on('REQUEST_TICKERS', () => {
-            sendTickers();
-        })
-
-        socket.on('REQUEST_BALANCES', () => {
-            updateRestData('BALANCES');
-        })
-
-        socket.on('CANCEL_ORDER', (order) => {
-            io.emit('WEBSOCKET_PENDING', {message: 'Cancelling order...'})
-
-            cancelOrder(order, (err, res) => {
-              console.log(err,res);
-              if (err) {
-                io.emit('WEBSOCKET_ERROR', {message: 'Could not cancel order' })
-              }
-              else {
-                //NEED TO CREATE CANCEL_ORDER_SUCCESS to remove order from client
-                io.emit('REMOVE_ORDER', {order_id: order.id})
-                io.emit('WEBSOCKET_SUCCESS', {message: 'Order cancelled !'})
-              }
-            })
-        })
-
-
-        const handleOrder = ({orders}) => {
-            io.emit('WEBSOCKET_PENDING', {message: 'Passing order...'})
-
-            passOrders(orders, (err,res) => {
-                console.log(err,res);
-                
-                if (err) {
-                    io.emit('WEBSOCKET_ERROR', {message: err && typeof err === 'Error' ? err.toString() : err}) 
-                } else {
-                    io.emit('ADD_ORDERS', {orders});
-                    io.emit('WEBSOCKET_SUCCESS', {message: 'Order added !'})
-                }
-            })
-        }
-
-        socket.on('BUY_LIMIT', handleOrder)
-        socket.on('SELL_LIMIT', handleOrder)
-    })
+    ipcMain.on('BUY_LIMIT', handleNewOrder)
+    ipcMain.on('SELL_LIMIT', handleNewOrder)
+    ipcMain.on('REQUEST_DATA', updateRestData)
+    ipcMain.on('REQUEST_TICKERS', sendTickers)
+    ipcMain.on('CANCEL_ORDER', handleCancelOrder)
 }

@@ -17,9 +17,12 @@ import MessageBar from '../components/MessageBar'
 
 import initStore from '../initStore'
 import history from '../history';
+import { init as websocketInit } from '../websocket'
 
 const muiTheme = getMuiTheme({ userAgent: 'all', fontFamily: 'Lato, Helvetica, sans-serif'});
 const store = initStore();
+console.log(websocketInit)
+websocketInit(store);
 
 class Root extends React.Component {
   render () {
