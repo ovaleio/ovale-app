@@ -11,9 +11,7 @@ import * as ExchangesIcons from './ExchangesIcons'
 
 class Orders extends react.Component {
   componentDidMount() {
-    const { dispatch } = this.props
-    
-    ipcRenderer.on('REQUEST_DATA', (event, payload) => dispatch({ type, payload }))
+    ipcRenderer.send('REQUEST_DATA', 'ORDERS')
   }
 
   render () {
