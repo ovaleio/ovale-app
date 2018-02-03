@@ -8,6 +8,11 @@ export const closeSnackbar = createAction('CLOSE_SNACKBAR');
 export const webSocketError = createAction('WEBSOCKET_ERROR');
 export const webSocketSuccess = createAction('WEBSOCKET_SUCCESS');
 export const webSocketPending = createAction('WEBSOCKET_PENDING');
+export const initSocket = () => {
+	return (dispatch, getState, {emit}) => {
+		emit('INIT_SOCKET')
+	}
+};
 
 //SNACKBAR
 export const openSnackbarError = createAction('OPEN_SNACKBAR_ERROR');
@@ -85,3 +90,9 @@ export const requestBalances = () => {
 //SETTINGS
 export const saveSettings = createAction('SAVE_SETTINGS');
 export const handleChangeSettings = createAction('HANDLE_CHANGE_SETTINGS');
+export const receiveSettings = createAction('SETTINGS');
+export const requestSettings = () => {
+	return (dispatch, getState, {emit}) => {
+		emit('REQUEST_SETTINGS')
+	}
+};

@@ -21,7 +21,6 @@ import { init as websocketInit } from '../websocket'
 
 const muiTheme = getMuiTheme({ userAgent: 'all', fontFamily: 'Lato, Helvetica, sans-serif'});
 const store = initStore();
-console.log(websocketInit)
 websocketInit(store);
 
 class Root extends React.Component {

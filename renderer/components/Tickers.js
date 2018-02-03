@@ -12,7 +12,7 @@ import * as ExchangesIcons from './ExchangesIcons'
 
 class Tickers extends react.Component {
   componentDidMount() {
-    //ipcRenderer.send('REQUEST_TICKERS')
+    ipcRenderer.send('REQUEST_TICKERS')
     setInterval(() => ipcRenderer.send('REQUEST_TICKERS'), 4000)
   }
 
@@ -52,7 +52,7 @@ class Tickers extends react.Component {
 	  			</div>
 	  			<div style={styles.main}>
 		  			<div style={styles.categoryContent}>
-		  				{ rows.length ? rows : <div>No ticker data available.<br/>Please add API keys in Settings</div>}
+		  				{rows}
 		  			</div>
 		  		</div>
 	  		</div>

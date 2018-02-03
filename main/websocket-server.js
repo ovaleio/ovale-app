@@ -1,41 +1,35 @@
-// const {clients, format} = process.NODE_ENV === 'dev' ? require('/Users/johnthillaye/Code/cryptotrader/cryptoclients') : require('cryptoclients'); //grab dev version if exists
-const {clients, format} = require('cryptoclients');
+const {clients, format} = require('cryptoclients'); //grab dev version if exists
+
 const {ipcMain} = require('electron')
+const settings = require('electron-settings')
+const request = require('request');
+const async = require('async');
 
-module.exports = (credentials) => {
-    if (!credentials) throw 'No API credentials';
+const saveCredentials = (event, credentials) => {
+    settings.set('credentials', credentials)
+    settings.set('lastSaved', Date.now())
+    event.sender.send('WEBSOCKET_SUCCESS', {message: 'Settings saved !'})
 
-    const {libraries, exchanges, getRestData, cancelOrder, passOrders} = clients(credentials);
+    //Restart websocket
+    initSocket(event);
+}
 
-    const request = require('request');
-    const async = require('async');
-
-    const channels = ['ORDERS', 'TICKERS', 'BALANCES', 'TRADES'];
-    const delays = {TICKERS: 3000, ORDERS: 30010, BALANCES: 61020, TRADES: 300314};
-
-    let socketState = {
-        status: exchanges.reduce((o, exchange) => {o[exchange] = false; return o; }, {}),
-        channels: channels.reduce((o, channelName) => {o[channelName] = {data: {}, lastSent: 0}; return o;}, {})
-    };
-
-    console.log('Initialized Socket', socketState);
+const initSocket = (event) => {
 
     const exchangeSockets = {
-        'bitfinex': () => {
-            const ws = libraries['bitfinex'].ws();
+        'bitfinex': (lib) => {
+            const ws = lib.ws();
 
             ws.on('open', () => {
                 console.log("Bitfinex Websocket connected");
                 updateStatus('bitfinex', true);
-                libraries['bitfinex'].rest(2).symbols((err, symbols) => {
+                lib.rest(2).symbols((err, symbols) => {
                     if (err) return;
 
                     symbols.forEach((symbol) => {
                         var betaSymbol = 't' + symbol.toUpperCase()
                         ws.subscribeTicker(betaSymbol)
-                        ws.onTicker({symbol: betaSymbol}, (ticker) => {
-                          updateTickers("bitfinex", symbol, ticker[6])
-                        });
+                        ws.onTicker({symbol: betaSymbol}, (ticker) => handleTickerData.bitfinex(symbol, ticker));
                     })
                 })
             })
@@ -47,37 +41,35 @@ module.exports = (credentials) => {
             })
 
             ws.open()
-
         },
-        'poloniex': () => {
-
-            libraries['poloniex'].on('open', () => {
+        'poloniex': (lib) => {
+            lib.on('open', () => {
               updateStatus('poloniex', true);
-              libraries['poloniex'].subscribe('ticker');
-              libraries['poloniex'].on('message', handleTickerData.poloniex);
+              lib.subscribe('ticker');
+              lib.on('message', handleTickerData.poloniex);
             })
 
-            libraries['poloniex'].on('error', (err) => {
+            lib.on('error', (err) => {
               console.log(`Poloniex Websocket An error has occured`, err);
             });
-            libraries['poloniex'].on('close', (reason, details) => {
+            lib.on('close', (reason, details) => {
               updateStatus("poloniex", false, reason);
             });
-            libraries['poloniex'].openWebSocket({ version: 2 });
-        },
-        'bittrex': () => {
 
-            libraries['bittrex'].websockets.client(function() {
+            lib.openWebSocket({ version: 2 });
+        },
+        'bittrex': (lib) => {
+            lib.websockets.client(function() {
                 updateStatus('bittrex', true);
 
-                libraries['bittrex'].getmarketsummaries(function (res, err) {
+                lib.getmarketsummaries(function (res, err) {
                     if (err) console.log(err);
 
                     var symbols = res.result.map((e,i) => { 
                         updateTickers('bittrex', e.MarketName, e.Last)
                         return e.MarketName
                     })
-                    libraries['bittrex'].websockets.subscribe(symbols, handleTickerData.bittrex)
+                    lib.websockets.subscribe(symbols, handleTickerData.bittrex)
                 });
             });
         }
@@ -98,25 +90,20 @@ module.exports = (credentials) => {
           if (channelName === 'ticker') {
             updateTickers("poloniex", data.currencyPair, data.last);
           }
+        },
+        "bitfinex": (symbol, ticker) => {
+          updateTickers("bitfinex", symbol, ticker[6])
         }
     }
 
-    function updateTickers (exchange, pair, price) {
+    const updateTickers = (exchange, pair, price) => {
         pair = format[exchange].from.pair(pair);
         var symbol = exchange + ':' + pair;
         socketState.channels.TICKERS.data[symbol] =  parseFloat(price); //write perf to check here
-
-        var now = Date.now();
-        if (now > (socketState.channels.TICKERS.lastSent + delays.TICKERS)) {
-          socketState.channels.TICKERS.lastSent = now;
-          // sendTickers();
-        }
-
     }
 
-    function updateStatus (exchange, status) {
+    const updateStatus = (exchange, status) => {
         socketState.status[exchange] = status;
-        //return io.emit('STATUS', socketState.status);
     }
 
     const sendTickers = (event) => {
@@ -128,10 +115,14 @@ module.exports = (credentials) => {
         return event.sender.send('TICKERS', cleanData);
     }
 
+    const sendSettings = (event) => {
+        return event.sender.send('SETTINGS', settings.getAll())
+    }
+
     const handleCancelOrder = (event, order) => {
         event.sender.send('WEBSOCKET_PENDING', {message: 'Cancelling order...'})
 
-        cancelOrder(order, (err, res) => {
+        Clients.get('cancelOrder', order.exchange)(order, (err, res) => {
           console.log(err,res);
           if (err) {
             event.sender.send('WEBSOCKET_ERROR', {message: 'Could not cancel order' })
@@ -147,7 +138,7 @@ module.exports = (credentials) => {
     const handleNewOrder = (event, {orders}) => {
         event.sender.send('WEBSOCKET_PENDING', {message: 'Passing order...'})
 
-        passOrders(orders, (err,res) => {
+        Clients.passOrders(orders, (err,res) => {
             console.log(err,res);
             
             if (err) {
@@ -160,36 +151,53 @@ module.exports = (credentials) => {
     }
 
     //Catch orders & balances via rest api 
-    const updateRestData = (event, channelName) => {
-        //Check that channel has been asked for
-        if (channels.indexOf(channelName) !== -1) {
-            //RETURN A PENDING MESSAGE
-            event.sender.send('WEBSOCKET_PENDING', {message: 'Loading ' + channelName})
+    const sendRestData = (event, channelName) => {
+        event.sender.send('WEBSOCKET_PENDING', {message: 'Loading ' + channelName})
 
-            console.log(channelName, ' rest data called');
+        console.log(channelName, ' rest data called');
 
-            getRestData[channelName.toLowerCase()]((err, data) => {
-                if (err) {
-                    console.log(err);
-                    return event.sender.send('WEBSOCKET_ERROR',  {message: err})
-                }
+        Clients.getAsync(channelName.toLowerCase(), (err, data) => {
+            if (err) {
+                console.log(err);
+                return event.sender.send('WEBSOCKET_ERROR',  {message: err})
+            }
 
-                //flatten should be an option somewhere
-                socketState.channels[channelName] = {
-                    data: format.flatten(data),
-                    lastSent: Date.now()
-                }
-                console.log(channelName + " sent !", socketState.status)
-                return event.sender.send(channelName, socketState.channels[channelName].data);
-            });
-        }
+            //flatten should be an option somewhere
+            socketState.channels[channelName] = {
+                data: format.flatten(data),
+                lastSent: Date.now()
+            }
+            console.log(channelName + " sent !", socketState.status)
+            return event.sender.send(channelName, socketState.channels[channelName].data);
+        });
     }
 
-    exchanges.map((e) => exchangeSockets[e]());
+    const credentials = settings.get('credentials');
+    const Clients = new clients({credentials});
 
+    const channels = ['ORDERS', 'TICKERS', 'BALANCES', 'TRADES'];
+
+    let socketState = {
+        status: Clients.exchanges.reduce((o, exchange) => {o[exchange] = false; return o; }, {}),
+        channels: channels.reduce((o, channelName) => {o[channelName] = {data: {}, lastSent: 0}; return o;}, {})
+    };
+    console.log('Initialized Socket', socketState);
+
+    if (event) event.sender.send('WEBSOCKET_PENDING', {message: 'Starting Websocket...'})
+
+
+    //Listeners
     ipcMain.on('BUY_LIMIT', handleNewOrder)
     ipcMain.on('SELL_LIMIT', handleNewOrder)
-    ipcMain.on('REQUEST_DATA', updateRestData)
+    ipcMain.on('REQUEST_DATA', sendRestData)
     ipcMain.on('REQUEST_TICKERS', sendTickers)
+    ipcMain.on('REQUEST_SETTINGS', sendSettings)
     ipcMain.on('CANCEL_ORDER', handleCancelOrder)
+
+    Clients.exchanges.map((e,i) => exchangeSockets[e](Clients.libraries[i]));
 }
+
+ipcMain.on('SAVE_CREDENTIALS', saveCredentials)
+ipcMain.on('INIT_SOCKET', initSocket)
+
+module.exports = initSocket

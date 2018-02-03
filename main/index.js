@@ -11,7 +11,7 @@ require('electron-debug')({showDevTools: true});
 
 
 const settings = require('electron-settings');
-const ws = require('./websocket-server');
+const initSocket = require('./websocket-server');
 
 const createWindow = () => {
   if (!settings.has('init')) {
@@ -29,10 +29,9 @@ const createWindow = () => {
   })
 
   mainWindow.once('ready-to-show', () => {
-     mainWindow.show()
+    mainWindow.show()
 
-    const credentials = settings.get('credentials');
-    if (Object.keys(credentials).length) ws(credentials);
+    initSocket();    
   })
 
   //for muiTheme
