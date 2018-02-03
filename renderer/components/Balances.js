@@ -1,4 +1,5 @@
 import react from 'react'
+import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/balances'
 import { setCurrentTicker, requestBalances, setSortBalances} from '../actions/actions'
@@ -8,6 +9,10 @@ import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 import * as ExchangesIcons from './ExchangesIcons'
 
 class Balances extends react.Component {
+  componentDidMount() {
+    ipcRenderer.send('REQUEST_DATA', 'BALANCES')
+  }
+
   render () {
     var {balances, total, baseCurrency, dispatch} = this.props;
 

@@ -1,4 +1,5 @@
 import react from 'react'
+import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/trades'
 import { switchTab, requestTrades, setCurrentTicker } from '../actions/actions'
@@ -8,6 +9,10 @@ import IconButton from 'material-ui/IconButton';
 import * as ExchangesIcons from './ExchangesIcons'
 
 class Trades extends react.Component {
+  componentDidMount() {
+    ipcRenderer.send('REQUEST_DATA', 'TRADES')
+  }
+
   render () {
     const { trades, dispatch} = this.props
 

@@ -51,7 +51,6 @@ class EditCredentials extends React.Component {
 			    			<button onClick={(e) => {
 				    				e.preventDefault(); 
 				    				dispatch(saveSettings());
-				    				dispatch(openSnackbarSuccess({message: 'Saved !'}));
 				    			}}
 				    			className="col-xs-offset-8 col-xs-4"
 				    			style={styles.saveButton}

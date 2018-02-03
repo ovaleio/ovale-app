@@ -1,4 +1,5 @@
 import react from 'react'
+import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/tickers'
 import SearchTickerForm from './SearchTickerForm'
@@ -10,8 +11,9 @@ import IconButton from 'material-ui/IconButton';
 import * as ExchangesIcons from './ExchangesIcons'
 
 class Tickers extends react.Component {
-  toggleHover () {
-
+  componentDidMount() {
+    ipcRenderer.send('REQUEST_TICKERS')
+    setInterval(() => ipcRenderer.send('REQUEST_TICKERS'), 4000)
   }
 
   render () {
@@ -50,7 +52,7 @@ class Tickers extends react.Component {
 	  			</div>
 	  			<div style={styles.main}>
 		  			<div style={styles.categoryContent}>
-		  				{ rows.length ? rows : <div>No ticker data available.<br/>Please add API keys in Settings</div>}
+		  				{rows}
 		  			</div>
 		  		</div>
 	  		</div>

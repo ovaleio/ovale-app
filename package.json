@@ -13,11 +13,19 @@
     "dist": "npm run build && build --dir"
   },
   "build": {
+    "appId": "cryptotrader",
+    "mac": {
+      "category": "myapp.category"
+    },
     "files": [
       "**/*",
       "!renderer",
       "renderer/out"
-    ]
+    ],
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
+    }
   },
   "devDependencies": {
     "babel-plugin-inline-import": "^2.0.6",
@@ -32,7 +40,7 @@
   },
   "dependencies": {
     "async": "^2.6.0",
-    "cryptoclients": "^1.0.22",
+    "cryptoclients": "^1.0.26",
     "css-loader": "^0.28.9",
     "electron-context-menu": "^0.9.1",
     "electron-debug": "^1.5.0",

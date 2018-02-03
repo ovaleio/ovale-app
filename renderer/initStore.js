@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
 import initialState from './reducers/initialState'
-import { init as websocketInit, emit } from './websocket.js'
+import { emit } from './websocket.js'
 import { routerMiddleware } from 'react-router-redux'
 import history from './history';
 
@@ -18,6 +18,5 @@ export default function initStore () {
   	)
   )
 
-  websocketInit(store);
   return store;
 }

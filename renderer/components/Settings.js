@@ -1,5 +1,7 @@
 import React from 'react';
+import { ipcRenderer } from 'electron';
 import { connect } from 'react-redux'
+import { initSocket } from '../actions/actions'
 import { mapStateToProps } from '../selectors/settings'
 import { Link, Route } from 'react-router-dom'
 
@@ -49,17 +51,24 @@ const styles = {
 
 class Settings extends React.Component {
 
-  render() {
-  	const { exchanges } = this.props;
+  componentDidMount() {
+    ipcRenderer.send('REQUEST_SETTINGS')
+  }
 
-	const listExchanges = exchanges.map((e, i) => (
+  render() {
+  	const { exchanges, dispatch } = this.props;
+  	let listExchanges;
+
+	if (exchanges) {
+	  listExchanges = exchanges.map((e, i) => (
 		<div className="row" style={styles.categoryItem} key={i}>
 			<div className="col-xs-2">
 				{ExchangesIcons[`${e}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
 			</div>
 			<Link style={styles.link} to={ `/settings/${e}`} className="col-xs-8">{e}</Link>
 		</div>
-	))
+	  ))
+	}
 
     return (
     	<div style={styles.main} className="row">
@@ -67,7 +76,14 @@ class Settings extends React.Component {
         		<div style={styles.categoryHeader} className="row">
         			Connected Exchanges
         		</div>
-    			{listExchanges}
+    				{listExchanges}
+
+    			<div style={styles.categoryHeader} className="row">
+    				Websocket
+    			</div>
+    			<div className="row" style={styles.categoryItem} onClick={() => dispatch(initSocket())}>
+    				Restart Websocket
+    			</div>
         	</div>
         	<div id="mainColumn" className="col-xs-9 col-sm-10">
         		<div className="row">

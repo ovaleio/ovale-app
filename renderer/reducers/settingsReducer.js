@@ -1,14 +1,17 @@
 import { handleActions} from 'redux-actions';
 import * as actions from '../actions/actions'
 import initialState from './initialState';
-// import settings from 'electron-settings'
+import { ipcRenderer } from 'electron'
 
 
 const settingsReducer = handleActions({
   [actions.saveSettings](state) {
-    settings.set('credentials', state.credentials)
-    settings.set('lastSaved', Date.now())
+    ipcRenderer.send('SAVE_CREDENTIALS', state.credentials)
     return state;
+  },
+  [actions.receiveSettings](state, {payload: settings}) {
+    console.log(settings);
+    return settings;
   },
   [actions.handleChangeSettings](state, {payload: {target, exchange}}) {
   	return {

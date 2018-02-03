@@ -1,8 +1,3 @@
-import settings from 'electron-settings';
-
-//Dirty ?
-const mySettings = settings.getAll() || {};
-
 export default {
 	common: {
 		baseCurrency: 'BTC',
@@ -51,5 +46,5 @@ export default {
 		messageType: '',
 		style: {}
 	},
-	settings: mySettings
+	settings: {}
 }

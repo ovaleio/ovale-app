@@ -8,6 +8,11 @@ export const closeSnackbar = createAction('CLOSE_SNACKBAR');
 export const webSocketError = createAction('WEBSOCKET_ERROR');
 export const webSocketSuccess = createAction('WEBSOCKET_SUCCESS');
 export const webSocketPending = createAction('WEBSOCKET_PENDING');
+export const initSocket = () => {
+	return (dispatch, getState, {emit}) => {
+		emit('INIT_SOCKET')
+	}
+};
 
 //SNACKBAR
 export const openSnackbarError = createAction('OPEN_SNACKBAR_ERROR');
@@ -50,7 +55,7 @@ export const setSortOrders = createAction('SET_SORT_ORDERS');
 export const receiveOrders = createAction('ORDERS');
 export const requestOrders = () => {
 	return (dispatch, getState, {emit}) => {
-		emit('REQUEST_ORDERS')
+		emit('REQUEST_DATA', 'ORDERS')
 	}
 };
 export const cancelOrder = ({order}) => {
@@ -68,7 +73,7 @@ export const setSortTrades = createAction('SET_SORT_TRADES');
 export const receiveTrades = createAction('TRADES');
 export const requestTrades = () => {
 	return (dispatch, getState, {emit}) => {
-		emit('REQUEST_TRADES')
+		emit('REQUEST_DATA', 'TRADES')
 	}
 };
 
@@ -78,10 +83,16 @@ export const setSort = createAction('SET_SORT_BALANCES');
 export const receiveBalances = createAction('BALANCES');
 export const requestBalances = () => {
 	return (dispatch, getState, {emit}) => {
-		emit('REQUEST_BALANCES')
+		emit('REQUEST_DATA', 'BALANCES')
 	}
 };
 
 //SETTINGS
 export const saveSettings = createAction('SAVE_SETTINGS');
 export const handleChangeSettings = createAction('HANDLE_CHANGE_SETTINGS');
+export const receiveSettings = createAction('SETTINGS');
+export const requestSettings = () => {
+	return (dispatch, getState, {emit}) => {
+		emit('REQUEST_SETTINGS')
+	}
+};
