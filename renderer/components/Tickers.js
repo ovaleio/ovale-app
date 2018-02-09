@@ -57,7 +57,7 @@ class Tickers extends react.Component {
 	  			</div>
 	  			<div style={styles.main}>
 		  			<div style={styles.categoryContent}>
-		  				{rows}
+		  				{rows.length ? rows : (<p>Loading tickers...<br/><br/>If nothing happens, make sure you have keys configured in <Link to="/settings">Settings</Link></p>)}
 		  			</div>
 		  		</div>
 	  		</div>

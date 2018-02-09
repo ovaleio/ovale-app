@@ -63,7 +63,7 @@ class Orders extends react.Component {
             </tr>
           </thead>
           <tbody>
-            {rows}
+            {rows.length ? rows : (<tr><td colspan="9" style={{textAlign: 'center'}}>No order to show</td></tr>)}
           </tbody>
         </table>
       </div>

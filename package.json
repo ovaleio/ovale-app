@@ -18,6 +18,7 @@
   "build": {
     "appId": "com.ovale.app",
     "mac": {
+      "target": "dmg",
       "category": "myapp.category",
       "icon": "main/assets/icons/mac/icon.icns"
     },

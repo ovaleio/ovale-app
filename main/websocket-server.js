@@ -140,10 +140,8 @@ const initSocket = (event) => {
         event.sender.send('WEBSOCKET_PENDING', {message: 'Passing order...'})
 
         Clients.passOrders(orders, (err,res) => {
-            console.log('a', err, 'b', typeof err, err.toString());
-            
             if (err) {
-                const error = err && typeof err === 'Error' ? err.toString() : err.message ? err.message : 'Erreur'
+                const error = err && typeof err === 'Error' ? err.toString() : (err.message || 'Erreur')
                 console.log('c', error)
                 event.sender.send('WEBSOCKET_ERROR', {message: error}) 
             } else {

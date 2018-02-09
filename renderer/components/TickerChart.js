@@ -23,7 +23,7 @@ class TickerChart extends react.Component {
 			const devPath = `http://localhost:8000/static/tv.html?symbol=${exchange}:${pair}`
 			// const prodPath = `file://${remote.app.getAppPath().replace('/Resources/app.asar', '')}/renderer/out/static/tv.html`
 
-			const prodPath = `http://jaytee.club/tv.html?symbol=${exchange}:${pair}`
+			const prodPath = `https://ovale.io/tv.html?symbol=${exchange}:${pair}`
 
 			return process.env.NODE_ENV === 'production' ? prodPath : devPath
 		}
