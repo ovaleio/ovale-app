@@ -24,7 +24,6 @@ const styles = {
   },
   tickerCol: { /* ok in ticker container */
     width: "280px",
-    borderLeft: "1px solid rgba(0,0,0,0.7)",
     display: "flex",
     flexDirection: "column"
   }

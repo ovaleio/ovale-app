@@ -87,9 +87,9 @@ class Settings extends React.Component {
         	</div>
         	<div id="mainColumn" className="col-xs-9 col-sm-10">
         		<div className="row">
-        			<div className="col-xs-offset-10"><Link to="/" style={styles.link}>Close</Link></div>
+        			<div className="col-xs-offset-10"><Link to="/" style={styles.link}>Go to Trading</Link></div>
         		</div>
-        		<Route exact path="/settings" render={() => (<div>Choose an exchange on the left</div>)} />
+        		<Route exact path="/settings" render={() => (<div><h1>Welcome to OVALE</h1><h2>Please add API Credentials for the exchanges on your left.</h2></div>)} />
         		<Route path="/settings/:exchange" component={EditCredentials} />
         	</div>
         </div>

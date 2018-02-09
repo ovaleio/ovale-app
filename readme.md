@@ -2,52 +2,13 @@
 
 CryptoTrader is a unified trading client for cryptocurrency exchanges.
 
-![screenshot](https://github.com/johnthillaye/cryptotrader-app/raw/master/assets/screen_cryptotrader.png)
-
 ## Exchanges supported
 
 - Bitfinex
 - Bittrex
 - Poloniex
 
-## How to configure
-
-Create a `config.json` file in a `.cryptotrader` folder in your home directory:
-`mkdir ~/.cryptotrader`
-`nano ~/.cryptotrader/config.json`
-
-Add your `apikey` & `apisecret` for the exchanges you want to connect to, as shown below:
-
-````
-{
-    "credentials": {
-        "bitfinex": {
-			"apikey": "",
-			"apisecret": ""
-        },
-        "bittrex": {
-			"apikey" : "",
-			"apisecret" : "",
-        },
-        "poloniex": {
-			"apikey": "",
-			"apisecret": ""
-        }
-    },
-    "dbUrl": "mongodb://localhost:27017",
-    "dbName": "cryptotrader"
-}
-````
-
-
-/!\ Warning: Do not give withdrawal privileges to your apikeys. We are not responsible for any rogue use of your keys.
-
-
 ## How to run
-
-Make sure you have a websocket server, listening to port 7070, that sends tickers update to the app.
-
-You can find one at https://github.com/johnthillaye/cryptotrader-server
 
 Make sure you have node 8+ installed. You can check this by running `node -v` in your shell.
 
@@ -63,12 +24,6 @@ Install dependencies
 Launch the electron app
 `npm start`
 
+## How to build 
 
-## How to build
-
-`npm run-script build`
-
-## Dev mode
-
-We use `cryptoclients`, a custom made library to connect to the various exchanges' API. If you need to customize it, you can clone it at `https://github.com/johnthillaye/cryptoclients`.
-This library is also available via npm: `npm install cryptoclients`
+`npm run dist`

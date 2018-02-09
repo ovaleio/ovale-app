@@ -3,6 +3,7 @@ import { createAction } from 'redux-actions'
 //COMMON
 export const switchTab = createAction('SWITCH_TAB');
 export const closeSnackbar = createAction('CLOSE_SNACKBAR');
+export const resetData = createAction('RESET_DATA')
 
 //WEBSOCKET HANDLERS
 export const webSocketError = createAction('WEBSOCKET_ERROR');
@@ -17,6 +18,7 @@ export const initSocket = () => {
 //SNACKBAR
 export const openSnackbarError = createAction('OPEN_SNACKBAR_ERROR');
 export const openSnackbarSuccess = createAction('OPEN_SNACKBAR_SUCCESS');
+export const openSnackbarRedirect = createAction('OPEN_SNACKBAR_REDIRECT');
 
 //TICKER
 export const setCurrentTicker = createAction('SET_CURRENT_TICKER');

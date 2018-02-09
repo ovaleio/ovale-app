@@ -1,6 +1,6 @@
 const {ipcRenderer} = require('electron')
 
-const messageTypes = ['ORDERS', 'TICKERS', 'TRADES', 'BALANCES', 'SETTINGS', 'STATUS', 'WEBSOCKET_SUCCESS', 'WEBSOCKET_ERROR', 'WEBSOCKET_PENDING', 'REMOVE_ORDER', 'ADD_ORDERS'];
+const messageTypes = ['ORDERS', 'TICKERS', 'TRADES', 'BALANCES', 'SETTINGS', 'STATUS', 'WEBSOCKET_SUCCESS', 'WEBSOCKET_ERROR', 'WEBSOCKET_PENDING', 'REMOVE_ORDER', 'ADD_ORDERS', 'OPEN_SNACKBAR_REDIRECT', 'RESET_DATA'];
 // const requestTypes = ['REQUEST_ORDERS', 'REQUEST_TICKERS', 'REQUEST_BALANCES', 'REQUEST_TRADES']
 
 const emit = (type, payload) => ipcRenderer.send(type, payload)

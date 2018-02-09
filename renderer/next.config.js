@@ -2,6 +2,9 @@ const webpack = require('webpack');
 
 module.exports = {
   webpack(config) {
+    config.node = {
+      __dirname: false
+    }
     config.target = 'electron-renderer'
     config.plugins.push(new webpack.IgnorePlugin(/vertx/))
     config.plugins = config.plugins.filter(

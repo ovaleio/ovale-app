@@ -1,6 +1,7 @@
 import React from 'react'
 import Snackbar from 'material-ui/Snackbar'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import { mapStateToProps } from '../selectors/messageBar'
 import { closeSnackbar } from '../actions/actions'
@@ -9,16 +10,19 @@ import { closeSnackbar } from '../actions/actions'
 class MessageBar extends React.Component {
 	render () {
 
-    	const { showSnackbar, message, messageType, style, dispatch} = this.props;
+    	const { showSnackbar, message, messageType, style, redirectTo, delay, dispatch} = this.props;
 
 		return (
-			<Snackbar
-	          open={showSnackbar}
-	          message={message}
-	          contentStyle={style}
-	          onRequestClose={() => dispatch(closeSnackbar())}
-	          autoHideDuration={messageType === 'error' ? 4800 : 1500}
-	        />
+			<div>
+				<Snackbar
+		          open={showSnackbar}
+		          message={message}
+		          contentStyle={style}
+		          onRequestClose={() => dispatch(closeSnackbar())}
+		          autoHideDuration={delay ? delay : 1500}
+		        />
+		        { redirectTo ? (<Redirect to={redirectTo} />) : null }
+		    </div>
 	    )
     }
 }

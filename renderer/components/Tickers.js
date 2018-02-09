@@ -13,7 +13,12 @@ import * as ExchangesIcons from './ExchangesIcons'
 class Tickers extends react.Component {
   componentDidMount() {
     ipcRenderer.send('REQUEST_TICKERS')
-    setInterval(() => ipcRenderer.send('REQUEST_TICKERS'), 4000)
+    var intervalId = setInterval(() => ipcRenderer.send('REQUEST_TICKERS'), 4000)
+    this.setState({intervalId: intervalId});
+  }
+
+  componentWillUnmount() {
+  	clearInterval(this.state.intervalId);
   }
 
   render () {

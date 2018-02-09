@@ -1,5 +1,5 @@
 const styles = {
-	main: {
+	tickerChart: {
 		flexGrow: 1,
 	    borderRight: '1px solid rgba(0,0,0,0.7)'
 	},

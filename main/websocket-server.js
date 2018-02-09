@@ -11,7 +11,8 @@ const saveCredentials = (event, credentials) => {
     event.sender.send('WEBSOCKET_SUCCESS', {message: 'Settings saved !'})
 
     //Restart websocket
-    initSocket(event);
+    //initSocket(event);
+    initSocket(); //we temporarily don't pass event so that the 'Settings saved' message is shown and not 'websocket starting'
 }
 
 const initSocket = (event) => {
@@ -139,10 +140,12 @@ const initSocket = (event) => {
         event.sender.send('WEBSOCKET_PENDING', {message: 'Passing order...'})
 
         Clients.passOrders(orders, (err,res) => {
-            console.log(err,res);
+            console.log('a', err, 'b', typeof err, err.toString());
             
             if (err) {
-                event.sender.send('WEBSOCKET_ERROR', {message: err && typeof err === 'Error' ? err.toString() : err}) 
+                const error = err && typeof err === 'Error' ? err.toString() : err.message ? err.message : 'Erreur'
+                console.log('c', error)
+                event.sender.send('WEBSOCKET_ERROR', {message: error}) 
             } else {
                 event.sender.send('ADD_ORDERS', {orders});
                 event.sender.send('WEBSOCKET_SUCCESS', {message: 'Order added !'})
@@ -183,8 +186,10 @@ const initSocket = (event) => {
     };
     console.log('Initialized Socket', socketState);
 
-    if (event) event.sender.send('WEBSOCKET_PENDING', {message: 'Starting Websocket...'})
-
+    if (event) {
+        event.sender.send('WEBSOCKET_PENDING', {message: 'Starting Websocket...'})
+        //event.sender.send('RESET_DATA');
+    }
 
     //Listeners
     ipcMain.on('BUY_LIMIT', handleNewOrder)

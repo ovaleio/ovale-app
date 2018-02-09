@@ -10,13 +10,16 @@ const messageBarReducer = handleActions({
    return { ...state, message: message, showSnackbar: true, messageType: 'success', style: {color: '#14ae35'}}
  },
  [actions.openSnackbarError](state, { payload: { message } }) {
-   return { ...state, message: message, showSnackbar: true, messageType: 'error', style: {color: '#ce3a00'}}
+   return { ...state, message: message, showSnackbar: true, messageType: 'error', delay: 4800, style: {color: '#ce3a00'}}
+ },
+ [actions.openSnackbarRedirect](state, { payload: { message, redirectTo } }) {
+ 	console.log(message, redirectTo)
+   return { ...state, message: message, showSnackbar: true, redirectTo: redirectTo, delay: 3000}
  },
  [actions.webSocketError](state, { payload: { message } }) {
-   return { ...state, message: message, showSnackbar: true, messageType: 'error', style: {color: '#ce3a00'}}
+   return { ...state, message: message, showSnackbar: true, messageType: 'error', delay: 4800, style: {color: '#ce3a00'}}
  },
  [actions.webSocketSuccess](state, { payload: { message } }) {
- 	console.log(message);
    return { ...state, message: message, showSnackbar: true, messageType: 'success', style: {color: '#14ae35'}}
  },
  [actions.webSocketPending](state, { payload: { message } }) {

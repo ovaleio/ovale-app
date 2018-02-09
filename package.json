@@ -1,8 +1,8 @@
 {
-  "name": "CryptoTrader",
-  "author": "John Thillaye <johnthillaye@gmail.com>",
-  "description": "A unified trading station for cryptocurrency exchanges",
-  "productName": "CryptoTrader",
+  "name": "OVALE",
+  "author": "John Thillaye <john@jaytee.club>",
+  "description": "Local multi-exchange trading client. Supports Bitfinex, Bittrex, Poloniex.",
+  "productName": "OVALE",
   "version": "1.0.0",
   "main": "main/index.js",
   "license": "MIT",
@@ -12,19 +12,26 @@
     "build": "next build renderer && next export renderer",
     "dist": "npm run build && build --dir"
   },
+  "bundle": {
+    "name": "OVALE"
+  },
   "build": {
-    "appId": "cryptotrader",
+    "appId": "com.ovale.app",
     "mac": {
-      "category": "myapp.category"
+      "category": "myapp.category",
+      "icon": "main/assets/icons/mac/icon.icns"
     },
     "files": [
       "**/*",
       "!renderer",
       "renderer/out"
     ],
+    "extraFiles": [
+      "renderer/out/static"
+    ],
     "win": {
-      "target": "squirrel",
-      "icon": "build/icon.ico"
+      "target": "NSIS",
+      "icon": "main/assets/icons/win/icon.ico"
     }
   },
   "devDependencies": {
