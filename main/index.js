@@ -10,9 +10,12 @@ const prepareNext = require('electron-next')
 const { resolve } = require('app-root-path')
 require('electron-debug')({showDevTools: true});
 
-
 const settings = require('electron-settings');
-const initSocket = require('./websocket-server');
+const credentials = settings.get('credentials');
+const handleSockets = require('./websocket-server');
+
+//execute once
+const handleRest = require('./rest_handlers.js')(credentials);
 
 var template = [{
     label: "Application",
@@ -38,10 +41,10 @@ const createWindow = () => {
     const supportedExchanges = ['bitfinex', 'bittrex', 'poloniex'];
     const credentials = supportedExchanges.reduce((o, exchange) => {o[exchange] = {"apikey": "", "apisecret": ""}; return o; }, {})
     settings.setAll({init: Date.now(), supportedExchanges: supportedExchanges, credentials: credentials});
-    ipcMain.on('OPENED_MAIN_WINDOW', (event) => {
-      console.log('ok')
-      event.sender.send('OPEN_SNACKBAR_REDIRECT', {message: 'Welcome ! Please add credentials', redirectTo: '/settings'})
-    })
+    // ipcMain.on('OPENED_MAIN_WINDOW', (event) => {
+    //   console.log('ok')
+    //   event.sender.send('OPEN_SNACKBAR_REDIRECT', {message: 'Welcome ! Please add credentials', redirectTo: '/settings'})
+    // })
   }
 
   const iconPath = path.join(__dirname, 'assets/icons/mac/icon.icns')
@@ -61,7 +64,7 @@ const createWindow = () => {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
 
-    initSocket();    
+    global.websockets = handleSockets.init(credentials);    
   })
 
   //for muiTheme

@@ -40,12 +40,12 @@ class EditCredentials extends React.Component {
 				<div className="row">
 					<form className="col-xs-offset-1 col-xs-10 col-lg-8" style={styles.form}>
 						<div className="row" style={{marginBottom: "20px"}}>
-			    			<label className="col-xs-2">API KEY</label>
-			    			<input type="text" size="64" name="apikey" className="col-xs-9 col-xs-offset-1" style={styles.input} onChange={(e) => dispatch(handleChangeSettings({target: e.target, exchange: exchange}))} value={credentials.apikey} />
+			    			<label className="col-xs-3">API KEY</label>
+			    			<input type="text" size="64" name="apikey" className="col-xs-8 col-xs-offset-1" style={styles.input} onChange={(e) => dispatch(handleChangeSettings({target: e.target, exchange: exchange}))} value={credentials.apikey} />
 			    		</div>
 						<div className="row" style={{marginBottom: "20px"}}>
-			    			<label className="col-xs-2">API SECRET</label>
-			    			<input type="text" size="64" name="apisecret" className="col-xs-9 col-xs-offset-1" style={styles.input} onChange={(e) => dispatch(handleChangeSettings({target: e.target, exchange: exchange}))} value={credentials.apisecret} />
+			    			<label className="col-xs-3">API SECRET</label>
+			    			<input type="password" size="64" name="apisecret" className="col-xs-8 col-xs-offset-1" style={styles.input} onChange={(e) => dispatch(handleChangeSettings({target: e.target, exchange: exchange}))} value={credentials.apisecret} />
 			    		</div>
 			    		<div className="row">
 			    			<button onClick={(e) => {

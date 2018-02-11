@@ -53,7 +53,7 @@ class Trades extends react.Component {
             </tr>
           </thead>
           <tbody>
-            {rows.length ? rows : (<tr><td colspan="7" style={{textAlign: 'center'}}>No trade to show</td></tr>)}
+            {rows.length ? rows : (<tr><td colSpan="7" style={{textAlign: 'center'}}>No trade to show</td></tr>)}
           </tbody>
         </table>
       </div>
