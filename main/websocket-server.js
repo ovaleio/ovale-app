@@ -110,9 +110,10 @@ const sendTickers = (event) => {
 }
 
 const initSockets = (credentials, channels) => {
-    const Clients = new clients({credentials});
+    credentials = credentials || global.credentials;
     channels = channels || ['TICKERS'];
 
+    const Clients = new clients({credentials});
     socketState = {
         status: Clients.exchanges.reduce((o, exchange) => {o[exchange] = false; return o; }, {}),
         channels: channels.reduce((o, channelName) => {o[channelName] = {data: {}, lastSent: 0}; return o;}, {})
@@ -126,13 +127,12 @@ const initSockets = (credentials, channels) => {
 }
 
 const closeSockets = (exchangeSockets) => {
+    exchangeSockets = exchangeSockets || global.websockets;
     const closeMethods = {
         'bitfinex': (ws) => ws.close(),
         'poloniex': (lib) => lib.closeWebSocket(),
         'bittrex': (lib) => null
     }
-
-    console.log(exchangeSockets);
 
     if (exchangeSockets) {
         exchangeSockets.map((s) => closeMethods[s.exchange](s.ws))
@@ -142,12 +142,9 @@ const closeSockets = (exchangeSockets) => {
     ipcMain.removeAllListeners('REQUEST_TICKERS')
 }
 
-const restartSockets = (credentials, exchangeSockets) => {
-    if (exchangeSockets) {
-        closeSockets(exchangeSockets)
-    }
-
-    return initSockets(credentials);
+const restartSockets = () => {
+    closeSockets();
+    return initSockets();
 }
 
 module.exports = {

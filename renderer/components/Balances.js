@@ -7,6 +7,7 @@ import styles from '../styles/Balances'
 import IconButton from 'material-ui/IconButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 import * as ExchangesIcons from './ExchangesIcons'
+import ReactInterval from 'react-interval'
 
 class Balances extends react.Component {
   componentDidMount() {
@@ -14,7 +15,7 @@ class Balances extends react.Component {
   }
 
   render () {
-    var {balances, total, baseCurrency, dispatch} = this.props;
+    var {balances, delay, total, baseCurrency, dispatch} = this.props;
 
     const rows = balances.map((balance, i) => {
       return (
@@ -59,6 +60,8 @@ class Balances extends react.Component {
             {rows.length ? rows : (<tr><td colSpan="7" style={{textAlign: 'center'}}>No balance to show</td></tr>)}
           </tbody>
         </table>
+        <ReactInterval timeout={delay} enabled={true}
+          callback={() => ipcRenderer.send('REQUEST_DATA', 'BALANCES')} />
       </div>
     );
   }

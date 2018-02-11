@@ -7,6 +7,7 @@ import Moment from 'react-moment'
 import styles from '../styles/Orders'
 import IconButton from 'material-ui/IconButton';
 import * as ExchangesIcons from './ExchangesIcons'
+import ReactInterval from 'react-interval'
 
 class Trades extends react.Component {
   componentDidMount() {
@@ -14,7 +15,7 @@ class Trades extends react.Component {
   }
 
   render () {
-    const { trades, dispatch} = this.props
+    const { trades, delay, dispatch} = this.props
 
     const rows = trades.map((trade, i) => {
       return (
@@ -56,6 +57,8 @@ class Trades extends react.Component {
             {rows.length ? rows : (<tr><td colSpan="7" style={{textAlign: 'center'}}>No trade to show</td></tr>)}
           </tbody>
         </table>
+        <ReactInterval timeout={delay} enabled={true}
+          callback={() => ipcRenderer.send('REQUEST_DATA', 'TRADES')} />
       </div>
     );
   }

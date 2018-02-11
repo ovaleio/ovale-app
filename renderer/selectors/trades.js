@@ -22,6 +22,7 @@ export const tradesSortedSelector = createSelector(
 
 export const mapStateToProps = (state) => {
   return {
-    trades: tradesSortedSelector(state)
+    trades: tradesSortedSelector(state),
+    delay: state.settingsReducer.restDelay.trades
   }
 }

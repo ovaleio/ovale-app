@@ -7,6 +7,7 @@ import Moment from 'react-moment'
 import styles from '../styles/Orders'
 import IconButton from 'material-ui/IconButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
+import ReactInterval from 'react-interval'
 import * as ExchangesIcons from './ExchangesIcons'
 
 class Orders extends react.Component {
@@ -15,7 +16,7 @@ class Orders extends react.Component {
   }
 
   render () {
-    const { orders, dispatch} = this.props
+    const { orders, dispatch, delay} = this.props
 
     const rows = orders.map((order, i) => {
       return (
@@ -66,6 +67,8 @@ class Orders extends react.Component {
             {rows.length ? rows : (<tr><td colSpan="9" style={{textAlign: 'center'}}>No order to show</td></tr>)}
           </tbody>
         </table>
+        <ReactInterval timeout={delay} enabled={true}
+          callback={() => ipcRenderer.send('REQUEST_DATA', 'ORDERS')} />
       </div>
     );
   }
