@@ -16,10 +16,10 @@
     "name": "OVALE"
   },
   "build": {
-    "appId": "com.ovale.app",
+    "appId": "org.jaytee.ovale",
     "mac": {
       "target": "dmg",
-      "category": "myapp.category",
+      "category": "public.app-category.finance",
       "icon": "main/assets/icons/mac/icon.icns"
     },
     "files": [
@@ -27,12 +27,16 @@
       "!renderer",
       "renderer/out"
     ],
-    "extraFiles": [
-      "renderer/out/static"
+    "asarUnpack": [
+      "**/renderer/out/static/**/*"
     ],
     "win": {
       "target": "NSIS",
       "icon": "main/assets/icons/win/icon.ico"
+    },
+    "linux": {
+      "category": "Finance",
+      "target": ["AppImage", "deb"]
     }
   },
   "devDependencies": {
