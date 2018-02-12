@@ -10,17 +10,9 @@ const prepareNext = require('electron-next')
 const { resolve } = require('app-root-path')
 require('electron-debug')({showDevTools: true});
 const electronSettings = require('electron-settings');
-
-const { settings } = require('../renderer/reducers/initialState.js');
-global.credentials = settings.credentials;
-
-
-//execute once
+const defaultSettings = require('./defaultSettings.js');
 const handleRest = require('./rest_handlers.js');
 const handleSockets = require('./websocket-server');
-
-global.websockets = handleSockets.init();
-global.rest = handleRest();
 
 var template = [{
     label: "Application",
@@ -43,8 +35,13 @@ var template = [{
 
 const createWindow = () => {
   if (!electronSettings.has('init')) {
-    electronSettings.setAll({init: Date.now()});
+    electronSettings.setAll(Object.assign({init: Date.now()}, defaultSettings));
   }
+
+  //Start ipc handlers
+  global.credentials = electronSettings.get('credentials') || defaultSettings.credentials;
+  global.websockets = handleSockets.init();
+  global.rest = handleRest();
 
   const iconPath = path.join(__dirname, 'assets/icons/mac/icon.icns')
   console.log(iconPath);

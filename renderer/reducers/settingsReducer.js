@@ -10,10 +10,7 @@ const settingsReducer = handleActions({
     return state;
   },
   [actions.receiveSettings](state, {payload: settings}) {
-    return {
-      ...state,
-      ...settings
-    }
+    return settings;
   },
   [actions.handleChangeSettings](state, {payload: {target, exchange}}) {
   	return {

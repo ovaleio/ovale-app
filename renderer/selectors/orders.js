@@ -47,6 +47,6 @@ export const mapStateToProps = (state) => {
     baseCurrency: baseCurrencySelector(state),
     orders: ordersSortedSelector(state),
     total: totalSelector(state),
-    delay: state.settingsReducer.restDelay.orders
+    delay: state.settingsReducer.restDelay.orders || 0
   }
 }
