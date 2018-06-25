@@ -9,6 +9,7 @@
   "repository": "johnthillaye/cryptotrader-app",
   "scripts": {
     "start": "electron .",
+    "reset": "electron . --reset",
     "build": "next build renderer && next export renderer",
     "dist": "npm run build && build --dir"
   },

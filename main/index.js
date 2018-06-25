@@ -34,7 +34,7 @@ var template = [{
 ];
 
 const createWindow = () => {
-  if (!electronSettings.has('init')) {
+  if (!electronSettings.has('init') || process.argv[2] === '--reset') {
     electronSettings.setAll(Object.assign({init: Date.now()}, defaultSettings));
   }
 

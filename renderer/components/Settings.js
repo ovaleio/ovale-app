@@ -60,6 +60,7 @@ class Settings extends React.Component {
   	let listExchanges;
 
 	if (exchanges) {
+	  console.log(exchanges);
 	  listExchanges = exchanges.map((e, i) => (
 		<div className="row" style={styles.categoryItem} key={i}>
 			<div className="col-xs-2">
