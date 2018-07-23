@@ -11,7 +11,8 @@
     "start": "electron .",
     "reset": "electron . --reset",
     "build": "next build renderer && next export renderer",
-    "dist": "npm run build && build --dir"
+    "dist": "npm run build && build --dir",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "bundle": {
     "name": "OVALE"
@@ -37,7 +38,10 @@
     },
     "linux": {
       "category": "Finance",
-      "target": ["AppImage", "deb"]
+      "target": [
+        "AppImage",
+        "deb"
+      ]
     }
   },
   "devDependencies": {
@@ -52,6 +56,9 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "@storybook/addon-info": "^3.4.8",
+    "@storybook/addon-knobs": "^3.4.8",
+    "@storybook/react": "^3.4.8",
     "async": "^2.6.0",
     "cryptoclients": "^1.0.26",
     "css-loader": "^0.28.9",
