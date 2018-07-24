@@ -49,6 +49,8 @@
     "electron": "1.7.5",
     "electron-builder": "19.22.1",
     "electron-packager": "^10.1.0",
+    "eslint": "^5.2.0",
+    "eslint-plugin-react": "^7.10.0",
     "next": "^4.0",
     "react": "^16.0",
     "react-dom": "^16.0",
