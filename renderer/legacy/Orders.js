@@ -1,6 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom';
-import {format, clients} from 'cryptoclients'
 import Moment from 'react-moment'
 // import { red, teal } from 'material-ui/styles/colors';
 

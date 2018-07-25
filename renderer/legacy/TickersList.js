@@ -1,5 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom'
 
 const styles = {
 	main: {
@@ -38,7 +37,7 @@ class TickersList extends react.Component {
   render () {
   	var rows = [];
   	if (this.props.tickers) {
-  		for (const [symbol, price] of Object.entries(this.props.tickers)) { 
+  		for (const [symbol, price] of Object.entries(this.props.tickers)) {
   			var jsx = (
   				<div className="row" style={styles.categoryItem} onClick={() => this.handleClick(symbol)} key={symbol}>
 	  				<div className="col-xs-8" style={styles.symbol}>{symbol}</div>
@@ -52,7 +51,7 @@ class TickersList extends react.Component {
   	}
 
   	var  message = (this.props.searchQuery.length && !rows.length) ? 'No ticker found for ' + this.props.searchQuery : ''
-  	
+
   	return (
   		<div style={styles.main}>
   			<div style={styles.categoryHeader}>Tickers</div>

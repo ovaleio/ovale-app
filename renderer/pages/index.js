@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron'
 import {
   Route,
   Switch,
-  Redirect
 } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux';

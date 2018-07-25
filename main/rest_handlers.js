@@ -3,7 +3,7 @@ const settings = require('electron-settings')
 const {ipcMain} = require('electron')
 const handleSockets = require('./websocket-server');
 
-//Catch orders & balances via rest api 
+//Catch orders & balances via rest api
 const sendRestData = (event, channelName, clients) => {
     event.sender.send('WEBSOCKET_PENDING', {message: 'Loading ' + channelName})
     console.log(channelName, ' rest data called');
@@ -45,9 +45,9 @@ const handleNewOrder = (event, {orders}, clients) => {
 
     clients.passOrders(orders, (err,res) => {
         if (err) {
-            const error = err && typeof err === 'Error' ? err.toString() : (err.message || 'Erreur')
+            const error = err.toString()
             console.log('c', error)
-            event.sender.send('WEBSOCKET_ERROR', {message: error}) 
+            event.sender.send('WEBSOCKET_ERROR', {message: error})
         } else {
             event.sender.send('ADD_ORDERS', {orders});
             event.sender.send('WEBSOCKET_SUCCESS', {message: 'Order added !'})
@@ -83,7 +83,7 @@ const handleRest = () => {
 	const Clients = new clients({credentials: global.credentials});
 
 	//Remount listeners
-	Object.keys(handlers).map((h) => {
+	Object.keys(handlers).forEach((h) => {
 		ipcMain.removeAllListeners(h)
 		ipcMain.on(h, (event, data) => {
 			handlers[h](event, data, Clients);

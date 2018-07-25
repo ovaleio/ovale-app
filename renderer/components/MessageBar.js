@@ -10,7 +10,7 @@ import { closeSnackbar } from '../actions/actions'
 class MessageBar extends React.Component {
 	render () {
 
-    	const { showSnackbar, message, messageType, style, redirectTo, delay, dispatch} = this.props;
+    	const { showSnackbar, message, style, redirectTo, delay, dispatch} = this.props;
 
 		return (
 			<div>

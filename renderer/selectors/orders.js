@@ -23,7 +23,7 @@ export const cleanOrdersSelector = createSelector(
   tickersSelector,
   baseCurrencySelector,
   (items, tickers, baseCurrency) => items.map((o) => {
-    const price = getPrice(o, tickers, baseCurrency)
+    const price = getPrice(o, tickers)
     return {...o, price: price, totalValue: price * o.amount, deltaPercent: 1 - (price / o.rate)}
   })
 )

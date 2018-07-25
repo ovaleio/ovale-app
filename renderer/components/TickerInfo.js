@@ -1,12 +1,11 @@
 import react from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import styles from '../styles/TickerInfo'
 
 class TickerInfo extends react.Component {
 
   render () {
-  	const {dispatch, price, variation, currentTickerSymbol} = this.props;
+  	const { price, currentTickerSymbol } = this.props;
 
   	return (
   		<div style={styles.main} >
@@ -21,7 +20,7 @@ class TickerInfo extends react.Component {
   }
 }
 
-const mapStateToProps = (state) => { 
+const mapStateToProps = (state) => {
 	const currentTicker = state.tickersReducer.data.find((t) => t.symbol === state.tickerReducer.currentTickerSymbol)
 	return {
   		...state.tickerReducer,

@@ -1,5 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom'
 import Moment from 'react-moment'
 
 const styles = {

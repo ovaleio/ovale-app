@@ -1,9 +1,8 @@
 import react from 'react'
-import ReactDom from 'react-dom'
 import FontIcon from 'material-ui/FontIcon'
 
 const styles = {
-	main: { 
+	main: {
 		fontSize: "22px",
 		padding: "20px",
 	    maxHeight: "110px"
