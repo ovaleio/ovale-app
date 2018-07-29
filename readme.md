@@ -1,3 +1,5 @@
+[![DeepScan grade](https://deepscan.io/api/projects/2887/branches/21710/badge/grade.svg?token=a1fa0980263b30233c0ddf1e9c3ed778290db2ee)](https://deepscan.io/dashboard#view=project&pid=2887&bid=21710)
+
 # CryptoTrader
 
 CryptoTrader is a unified trading client for cryptocurrency exchanges.
@@ -24,6 +26,6 @@ Install dependencies
 Launch the electron app
 `npm start`
 
-## How to build 
+## How to build
 
 `npm run dist`

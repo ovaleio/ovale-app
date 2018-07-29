@@ -15,8 +15,8 @@ import styles from '../styles/Main'
 class App extends React.Component {
 
   render () {
-    const { currentTab, dispatch} = this.props;
-    
+    const { currentTab } = this.props;
+
     const OrdersOrTabs = currentTab === 'Orders' ? (<Orders />) : (<Trades />)
 
     return (

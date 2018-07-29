@@ -1,4 +1,4 @@
-import { handleActions, combineActions } from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import * as actions from '../actions/actions'
 import initialState from './initialState';
 
@@ -11,14 +11,14 @@ const newOrderReducer = handleActions({
     }
   },
   [actions.setAmount](state, { payload: { amount } }) {
-    return { 
-      ...state, 
-      amount: amount 
+    return {
+      ...state,
+      amount: amount
     }
   },
   [actions.setPrice](state, { payload: { price} }) {
-    return { 
-      ...state, 
+    return {
+      ...state,
       price: price
     }
   }

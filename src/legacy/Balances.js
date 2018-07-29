@@ -1,6 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom';
-import {format} from 'cryptoclients';
 
 const styles = {
   table: {

@@ -1,5 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom'
 
 const styles = {
   form: {
@@ -31,11 +30,11 @@ class SearchBox extends react.Component {
   render () {
     return (
       <form style={styles.form}>
-        <input 
+        <input
           id="searchBox"
           value={this.props.searchQuery}
           name="searchQuery"
-          autoComplete="off" 
+          autoComplete="off"
           type="text"
           placeholder="Search"
           onChange={this.handleChange.bind(this)}

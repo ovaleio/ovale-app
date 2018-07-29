@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { saveSettings, handleChangeSettings, openSnackbarSuccess } from '../redux/actions/actions'
+import { saveSettings, handleChangeSettings } from '../redux/actions/actions'
 import { mapStateToProps } from './selectors/editCredentials'
 
 const styles = {
@@ -49,7 +48,7 @@ class EditCredentials extends React.Component {
 			    		</div>
 			    		<div className="row">
 			    			<button onClick={(e) => {
-				    				e.preventDefault(); 
+				    				e.preventDefault();
 				    				dispatch(saveSettings());
 				    			}}
 				    			className="col-xs-offset-8 col-xs-4"

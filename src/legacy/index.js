@@ -1,5 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom';
 import Head from 'next/head'
 import io from 'socket.io-client';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -100,7 +99,7 @@ class Main extends react.Component {
         if (err) {
           console.log(err, res)
           this.showSnackbar(res.message || res.error || err);
-        } 
+        }
         else {
           this.showSnackbar(`Order successfully added`);
 
@@ -126,8 +125,8 @@ class Main extends react.Component {
   showOrdersTradesTab () {
     if (this.state.currentTab === 'Trades') {
       return (
-        <Trades 
-          trades={this.state.data.trades} 
+        <Trades
+          trades={this.state.data.trades}
           tickers={this.state.data.tickers}
           onClickTicker={this.onClickTicker}
           onSwitch={this.switchOrdersTradesTab.bind(this)}
@@ -137,8 +136,8 @@ class Main extends react.Component {
     }
     else {
       return (
-        <Orders 
-          orders={this.state.data.orders} 
+        <Orders
+          orders={this.state.data.orders}
           tickers={this.state.data.tickers}
           onClickTicker={this.onClickTicker}
           onCancelOrder={this.onCancelOrder.bind(this)}
@@ -201,7 +200,7 @@ class Main extends react.Component {
     if (this.refs.childComponents) {
 
       //Load all data via rest ONCE
-      Object.keys(getRestData).map((e,i) => {
+      Object.keys(getRestData).forEach((e,i) => {
         getRestData[e]((err, res) => {
           this.setState(({data}) => ({data: {
               ...data,
@@ -214,7 +213,7 @@ class Main extends react.Component {
 
       //Receive almost realtime updates from websocket
       var channels = ['tickers', 'orders', 'balances', 'trades', 'status'];
-      channels.map((e,i) => {
+      channels.forEach((e,i) => {
         socket.on(e, res => {
           this.setState(({data}) => ({data: {
               ...data,
@@ -222,7 +221,7 @@ class Main extends react.Component {
             }
           }));
           this.computeData();
-        }) 
+        })
       })
     }
   }
@@ -260,8 +259,8 @@ class Main extends react.Component {
 
   computeData (obj) {
     const {baseCurrency, sort} = this.state;
-    const {tickers, orders, balances, trades} = this.state.data;
-    
+    const { tickers, orders, balances } = this.state.data;
+
     var totalBalance = {'BTC': 0, 'USD': 0};
 
 
@@ -286,9 +285,9 @@ class Main extends react.Component {
 
       var totalValue = {
         BTC: balance.balance * price,
-        USD: balance.balance * price 
+        USD: balance.balance * price
       }
-      
+
       //add to total balance aggregeate
       totalBalance = {
         BTC: totalBalance.BTC + parseFloat(totalValue.BTC),
@@ -319,7 +318,7 @@ class Main extends react.Component {
       totalBalance: totalBalance
     }}));
   }
-   
+
 
   render() {
     return (
@@ -350,25 +349,25 @@ class Main extends react.Component {
             <div id="leftColumn" style={styles.leftColumn} className="col-xs-3 col-sm-2">
               {this.props.foo}
               <SearchBox searchQuery={this.state.searchQuery} onChange={this.handleInputChange} ref="childComponents"></SearchBox>
-              <TickersList 
+              <TickersList
                 tickers={this.state.data.tickers}
                 searchQuery={this.state.searchQuery}
                 currentTicker={this.state.currentTicker}
                 onClickTicker={this.onClickTicker}
-                ref="childComponents" 
+                ref="childComponents"
               ></TickersList>
               <SocketStatus status={this.state.data.status} ref="childComponents"></SocketStatus>
             </div>
             <div id="mainColumn" className="col-xs-9 col-sm-10">
-              <TickerContainer 
-                currentTicker={this.state.currentTicker} 
+              <TickerContainer
+                currentTicker={this.state.currentTicker}
                 tickers={this.state.data.tickers}
                 handleNewOrder={this.handleNewOrder.bind(this)}
                 className="row"
               ></TickerContainer>
               <div id="userData" style={styles.userDataContainer} className="row">
                 {this.showOrdersTradesTab()}
-                <Balances 
+                <Balances
                   balances={this.state.data.balances}
                   total={this.state.data.totalBalance}
                   baseCurrency={this.state.baseCurrency}
@@ -377,7 +376,7 @@ class Main extends react.Component {
                   ref="childComponents"
                 ></Balances>
               </div>
-            </div>          
+            </div>
               <Snackbar
                 open={this.state.openSnackbar}
                 message={this.state.requestMessage}

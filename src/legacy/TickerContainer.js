@@ -1,5 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom';
 import TickerChart from './TickerChart.js';
 import TickerInfo from './TickerInfo.js';
 import NewOrderForm from './NewOrderForm.js';
@@ -23,7 +22,7 @@ class TickerContainer extends react.Component {
 		super(props)
 	}
 
-	render () { 
+	render () {
 		const {currentTicker, tickers, handleNewOrder} = this.props;
 
 		return (

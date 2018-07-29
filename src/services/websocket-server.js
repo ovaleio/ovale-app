@@ -1,7 +1,5 @@
 const {clients, format} = require('cryptoclients'); //grab dev version if exists
 const {ipcMain} = require('electron')
-const request = require('request');
-const async = require('async');
 
 var socketState = {};
 
@@ -44,7 +42,7 @@ const connectWS = {
           console.log(`Poloniex Websocket An error has occured`, err);
         });
         lib.on('close', (reason, details) => {
-          updateStatus("poloniex", false, reason);
+          updateStatus("poloniex", false);
         });
 
         lib.openWebSocket({ version: 2 });
@@ -58,7 +56,7 @@ const connectWS = {
             lib.getmarketsummaries(function (res, err) {
                 if (err) console.log(err);
 
-                var symbols = res.result.map((e,i) => { 
+                var symbols = res.result.map((e,i) => {
                     //Allow us to load all bittrex tickers data at once
                     updateTickers('bittrex', e.MarketName, e.Last)
                     return e.MarketName

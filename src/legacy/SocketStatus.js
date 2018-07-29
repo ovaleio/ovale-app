@@ -1,5 +1,4 @@
 import react from 'react'
-import ReactDom from 'react-dom'
 
 const style = {
 	height: "5vh",

@@ -2,7 +2,6 @@ import react from 'react'
 import { connect } from 'react-redux'
 import styles from '../styles/TickerChart'
 const remote = require('electron').remote;
-const path = require('path');
 
 class TickerChart extends react.Component {
 	componentDidMount() {
@@ -18,7 +17,7 @@ class TickerChart extends react.Component {
 		if (symbol) {
 			var obj = symbol.split(':');
 			var exchange = obj[0].toUpperCase();
-			var pair = obj[1].replace(/^(\w+)-(\w+)$/, "$2$1").toUpperCase(); //check cryptowatch input should be all lowercase symbols	
+			var pair = obj[1].replace(/^(\w+)-(\w+)$/, "$2$1").toUpperCase(); //check cryptowatch input should be all lowercase symbols
 
 			const devPath = `http://localhost:8000/static/tv.html?symbol=${exchange}:${pair}`
 			// const prodPath = `file://${remote.app.getAppPath().replace('/Resources/app.asar', '')}/src/out/static/tv.html`
@@ -35,7 +34,7 @@ class TickerChart extends react.Component {
 		const b = url.replace(/tv\..+$/, 'tv.js');
 
 		return (
-			<webview 
+			<webview
 				src={url}
 				preload={b}
 				style={styles.iframe}

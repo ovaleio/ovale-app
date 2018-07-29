@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect'
 import { currentTickerSelector } from './tickers'
 import { currentTickerBalanceSelector } from './balances'
 
