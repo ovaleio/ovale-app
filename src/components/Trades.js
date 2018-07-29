@@ -1,8 +1,8 @@
 import react from 'react'
 import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
-import { mapStateToProps } from '../selectors/trades'
-import { switchTab, setCurrentTicker } from '../actions/actions'
+import { mapStateToProps } from './selectors/trades'
+import { switchTab, setCurrentTicker } from '../redux/actions/actions'
 import Moment from 'react-moment'
 import styles from '../styles/Orders'
 import IconButton from 'material-ui/IconButton';

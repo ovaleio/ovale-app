@@ -1,8 +1,8 @@
 import React from 'react';
 import { ipcRenderer } from 'electron';
 import { connect } from 'react-redux'
-import { initSocket } from '../actions/actions'
-import { mapStateToProps } from '../selectors/settings'
+import { initSocket } from '../redux/actions/actions'
+import { mapStateToProps } from './selectors/settings'
 import { Link, Route } from 'react-router-dom'
 
 import EditCredentials from '../components/EditCredentials'

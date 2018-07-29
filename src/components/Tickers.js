@@ -1,9 +1,9 @@
 import react from 'react'
 import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
-import { mapStateToProps } from '../selectors/tickers'
+import { mapStateToProps } from './selectors/tickers'
 import SearchTickerForm from './SearchTickerForm'
-import { setCurrentTicker, setSearchQueryTickers } from '../actions/actions'
+import { setCurrentTicker, setSearchQueryTickers } from '../redux/actions/actions'
 import { Link } from 'react-router-dom'
 import styles from '../styles/Tickers'
 import ActionSettings from 'material-ui/svg-icons/action/settings';

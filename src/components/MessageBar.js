@@ -3,8 +3,8 @@ import Snackbar from 'material-ui/Snackbar'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import { mapStateToProps } from '../selectors/messageBar'
-import { closeSnackbar } from '../actions/actions'
+import { mapStateToProps } from './selectors/messageBar'
+import { closeSnackbar } from '../redux/actions/actions'
 
 
 class MessageBar extends React.Component {

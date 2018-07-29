@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { saveSettings, handleChangeSettings } from '../actions/actions'
-import { mapStateToProps } from '../selectors/editCredentials'
+import { saveSettings, handleChangeSettings } from '../redux/actions/actions'
+import { mapStateToProps } from './selectors/editCredentials'
 
 const styles = {
 	form: {

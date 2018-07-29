@@ -1,7 +1,7 @@
 import react from 'react'
 import { connect } from 'react-redux'
-import { mapStateToProps } from '../selectors/newOrder'
-import {buy, sell, setAmount, setPrice} from '../actions/actions'
+import { mapStateToProps } from './selectors/newOrder'
+import {buy, sell, setAmount, setPrice} from '../redux/actions/actions'
 import styles from '../styles/NewOrderForm'
 
 class NewOrderForm extends react.Component {

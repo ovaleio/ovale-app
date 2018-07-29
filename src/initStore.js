@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
-import rootReducer from './reducers'
-import initialState from './reducers/initialState'
+import rootReducer from './redux/reducers'
+import initialState from './redux/reducers/initialState'
 import { emit } from './websocket.js'
 import { routerMiddleware } from 'react-router-redux'
 import history from './history';

@@ -10,7 +10,7 @@ class TickerChart extends react.Component {
 		//   webview.openDevTools()
 		// })
 
-		//webview.loadURL('file:///Users/johnthillaye/Code/cryptotrader/cryptotrader-app/dist/mac/OVALE.app/Contents/renderer/out/static/tv.html')
+		//webview.loadURL('file:///Users/johnthillaye/Code/cryptotrader/cryptotrader-app/dist/mac/OVALE.app/Contents/src/out/static/tv.html')
 	}
 
 	getTickerUrl(symbol) {
@@ -20,7 +20,7 @@ class TickerChart extends react.Component {
 			var pair = obj[1].replace(/^(\w+)-(\w+)$/, "$2$1").toUpperCase(); //check cryptowatch input should be all lowercase symbols
 
 			const devPath = `http://localhost:8000/static/tv.html?symbol=${exchange}:${pair}`
-			// const prodPath = `file://${remote.app.getAppPath().replace('/Resources/app.asar', '')}/renderer/out/static/tv.html`
+			// const prodPath = `file://${remote.app.getAppPath().replace('/Resources/app.asar', '')}/src/out/static/tv.html`
 
 			const prodPath = `http://ovale.io/tv.html?symbol=${exchange}:${pair}`
 

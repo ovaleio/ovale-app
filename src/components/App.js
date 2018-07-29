@@ -9,7 +9,7 @@ import Balances from '../components/Balances'
 import Orders from '../components/Orders'
 import Trades from '../components/Trades'
 
-import { mapStateToProps } from '../selectors/common'
+import { mapStateToProps } from './selectors/common'
 import styles from '../styles/Main'
 
 class App extends React.Component {

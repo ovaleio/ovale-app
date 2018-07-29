@@ -52,10 +52,13 @@
     "eslint": "^5.2.0",
     "eslint-plugin-react": "^7.10.0",
     "next": "^4.0",
+    "node-sass": "^4.9.2",
     "react": "^16.0",
     "react-dom": "^16.0",
     "react-hot-loader": "^4.0.0-beta.18",
-    "webpack": "^3.10.0"
+    "sass-loader": "^7.0.3",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
     "@storybook/addon-info": "^3.4.8",

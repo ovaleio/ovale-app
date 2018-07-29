@@ -1,8 +1,8 @@
 import react from 'react'
 import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
-import { mapStateToProps } from '../selectors/balances'
-import { setCurrentTicker, requestBalances, setSortBalances} from '../actions/actions'
+import { mapStateToProps } from './selectors/balances'
+import { setCurrentTicker, requestBalances, setSortBalances} from '../redux/actions/actions'
 import styles from '../styles/Balances'
 import IconButton from 'material-ui/IconButton';
 import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';

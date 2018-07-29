@@ -11,8 +11,8 @@ const { resolve } = require('app-root-path')
 require('electron-debug')({showDevTools: true});
 const electronSettings = require('electron-settings');
 const defaultSettings = require('./defaultSettings.js');
-const handleRest = require('./rest_handlers.js');
-const handleSockets = require('./websocket-server');
+const handleRest = require('../src/services/rest_handlers.js');
+const handleSockets = require('../src/services/websocket-server');
 
 var template = [{
     label: "Application",
@@ -70,7 +70,7 @@ const createWindow = () => {
 
   const devPath = 'http://localhost:8000/'
   const prodPath = format({
-    pathname: resolve('renderer/out/index.html'),
+    pathname: resolve('src/out/index.html'),
     protocol: 'file:',
     slashes: true
   })
@@ -81,10 +81,10 @@ const createWindow = () => {
 
 } 
 
-// Prepare the renderer once the app is ready
+// Prepare the src once the app is ready
 app.on('ready', async () => {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-  await prepareNext('./renderer')
+  await prepareNext('./src')
   createWindow()
 })
 
