@@ -6,6 +6,8 @@ renderer/.next
 renderer/out
 release-builds
 
+src/out
+
 # dependencies
 node_modules
 
