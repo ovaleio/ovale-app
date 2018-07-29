@@ -6,6 +6,7 @@ renderer/.next
 renderer/out
 release-builds
 
+src/.next
 src/out
 
 # dependencies
