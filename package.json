@@ -11,7 +11,7 @@
     "start": "electron .",
     "reset": "electron . --reset",
     "build": "next build renderer && next export renderer",
-    "dist": "npm run build && build --dir",
+    "dist": "npm run build && electron-builder -mlw -p never",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "bundle": {
@@ -33,7 +33,15 @@
       "**/renderer/out/static/**/*"
     ],
     "win": {
-      "target": "NSIS",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
       "icon": "main/assets/icons/win/icon.ico"
     },
     "linux": {
@@ -47,7 +55,7 @@
   "devDependencies": {
     "babel-plugin-inline-import": "^2.0.6",
     "electron": "1.7.5",
-    "electron-builder": "19.22.1",
+    "electron-builder": "20.28.4",
     "electron-packager": "^10.1.0",
     "next": "^4.0",
     "react": "^16.0",
@@ -56,11 +64,8 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
-    "@storybook/addon-info": "^3.4.8",
-    "@storybook/addon-knobs": "^3.4.8",
-    "@storybook/react": "^3.4.8",
     "async": "^2.6.0",
-    "cryptoclients": "^1.0.26",
+    "cryptoclients": "^1.0.28",
     "css-loader": "^0.28.9",
     "electron-context-menu": "^0.9.1",
     "electron-debug": "^1.5.0",
