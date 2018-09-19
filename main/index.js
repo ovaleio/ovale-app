@@ -1,65 +1,53 @@
-// Native
-const { format } = require('url')
-const path = require('path')
-const {ipcMain} = require('electron')
+/* eslint-disable */
+const {
+  BrowserWindow,
+  app,
+  session,
+  Menu
+}                       = require('electron');
+const FormatUrl         = require('url');
+const Path              = require('path');
 
-// Packages
-const { BrowserWindow, app, session, Menu } = require('electron')
-const isDev = require('electron-is-dev')
-const prepareNext = require('electron-next')
-const { resolve } = require('app-root-path')
-require('electron-debug')({showDevTools: true});
-const electronSettings = require('electron-settings');
-const defaultSettings = require('./defaultSettings.js');
-const handleRest = require('./rest_handlers.js');
-const handleSockets = require('./websocket-server');
+const isDev             = require('electron-is-dev');
+const log               = require('electron-log');
 
-var template = [{
-    label: "Application",
-    submenu: [
-        { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
-        { type: "separator" },
-        { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
-    ]}, {
-    label: "Edit",
-    submenu: [
-        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-        { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-        { type: "separator" },
-        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-        { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-    ]}
-];
+const prepareNext       = require('electron-next');
+const { resolve }       = require('app-root-path');
+const ElectronSettings  = require('electron-settings');
+
+// Loading Business Application
+const DefaultSettings   = require('./library/defaultSettings.js');
+const MenuTemplate      = require('./library/Menu.js');
+const HandleRest        = require('./rest_handlers.js');
+const HandleSockets     = require('./websocket-server.js');
+
+
+
+log.info('App  starting...');
+let mainWindow;
 
 const createWindow = () => {
-  if (!electronSettings.has('init') || process.argv[2] === '--reset') {
-    electronSettings.setAll(Object.assign({init: Date.now()}, defaultSettings));
-  }
 
-  //Start ipc handlers
-  global.credentials = electronSettings.get('credentials') || defaultSettings.credentials;
-  global.websockets = handleSockets.init();
-  global.rest = handleRest();
+  initElectronSettings();
 
-  const iconPath = path.join(__dirname, 'assets/icons/mac/icon.icns')
-  console.log(iconPath);
+  startIPCHandler();
 
-  const mainWindow = new BrowserWindow({
+  const iconPath = Path.join(__dirname, 'assets/icons/mac/icon.icns');
+
+   mainWindow = new BrowserWindow({
     backgroundColor: '#123932',
     show: false,
     width: 1200,
     height: 654,
     icon: iconPath,
     webPreferences: {
-      webSecurity: false
+      webSecurity: false // @todo : WHY ?
     }
-  })
+  });
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()  
-  })
+  if(isDev){
+    mainWindow.webContents.openDevTools();
+  }
 
   //for muiTheme
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
@@ -68,25 +56,60 @@ const createWindow = () => {
   });
 
 
-  const devPath = 'http://localhost:8000/'
-  const prodPath = format({
+  let devPath = 'http://localhost:8000/';
+  let prodPath = FormatUrl.Url({
     pathname: resolve('renderer/out/index.html'),
     protocol: 'file:',
     slashes: true
+  });
+
+  let loadedUrl = isDev ? devPath : prodPath;
+  mainWindow.loadURL(loadedUrl);
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
+
+  mainWindow.on('closed', () => {
+    mainWindow = null
   })
 
-  const url = isDev ? devPath : prodPath
-  mainWindow.loadURL(url)
-  //if (isDev) mainWindow.addDevToolsExtension('/Users/johnthillaye/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi')
+};
 
-} 
 
 // Prepare the renderer once the app is ready
-app.on('ready', async () => {
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-  await prepareNext('./renderer')
-  createWindow()
-})
+app.on('ready',  async () => {
+  Menu.setApplicationMenu(Menu.buildFromTemplate(MenuTemplate));
+  await prepareNext('./renderer');
+  createWindow();
+});
 
 // Quit the app once all windows are closed
-app.on('window-all-closed', app.quit)
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+});
+
+
+
+// Check if we have a reset argument to choose DefaultSettings
+function initElectronSettings () {
+  if (!ElectronSettings.has('init') || process.argv[2] === '--reset') {
+    log.info('Reset specified: Setting ElectronSettings to DefaultSettings');
+    ElectronSettings.setAll(Object.assign({init: Date.now()}, DefaultSettings));
+    return true;
+  }
+  return false;
+}
+
+
+// Start ipc handlers
+// Sets global variables in main process to be usable on renderer process.
+// @see http://electron.rocks/tag/global/
+function startIPCHandler() {
+  log.info('IPCHandler : Starting');
+  global.credentials = ElectronSettings.get('credentials') || DefaultSettings.credentials;
+  global.websockets = HandleSockets.init();
+  global.rest = HandleRest();
+}
