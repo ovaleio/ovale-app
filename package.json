@@ -3,15 +3,19 @@
   "author": "John Thillaye <john@jaytee.club>",
   "description": "Local multi-exchange trading client. Supports Bitfinex, Bittrex, Poloniex.",
   "productName": "OVALE",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "main/index.js",
   "license": "MIT",
-  "repository": "johnthillaye/cryptotrader-app",
+  "repository": "ovaleio/ovale_releases",
   "scripts": {
     "start": "electron .",
     "reset": "electron . --reset",
     "build": "next build renderer && next export renderer",
     "dist": "npm run build && electron-builder -mlw -p never",
+    "osx": "npm run build && electron-builder -m -p never",
+    "win": "npm run build && electron-builder -w -p never",
+    "linux": "npm run build && electron-builder -l -p never",
+    "publish": "npm run build && electron-builder -mlw -p always",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "bundle": {
@@ -19,9 +23,11 @@
   },
   "build": {
     "appId": "org.jaytee.ovale",
+    "publish":"github",
     "mac": {
-      "target": "dmg",
+      "target": "default",
       "category": "public.app-category.finance",
+      "identity":"AE0906801304BF59C5D37F9124841129C08C6343",
       "icon": "main/assets/icons/mac/icon.icns"
     },
     "files": [
@@ -48,13 +54,14 @@
       "category": "Finance",
       "target": [
         "AppImage",
-        "deb"
+        "deb",
+        "tar.gz"
       ]
     }
   },
   "devDependencies": {
     "babel-plugin-inline-import": "^2.0.6",
-    "electron": "1.7.5",
+    "electron": "2.0.10",
     "electron-builder": "20.28.4",
     "electron-packager": "^10.1.0",
     "next": "^4.0",
