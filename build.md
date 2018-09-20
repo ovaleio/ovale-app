@@ -19,6 +19,16 @@ Afin de signer correctement l'application, il faut installer Xcode et récupére
 clés privées des certificats Developer ID : Installer & Developer ID : Application
 
 
+
+### Ajouter la configuration de la signature pour OSX
+
+```
+export DEBUG=electron-builder
+export CSC_LINK=~/Downloads/certificat.p12
+export CSC_KEY_PASSWORD=password
+```
+
+
 ### Bundle sans mise en production
 
 ```
