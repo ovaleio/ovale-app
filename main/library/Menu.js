@@ -1,4 +1,4 @@
-
+const { app }  = require('electron');
 
 const MenuTemplate = [{
   label: "Application",

@@ -1,12 +1,11 @@
-/* eslint-disable */
+const { format }        = require('url');
+const path              = require('path');
 const {
   BrowserWindow,
   app,
   session,
   Menu
 }                       = require('electron');
-const FormatUrl         = require('url');
-const Path              = require('path');
 
 const isDev             = require('electron-is-dev');
 const log               = require('electron-log');
@@ -17,14 +16,28 @@ const ElectronSettings  = require('electron-settings');
 
 // Loading Business Application
 const DefaultSettings   = require('./library/defaultSettings.js');
-const MenuTemplate      = require('./library/Menu.js');
 const HandleRest        = require('./rest_handlers.js');
 const HandleSockets     = require('./websocket-server.js');
 
 
-
-log.info('App  starting...');
-let mainWindow;
+const MenuTemplate = [{
+  label: "Application",
+  submenu: [
+    { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+    { type: "separator" },
+    { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+  ]}, {
+  label: "Edit",
+  submenu: [
+    { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+    { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+    { type: "separator" },
+    { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+    { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+    { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+    { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+  ]}
+];
 
 const createWindow = () => {
 
@@ -32,9 +45,9 @@ const createWindow = () => {
 
   startIPCHandler();
 
-  const iconPath = Path.join(__dirname, 'assets/icons/mac/icon.icns');
+  const iconPath = path.join(__dirname, 'assets/icons/mac/icon.icns');
 
-   mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     backgroundColor: '#123932',
     show: false,
     width: 1200,
@@ -45,10 +58,6 @@ const createWindow = () => {
     }
   });
 
-  if(isDev){
-    mainWindow.webContents.openDevTools();
-  }
-
   //for muiTheme
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
     details.requestHeaders['User-Agent'] = 'all';
@@ -57,7 +66,7 @@ const createWindow = () => {
 
 
   let devPath = 'http://localhost:8000/';
-  let prodPath = FormatUrl.Url({
+  let prodPath = format({
     pathname: resolve('renderer/out/index.html'),
     protocol: 'file:',
     slashes: true
@@ -86,9 +95,7 @@ app.on('ready',  async () => {
 
 // Quit the app once all windows are closed
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+  app.quit()
 });
 
 

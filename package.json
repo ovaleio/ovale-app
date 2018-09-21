@@ -3,20 +3,22 @@
   "author": "John Thillaye <john@jaytee.club>",
   "description": "Local multi-exchange trading client. Supports Bitfinex, Bittrex, Poloniex.",
   "productName": "Ovale",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "main/index.js",
   "license": "MIT",
   "repository": "ovaleio/ovale_releases",
   "scripts": {
     "start": "electron . --inspect",
     "reset": "electron . --reset",
+    "test": "mocha",
     "build": "next build renderer && next export renderer",
+    "buidprod": "rimraf dist && next build renderer && next export renderer",
     "dist": "npm run build && electron-builder -mlw -p never",
-    "osx:nosign": "npm run build && electron-builder -m -p never -c.mac.identity=null.",
-    "osx": "npm run build && electron-builder -m -p never",
-    "win": "npm run build && electron-builder -w -p never",
-    "linux": "npm run build && electron-builder -l -p never",
-    "publish": "npm run build && electron-builder -mlw -p always",
+    "osx:nosign": "npm run buidprod && electron-builder -m -p never -c.mac.identity=null.",
+    "osx": "npm run buidprod && electron-builder -m -p never",
+    "win": "npm run buidprod && electron-builder -w -p never",
+    "linux": "npm run buidprod && electron-builder -l -p never",
+    "publish": "npm run buidprod && electron-builder -mlw -p always",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "bundle": {
@@ -28,7 +30,7 @@
     "mac": {
       "target": "default",
       "category": "public.app-category.finance",
-      "identity": "AE0906801304BF59C5D37F9124841129C08C6343",
+      "identity": "JAYTEE (ZP34UTX78F)",
       "icon": "main/assets/icons/mac/icon.icns"
     },
     "files": [
@@ -70,6 +72,7 @@
     "react": "^16.0",
     "react-dom": "^16.0",
     "react-hot-loader": "^4.0.0-beta.18",
+    "rimraf": "^2.6.2",
     "webpack": "^3.10.0"
   },
   "dependencies": {
@@ -80,6 +83,7 @@
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.17",
     "electron-next": "^3.1.3",
+    "electron-debug": "^2.0.0",
     "electron-settings": "^3.1.4",
     "electron-updater": "^3.1.2",
     "express": "^4.16.2",
