@@ -19,20 +19,35 @@ Afin de signer correctement l'application, il faut installer Xcode et récupére
 clés privées des certificats Developer ID : Installer & Developer ID : Application
 
 
+## Signature de l'app
+
+La signature de l'application permet de profiter des fonctionnalités d'updates.
 
 ### Ajouter la configuration de la signature pour OSX
 
+Les variables globales à définir permettent à electron de trouver les ressources en local pour pouvoir signer l'application
+
 ```
 export DEBUG=electron-builder
-export CSC_LINK=~/Downloads/certificat.p12
+export CSC_LINK=~/Downloads/certificatApplication.p12
 export CSC_KEY_PASSWORD=password
 ```
-
+### Tester la signature de l'app
+Pour tester la signature sous mac : 
+```
+ codesign -dv --verbose=4 dist/mac/Ovale.app/Contents/MacOS/Ovale
+ ```
+ 
+ 
+## Générer un bundle
 
 ### Bundle sans mise en production
 
 ```
 npm run dist
+npm run osx
+# no signature
+npm run osx:nosign
 
 ```
 
