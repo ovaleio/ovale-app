@@ -54,6 +54,7 @@ npm run osx:nosign
 ### Bundle avec mise en production
 
 Pour mettre en production, les bundle sont uploadés en releases sur github (la version disponible sur ``latest`` est vérifiée et mise à l'épreuve avec la dernière version).
+N'oubliez pas de : modifier la version dans package.json
 
 ```
 export DEBUG=electron-builder

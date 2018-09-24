@@ -43,6 +43,7 @@
       "**/renderer/out/static/**/*"
     ],
     "win": {
+      "publisherName": "Developer ID Application: JAYTEE (ZP34UTX78F)",
       "target": [
         {
           "target": "nsis",
@@ -80,6 +81,7 @@
   },
   "dependencies": {
     "@sentry/node": "4.0.3",
+    "about-window": "^1.12.1",
     "async": "^2.6.0",
     "cryptoclients": "^1.0.28",
     "css-loader": "^0.28.9",

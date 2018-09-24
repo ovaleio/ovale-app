@@ -1,9 +1,23 @@
 const { app }  = require('electron');
+const openAboutWindow = require('about-window').default;
+const join = require('path').join;
+
 
 const MenuTemplate = [{
   label: "Application",
   submenu: [
-    { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+    { label: "About Application", click: ()=> { openAboutWindow(
+            {
+                icon_path: join(__dirname, '../assets/icons/png/128x128.png'),
+                copyright: 'Copyright (c) 2018-2021 ',
+                homepage: 'https://ovale.io',
+                package_json_dir: __dirname,
+                open_devtools: process.env.NODE_ENV !== 'production',
+                use_version_info: false
+
+        })
+        }
+    },
     { type: "separator" },
     { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
   ]}, {
