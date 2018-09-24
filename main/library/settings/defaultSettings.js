@@ -1,6 +1,7 @@
 const supportedExchanges = ['bitfinex', 'bittrex', 'poloniex'];
 
 const settings = {
+    lastCheckUpdate:0,
 		firstOpening: true,
 		restDelay: {
 				orders: 15000,

@@ -8,11 +8,17 @@ const {
     ipcMain
 }                       = require('electron');
 
+const log = require('electron-log');
+
+log.info('App starting...');
+
+
+
 // Logging on each launch for unhandled errors.
 // Specify another logger to send each log with each error.
 // @see https://github.com/sindresorhus/electron-unhandled
-//const unhandled = require('electron-unhandled');
-//unhandled({logger:console.log, showDialog:true});
+const unhandled = require('electron-unhandled');
+unhandled({logger:log.info, showDialog:false});
 
 
 const isDev             = require('electron-is-dev');
@@ -30,6 +36,7 @@ const settingsProvider  = require('electron-settings');
 
 // Loading Business Application
 const Settings          = require('./library/settings/index.js');
+const updater          = require('./library/updater.js');
 const MenuTemplate      = require('./library/menu.js');
 const HandleRest        = require('./rest_handlers.js');
 const HandleSockets     = require('./websocket-server.js');
@@ -41,11 +48,6 @@ const createWindow = () => {
 
     settings.start();
 
-    // Electron Updater
-    // @see https://www.electron.build/auto-update
-    require('update-electron-app')({
-        updateInterval: '5 minutes'
-    });
 
     startIPCHandler();
 
@@ -79,6 +81,8 @@ const createWindow = () => {
 
     let loadedUrl = isDev ? devPath : prodPath;
     mainWindow.loadURL(loadedUrl);
+
+    updater.update();
 
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();

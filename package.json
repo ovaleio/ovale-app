@@ -16,6 +16,7 @@
     "dist": "npm run build && electron-builder -mlw -p never",
     "osx:nosign": "npm run buidprod && electron-builder -m -p never -c.mac.identity=null.",
     "osx": "npm run buidprod && electron-builder -m -p never",
+    "osx:publish": "npm run buidprod && electron-builder -m -p always",
     "win": "npm run buidprod && electron-builder -w -p never",
     "linux": "npm run buidprod && electron-builder -l -p never",
     "publish": "npm run buidprod && electron-builder -mlw -p always",
@@ -78,6 +79,7 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "@sentry/node": "4.0.3",
     "async": "^2.6.0",
     "cryptoclients": "^1.0.28",
     "css-loader": "^0.28.9",
@@ -89,7 +91,7 @@
     "electron-next": "^3.1.3",
     "electron-settings": "^3.1.4",
     "electron-unhandled": "^1.1.0",
-    "electron-updater": "^3.1.2",
+    "electron-updater": "3.0.3",
     "express": "^4.16.2",
     "history": "^4.7.2",
     "material-ui": "^0.20.0",
