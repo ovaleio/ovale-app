@@ -24,7 +24,7 @@ const updater = {
                 let notif = new Notification({
                     title:"New update available",
 
-                    body:"A new update (v" + info.version+") is available for Ovale.",
+                    body:"Downloading a new update (v" + info.version+") for Ovale.",
                 });
                 notif.show();
             }
@@ -66,12 +66,14 @@ const updater = {
         let now =  Date.now();
 
         if(lastUpdate === undefined || now - lastUpdate > this.timeBetweenUpdates ) {
-            autoUpdater.checkForUpdatesAndNotify();
+            autoUpdater.checkForUpdates();
+            let now = Date.now();
+            ElectronSettings.set('lastCheckUpdate', now);
         }
 
         //just in case, adds a set timeout on the update method to check every day
         setTimeout(()=>{
-            autoUpdater.checkForUpdatesAndNotify();
+            autoUpdater.checkForUpdates();
         }, this.timeBetweenUpdates);
 
     }
