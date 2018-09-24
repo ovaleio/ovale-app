@@ -1,4 +1,4 @@
-# CryptoTrader
+# CryptoTrader 🛸
 
 CryptoTrader is a unified trading client for cryptocurrency exchanges.
 

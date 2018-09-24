@@ -5,6 +5,7 @@ const MenuTemplate = [{
   label: "Application",
   submenu: [
     { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+    { label: "Check for Updates ...", selector: "checkUpdates:", click() { updater.update(); }},
     { type: "separator" },
     { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
   ]}, {
