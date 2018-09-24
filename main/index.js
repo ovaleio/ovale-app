@@ -8,6 +8,10 @@ const {
     ipcMain
 }                       = require('electron');
 
+const Sentry = require('@sentry/node');
+Sentry.init({ dsn: 'https://0b3e9bc318ef4ec586a2da0e258f4aab@sentry.io/1286691' });
+
+
 const log = require('electron-log');
 
 log.info('App starting...');
