@@ -48,7 +48,7 @@ module.exports = {
 	},
 	settings: {
 		restDelay: {
-			orders: 15000,
+			orders: 60000,
 			balances: 60000,
 			trades: 240000
 		},
