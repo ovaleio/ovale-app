@@ -80,8 +80,8 @@ export const requestTrades = () => {
 };
 
 //BALANCES
-export const setSearchQuery = createAction('SET_SEARCH_QUERY_BALANCES');
-export const setSort = createAction('SET_SORT_BALANCES');
+export const setSearchQueryBalances = createAction('SET_SEARCH_QUERY_BALANCES');
+export const setSortBalances = createAction('SET_SORT_BALANCES');
 export const receiveBalances = createAction('BALANCES');
 export const requestBalances = () => {
 	return (dispatch, getState, {emit}) => {
