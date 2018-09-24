@@ -12,7 +12,7 @@ const MenuTemplate = [{
                 copyright: 'Copyright (c) 2018-2021 ',
                 homepage: 'https://ovale.io',
                 package_json_dir: __dirname,
-                open_devtools: process.env.NODE_ENV !== 'production',
+                open_devtools: false,
                 use_version_info: false
 
         })
