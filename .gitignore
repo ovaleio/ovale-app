@@ -5,6 +5,7 @@ dist
 renderer/.next
 renderer/out
 release-builds
+.idea
 
 # dependencies
 node_modules

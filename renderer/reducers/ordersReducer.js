@@ -34,7 +34,7 @@ const ordersReducer = handleActions({
       data: state.data.filter((o) => o.id !== order_id)
     }
   },
-  [actions.cancelAll](state) {
+  [actions.cancelAllOrders](state) {
     var asyncData = [];
     return { 
       ...state, 

@@ -1,33 +1,37 @@
 {
-  "name": "OVALE",
+  "name": "Ovale",
   "author": "John Thillaye <john@jaytee.club>",
   "description": "Local multi-exchange trading client. Supports Bitfinex, Bittrex, Poloniex.",
-  "productName": "OVALE",
-  "version": "0.0.1",
+  "productName": "Ovale",
+  "version": "0.1.4",
   "main": "main/index.js",
   "license": "MIT",
   "repository": "ovaleio/ovale_releases",
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --inspect",
     "reset": "electron . --reset",
+    "test": "mocha",
     "build": "next build renderer && next export renderer",
+    "buidprod": "rimraf dist && next build renderer && next export renderer",
     "dist": "npm run build && electron-builder -mlw -p never",
-    "osx": "npm run build && electron-builder -m -p never",
-    "win": "npm run build && electron-builder -w -p never",
-    "linux": "npm run build && electron-builder -l -p never",
-    "publish": "npm run build && electron-builder -mlw -p always",
+    "osx:nosign": "npm run buidprod && electron-builder -m -p never -c.mac.identity=null.",
+    "osx": "npm run buidprod && electron-builder -m -p never",
+    "osx:publish": "npm run buidprod && electron-builder -m -p always",
+    "win": "npm run buidprod && electron-builder -w -p never",
+    "linux": "npm run buidprod && electron-builder -l -p never",
+    "publish": "npm run buidprod && electron-builder -mlw -p always",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "bundle": {
-    "name": "OVALE"
+    "name": "Ovale"
   },
   "build": {
     "appId": "org.jaytee.ovale",
-    "publish":"github",
+    "publish": "github",
     "mac": {
       "target": "default",
       "category": "public.app-category.finance",
-      "identity":"AE0906801304BF59C5D37F9124841129C08C6343",
+      "identity": "JAYTEE (ZP34UTX78F)",
       "icon": "main/assets/icons/mac/icon.icns"
     },
     "files": [
@@ -39,6 +43,7 @@
       "**/renderer/out/static/**/*"
     ],
     "win": {
+      "publisherName": "Developer ID Application: JAYTEE (ZP34UTX78F)",
       "target": [
         {
           "target": "nsis",
@@ -63,22 +68,32 @@
     "babel-plugin-inline-import": "^2.0.6",
     "electron": "2.0.10",
     "electron-builder": "20.28.4",
+    "electron-devtools-installer": "^2.2.4",
     "electron-packager": "^10.1.0",
+    "electron-redux-devtools": "^0.3.4",
+    "eslint": "^5.6.0",
     "next": "^4.0",
     "react": "^16.0",
     "react-dom": "^16.0",
     "react-hot-loader": "^4.0.0-beta.18",
+    "rimraf": "^2.6.2",
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "@sentry/node": "4.0.3",
+    "about-window": "^1.12.1",
     "async": "^2.6.0",
     "cryptoclients": "^1.0.28",
     "css-loader": "^0.28.9",
+    "diff-json": "^0.1.11",
     "electron-context-menu": "^0.9.1",
-    "electron-debug": "^1.5.0",
+    "electron-debug": "^2.0.0",
     "electron-is-dev": "^0.3.0",
+    "electron-log": "^2.2.17",
     "electron-next": "^3.1.3",
     "electron-settings": "^3.1.4",
+    "electron-unhandled": "^1.1.0",
+    "electron-updater": "3.0.3",
     "express": "^4.16.2",
     "history": "^4.7.2",
     "material-ui": "^0.20.0",
@@ -91,11 +106,13 @@
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-devtools-extension": "^2.13.2",
+    "redux-electron-store": "^0.6.2",
     "redux-thunk": "^2.2.0",
     "request": "^2.83.0",
     "reselect": "^3.0.1",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
-    "style-loader": "^0.19.1"
+    "style-loader": "^0.19.1",
+    "update-electron-app": "^1.3.0"
   }
 }
