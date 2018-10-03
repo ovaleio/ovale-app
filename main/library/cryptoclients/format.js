@@ -98,6 +98,7 @@ format = {
 					rate: parseFloat(order.rate),
 					pair: order.pair.replace(/^(\w+)-(\w+)/, '$2$1'),
 					type: order.type,
+					id: order.id
 				}
 			}
 		}

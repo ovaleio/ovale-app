@@ -35,7 +35,7 @@ const handleData = (type, exchange, callback) => {
 			var formattedData = format[type](data, exchange);
 
 			console.log(formattedData);
-			
+
 			callback(null, formattedData);
 		}
 	}
@@ -154,11 +154,16 @@ const methods = {
 			lib.balance(handleData('balances', 'binance', callback));
 		},
 		trades: (callback) => {
-			//to do
+			//to do when binance api allows to fetch all trades at once
+
+			// binance.trades("SNMBTC", (error, trades, symbol) => {
+			//   console.log(symbol+" trade history", trades);
+			// });
 		},
 		cancelOrder: (order, callback) => {
 			order = format.binance.to.order(order);
-			lib.cancel(order.symbol, order.id, (err, res, symbol) => {
+			console.log(order);
+			lib.cancel(order.pair, order.id, (err, res, symbol) => {
 				console.log(err, res, symbol)
 				callback(err, res);
 			})
