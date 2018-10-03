@@ -1,6 +1,6 @@
-const {clients, format} = require('cryptoclients');
-const settings = require('electron-settings')
-const {ipcMain} = require('electron')
+const {clients, format} = require('./library/cryptoclients');
+const settings = require('electron-settings');
+const {ipcMain} = require('electron');
 const handleSockets = require('./websocket-server');
 
 //Catch orders & balances via rest api 

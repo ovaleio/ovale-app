@@ -1,4 +1,4 @@
-const {clients, format} = require('cryptoclients'); //grab dev version if exists
+const {clients, format} = require('./library/cryptoclients'); //grab dev version if exists
 const {ipcMain} = require('electron')
 const request = require('request');
 const async = require('async');

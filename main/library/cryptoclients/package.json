@@ -1,0 +1,18 @@
+{
+  "name": "cryptoclients",
+  "version": "1.0.26",
+  "description": "A package for handling various crypto exchanges libs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.0",
+    "bitfinex-api-node": "^2.0.0-beta",
+    "node-bitstamp": "^1.7.0",
+    "node.bittrex.api": "^1.0.0",
+    "poloniex-api-node": "^1.7.0"
+  }
+}
