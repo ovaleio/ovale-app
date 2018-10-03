@@ -1,5 +1,5 @@
-import { createStore, applyMiddleware } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore, applyMiddleware, compose } from 'redux'
+
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
 import initialState from './reducers/initialState'
@@ -9,11 +9,20 @@ import history from './history';
 
 const historyMiddleware = routerMiddleware(history)
 
+
+const composeEnhancers =
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    }) : compose;
+
+
 export default function initStore () {
   const store = createStore(
   	rootReducer,
   	initialState,
-  	composeWithDevTools(
+    composeEnhancers(
   		applyMiddleware(historyMiddleware, thunkMiddleware.withExtraArgument({ emit }))
   	)
   )
