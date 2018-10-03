@@ -15,6 +15,8 @@ import App from '../components/App'
 import Settings from '../components/Settings'
 import MessageBar from '../components/MessageBar'
 
+import Drift from '../components/Drift';
+
 import initStore from '../initStore'
 import history from '../history';
 import { init as websocketInit } from '../websocket'
@@ -83,6 +85,7 @@ class Root extends React.Component {
                   <Route path="/settings" component={Settings} />
                 </Switch>
                 <MessageBar />
+                <Drift appId="i5mesw6sgieb" />
               </div>
             </MuiThemeProvider>
           </div>
