@@ -299,3 +299,17 @@ export const binanceIcon = (props) => (
 ```
 
 # And voila ! We added an exchange to OVALE
+
+## Clean up
+
+1. Let's remove the dirty `global.credentials` overwrite in `main/index.js`
+
+2. Add 'binance' in `supportedExchanges` array in `main/library/settings/defaultSettings.js`
+
+3. Add `closeSockets` method in `websocket-server.js`
+
+```
+'binance': (lib) => null,
+```
+
+4. (Dev) Run `npm run reset` to reset the credentials and thus the `supportedExchanges` received by the `Settings` Component

@@ -140,7 +140,8 @@ const closeSockets = (exchangeSockets) => {
     const closeMethods = {
         'bitfinex': (ws) => ws.close(),
         'poloniex': (lib) => lib.closeWebSocket(),
-        'bittrex': (lib) => null
+        'bittrex': (lib) => null,
+        'binance': (lib) => null,
     }
 
     if (exchangeSockets) {
