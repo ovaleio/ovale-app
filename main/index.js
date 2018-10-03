@@ -83,14 +83,14 @@ const createWindow = () => {
         slashes: true
     });
 
-
-    installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+    if(isDev){
+      installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
         console.log(`Added Extension:  ${name}`);
-    })
-    .catch((err) => {
-        console.log('An error occurred: ', err);
-    });
-
+      })
+        .catch((err) => {
+          console.log('An error occurred: ', err);
+        });
+    }
 
     let loadedUrl = isDev ? devPath : prodPath;
     mainWindow.loadURL(loadedUrl);
