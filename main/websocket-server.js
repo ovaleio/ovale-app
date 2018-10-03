@@ -92,7 +92,7 @@ const handleTickerData = {
     "bitfinex": (symbol, ticker) => {
       updateTickers("bitfinex", symbol, ticker[6])
     },
-    "binance": (markets, error) => {``
+    "binance": (markets, error) => {
       Object.keys(markets).forEach((pair) => {
         //console.log(pair, markets[pair].close);
         updateTickers("binance", pair, markets[pair].close)
