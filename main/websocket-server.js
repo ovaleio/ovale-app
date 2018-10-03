@@ -66,6 +66,10 @@ const connectWS = {
                 lib.websockets.subscribe(symbols, handleTickerData.bittrex)
             });
         });
+    },
+    'binance': (lib) => {
+        lib.websockets.miniTicker(handleTickerData.binance);
+        return lib;
     }
 }
 
@@ -87,6 +91,12 @@ const handleTickerData = {
     },
     "bitfinex": (symbol, ticker) => {
       updateTickers("bitfinex", symbol, ticker[6])
+    },
+    "binance": (markets, error) => {``
+      Object.keys(markets).forEach((pair) => {
+        //console.log(pair, markets[pair].close);
+        updateTickers("binance", pair, markets[pair].close)
+      })
     }
 }
 

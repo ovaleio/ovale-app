@@ -85,7 +85,12 @@ format = {
 		from: {
 			pair: (e) => { return e.replace(/^(\w+)(\w{3})$/, "$1-$2")}
 		}
-	}
+	},
+	"binance": {
+		from: {
+			pair: (e) => { return e.replace(/^(\w+)(BNB|BTC|ETH|USDT)$/, "$1-$2")}
+		}
+	},
 }
 
 format.flatten = (obj) => {
