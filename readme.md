@@ -7,6 +7,7 @@ CryptoTrader is a unified trading client for cryptocurrency exchanges.
 - Bitfinex
 - Bittrex
 - Poloniex
+- Binance (soon)
 
 ## How to run
 
