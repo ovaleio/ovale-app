@@ -105,7 +105,6 @@ const sendTickers = (event) => {
         var [exchange,pair] = symbol.split(':');
         return {symbol: symbol, price: socketState.channels.TICKERS.data[symbol], pair: pair, currencies: pair.split('-'), exchange: exchange}
     })
-    console.log("TICKERS sent !")
     return event.sender.send('TICKERS', cleanData);
 }
 
