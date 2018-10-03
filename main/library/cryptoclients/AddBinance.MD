@@ -313,3 +313,64 @@ export const binanceIcon = (props) => (
 ```
 
 4. (Dev) Run `npm run reset` to reset the credentials and thus the `supportedExchanges` received by the `Settings` Component
+
+
+## Formatting Binance
+
+
+In `format.js` we add in `format.orders`, to transform in OVALE format:
+
+```
+		case 'binance':
+			formattedOrders = orders.map((order, i) => ({
+				"pair": format.binance.from.pair(order.symbol),
+				"type": order.side.toLowerCase(),
+				"exchange": 'binance',
+				"amount": parseFloat(order.origQty),
+				"rate": parseFloat(order.price),
+				"date": new Date(order.time),
+				"id": order.orderId 
+			}) );
+			break;
+```
+
+we add in `format.balances`, to transform in OVALE format:
+```
+		case 'binance':
+			Object.keys(balances).map((currency, i) => {
+				var balance = {};
+				//parse float all elements
+				Object.keys(balances[currency]).map((field) => {
+					balance[field] = parseFloat(balances[currency][field]);
+				});
+
+				//filter empty balance
+				if (balance.available > 0.0) {
+					var formattedBalance = {
+						"ticker": "binance:" + currency,
+						"currency": currency,
+						"exchange": "binance",
+						"balance": balance.available + balance.onOrder,
+						"available": balance.available,
+						"pending": ""
+					}
+					formattedBalances.push(formattedBalance);
+				}
+			})
+			break;
+```
+
+We also add in `format.binance`, used to pass an order in Binance format:
+```
+	to: {
+		order: (order) => {
+			console.log(order);
+			return {
+				amount: parseFloat(order.amount),
+				rate: parseFloat(order.rate),
+				pair: order.pair.replace(/^(\w+)-(\w+)/, '$2$1'),
+				type: order.type,
+			}
+		}
+	}
+```
