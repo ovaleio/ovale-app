@@ -126,7 +126,8 @@ app.on('window-all-closed', () => {
 // Sets global variables in main process to be usable on renderer process.
 // @see http://electron.rocks/tag/global/
 function startIPCHandler() {
-    global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
+    //global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
+    global.credentials = {"binance": {"apikey": "Ws9uOEDUXTn9kEFus3jHhIzUCss4sPBdS7oRi7qApEiavdNSyNfJpIz8kkJce2GG", "apisecret": "0aO36JwzF35JPzUSMWu2obuimGOnVyXTRJ0V3aeNBKVebsOKdh9vdoO3uCoWnciW"}}
     global.firstOpening = settingsProvider.get('firstOpening') || settings.defaultSettings.firstOpening;
     global.websockets = HandleSockets.init();
     global.rest = HandleRest();
