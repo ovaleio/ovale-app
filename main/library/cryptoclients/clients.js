@@ -30,7 +30,12 @@ const handleData = (type, exchange, callback) => {
 				return callback(null, []);
 			}
 
+			console.log(data);
+
 			var formattedData = format[type](data, exchange);
+
+			console.log(formattedData);
+			
 			callback(null, formattedData);
 		}
 	}
