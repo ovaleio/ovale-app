@@ -1,4 +1,4 @@
-const supportedExchanges = ['bitfinex', 'bittrex', 'poloniex'];
+const supportedExchanges = ['bitfinex', 'bittrex', 'poloniex', 'binance'];
 
 const settings = {
     lastCheckUpdate:0,
