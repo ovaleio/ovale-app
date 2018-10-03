@@ -27,7 +27,7 @@ unhandled({logger:log.info, showDialog:false});
 
 const isDev             = require('electron-is-dev');
 
-
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 
 
@@ -83,6 +83,15 @@ const createWindow = () => {
         slashes: true
     });
 
+
+    installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+        console.log(`Added Extension:  ${name}`);
+    })
+    .catch((err) => {
+        console.log('An error occurred: ', err);
+    });
+
+
     let loadedUrl = isDev ? devPath : prodPath;
     mainWindow.loadURL(loadedUrl);
 
@@ -117,7 +126,8 @@ app.on('window-all-closed', () => {
 // Sets global variables in main process to be usable on renderer process.
 // @see http://electron.rocks/tag/global/
 function startIPCHandler() {
-    global.credentials = settingsProvider.get('credentials') || settingsClass.defaultSettings.credentials;
+    global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
+    global.firstOpening = settingsProvider.get('firstOpening') || settings.defaultSettings.firstOpening;
     global.websockets = HandleSockets.init();
     global.rest = HandleRest();
 }

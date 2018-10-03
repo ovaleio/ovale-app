@@ -83,7 +83,6 @@
     "@sentry/node": "4.0.3",
     "about-window": "^1.12.1",
     "async": "^2.6.0",
-    "cryptoclients": "^1.0.28",
     "css-loader": "^0.28.9",
     "diff-json": "^0.1.11",
     "electron-context-menu": "^0.9.1",
