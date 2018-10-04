@@ -140,12 +140,39 @@ const methods = {
 			}
 			var data = get().then((data) => callback(null, data)).catch((err) => callback(err));
 		}
+	}),
+	binance: (lib) => ({
+		orders: (callback) => {
+			lib.openOrders(false, handleData('orders', 'binance', callback));
+		},
+		balances: (callback) => {
+			lib.balance(handleData('balances', 'binance', callback));
+		},
+		trades: (callback) => {
+			//to do when binance api allows to fetch all trades at once
+
+			// binance.trades("SNMBTC", (error, trades, symbol) => {
+			//   console.log(symbol+" trade history", trades);
+			// });
+		},
+		cancelOrder: (order, callback) => {
+			order = format.binance.to.order(order);
+			console.log(order);
+			lib.cancel(order.pair, order.id, (err, res, symbol) => {
+				console.log(err, res, symbol)
+				callback(err, res);
+			})
+		},
+		passOrder: (order, callback) => {
+			order = format.binance.to.order(order);
+			lib[order.type](order.pair, order.amount, order.rate, {type:'LIMIT'}, callback);
+		},
 	})
 }
 
 class Clients {
 	constructor (options) {
-		this.supportedExchanges = options.supportedExchanges || ['bitfinex', 'poloniex', 'bittrex', 'bitstamp'];
+		this.supportedExchanges = options.supportedExchanges || ['bitfinex', 'poloniex', 'bittrex', 'bitstamp', 'binance'];
 		this.methods = methods
 
 		this.exchanges = this.supportedExchanges.filter(e => options.credentials[e] && options.credentials[e].apikey)
@@ -172,6 +199,15 @@ class Clients {
 					})
 					const lib = Object.assign({rest: restClient},s);
 					return lib
+				case 'binance':
+					const Binance = require('node-binance-api');
+					const instance = new Binance().options({
+					  APIKEY: o.apikey,
+					  APISECRET: o.apisecret,
+					  useServerTime: true, // If you get timestamp errors, synchronize to server time at startup
+					  test: false // If you want to use sandbox mode where orders are simulated
+					});
+					return instance;
 				default:
 					return null
 			}

@@ -85,7 +85,24 @@ format = {
 		from: {
 			pair: (e) => { return e.replace(/^(\w+)(\w{3})$/, "$1-$2")}
 		}
-	}
+	},
+	"binance": {
+		from: {
+			pair: (e) => { return e.replace(/^(\w+)(BNB|BTC|ETH|USDT)$/, "$2-$1")}
+		},
+		to: {
+			order: (order) => {
+				console.log(order);
+				return {
+					amount: parseFloat(order.amount),
+					rate: parseFloat(order.rate),
+					pair: order.pair.replace(/^(\w+)-(\w+)/, '$2$1'),
+					type: order.type,
+					id: order.id
+				}
+			}
+		}
+	},
 }
 
 format.flatten = (obj) => {
