@@ -48,7 +48,10 @@ class Settings {
       this.settingsProvider.delete(change.key);
     }
   }
+
+  // Update local Setting with the new defaultSetting format
   updateSetting(change){
+
     if (change.key === "supportedExchanges"){
       console.log("changed :", change.key);
 
@@ -66,8 +69,23 @@ class Settings {
       this.settingsProvider.set(change.key, supported);
 
     }
-  }
+    if (change.key === "credentials"){
+      console.log("changed :", change.key);
 
+      let supported = this.settingsProvider.get('credentials');
+      for(let i=0; i<change.changes.length; i++) {
+
+        if( change.changes[i].type === "add") {
+          console.log(change.changes[i].key)
+          console.log(change.changes[i].value)
+          supported[change.changes[i].key] = change.changes[i].value;
+
+        }
+      }
+      this.settingsProvider.set(change.key, supported);
+
+    }
+  }
 
 
 }
