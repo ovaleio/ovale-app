@@ -166,18 +166,6 @@ format.orders = function (orders, exchange) {
 				"id": order.id 
 			}) );
 			break;
-
-		case 'binance':
-			formattedOrders = orders.map((order, i) => ({
-				"pair": format.binance.from.pair(order.symbol),
-				"type": order.side.toLowerCase(),
-				"exchange": 'binance',
-				"amount": parseFloat(order.origQty),
-				"rate": parseFloat(order.price),
-				"date": new Date(order.time),
-				"id": order.orderId 
-			}) );
-			break;
 	}
 
 	formattedOrders.forEach((e) => { e.symbol = e.exchange + ':' + e.pair}); //e.g. bitfinex:BTC-USD
@@ -263,29 +251,6 @@ format.balances = function (balances, exchange) {
 					"available": b[currency].available,
 				}
 				if (formattedBalance.balance > 0) formattedBalances.push(formattedBalance);
-			})
-			break;
-
-		case 'binance':
-			Object.keys(balances).map((currency, i) => {
-				var balance = {};
-				//parse float all elements
-				Object.keys(balances[currency]).map((field) => {
-					balance[field] = parseFloat(balances[currency][field]);
-				});
-
-				//filter empty balance
-				if (balance.available > 0.0) {
-					var formattedBalance = {
-						"ticker": "binance:" + currency,
-						"currency": currency,
-						"exchange": "binance",
-						"balance": balance.available + balance.onOrder,
-						"available": balance.available,
-						"pending": ""
-					}
-					formattedBalances.push(formattedBalance);
-				}
 			})
 			break;
 	}
