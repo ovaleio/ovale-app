@@ -134,7 +134,6 @@ app.on('window-all-closed', () => {
 // @see http://electron.rocks/tag/global/
 function startIPCHandler() {
     global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
-    global.firstOpening = settingsProvider.get('firstOpening') || settings.defaultSettings.firstOpening;
     global.websockets = HandleSockets.init();
     global.rest = HandleRest();
 }

@@ -13,6 +13,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import App from '../components/App'
 import Settings from '../components/Settings'
+import Onboarding from '../components/Onboarding'
 import MessageBar from '../components/MessageBar'
 
 import Drift from '../components/Drift';
@@ -83,6 +84,7 @@ class Root extends React.Component {
                 <Switch>
                   <Route exact path="/" component={App} />
                   <Route path="/settings" component={Settings} />
+                  <Route path="/onboarding" component={Onboarding} />
                 </Switch>
                 <MessageBar />
                 <Drift appId="i5mesw6sgieb" />
