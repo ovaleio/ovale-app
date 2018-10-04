@@ -5,19 +5,23 @@ import { initSocket } from '../actions/actions'
 import { mapStateToProps } from '../selectors/settings'
 import { Link, Route } from 'react-router-dom'
 
+
 class Onboarding extends React.Component {
 
   componentDidMount() {
-    ipcRenderer.send('REQUEST_SETTINGS')
+    ipcRenderer.send('UPDATE_JWT');
   }
 
   render() {
-    const { exchanges, dispatch } = this.props;
+    const { jwt, dispatch } = this.props;
 
     return (
       <div className="row">
+
         <div className="col-xs-12">
-          test
+          {jwt}
+
+        <h1>JWT</h1>
         </div>
       </div>
     )

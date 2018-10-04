@@ -47,6 +47,7 @@ module.exports = {
 		style: {}
 	},
 	settings: {
+		jwt:null,
 		restDelay: {
 			orders: 60000,
 			balances: 60000,

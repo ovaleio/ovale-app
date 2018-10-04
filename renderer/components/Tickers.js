@@ -11,14 +11,17 @@ import IconButton from 'material-ui/IconButton';
 import * as ExchangesIcons from './ExchangesIcons'
 
 class Tickers extends react.Component {
+
   componentDidMount() {
-    ipcRenderer.send('REQUEST_TICKERS')
-    var intervalId = setInterval(() => ipcRenderer.send('REQUEST_TICKERS'), 4000)
+    let intervalId = setInterval(() => ipcRenderer.send('REQUEST_TICKERS'), 4000);
     this.setState({intervalId: intervalId});
+    ipcRenderer.send('REQUEST_TICKERS')
   }
 
   componentWillUnmount() {
-  	clearInterval(this.state.intervalId);
+  	if(this.state!== null && this.state.intervalId !== null) {
+      clearInterval(this.state.intervalId);
+    }
   }
 
   render () {

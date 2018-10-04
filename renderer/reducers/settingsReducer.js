@@ -24,6 +24,12 @@ const settingsReducer = handleActions({
   		}
   	}
   },
+  [actions.updateJWT](state, {payload: jwt}) {
+    return  {
+      ...state,
+      jwt: jwt
+    };
+  }
 }, initialState.settings);
 
 export default settingsReducer

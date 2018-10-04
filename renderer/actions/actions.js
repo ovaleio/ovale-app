@@ -93,6 +93,13 @@ export const requestBalances = () => {
 export const saveSettings = createAction('SAVE_SETTINGS');
 export const handleChangeSettings = createAction('HANDLE_CHANGE_SETTINGS');
 export const receiveSettings = createAction('SETTINGS');
+
+export const updateJWT = () => {
+  return (dispatch, getState, {emit}) => {
+    emit('UPDATE_JWT')
+  }
+};
+
 export const requestSettings = () => {
 	return (dispatch, getState, {emit}) => {
 		emit('REQUEST_SETTINGS')

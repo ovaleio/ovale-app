@@ -6,7 +6,7 @@ import {
   Redirect
 } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter, push } from 'react-router-redux';
 import Head from 'next/head'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -27,8 +27,20 @@ const store = initStore();
 websocketInit(store);
 
 class Root extends React.Component {
+
   componentDidMount() {
-    ipcRenderer.send('OPENED_MAIN_WINDOW')
+
+    // Get Settings Reducer
+    let settingsReducer = store.getState().settingsReducer;
+
+    // Check
+    if(settingsReducer.jwt === null) {
+      store.dispatch(push('/onboarding'));
+    }
+
+    // Send to main the OPENED MAIN WINDOW event
+    ipcRenderer.send('OPENED_MAIN_WINDOW');
+
   }
 
   render () {

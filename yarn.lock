@@ -1207,7 +1207,7 @@ binary@^0.3.0:
     buffers "~0.1.1"
     chainsaw "~0.1.0"
 
-bitfinex-api-node@^2.0.0:
+bitfinex-api-node@^2.0.0-beta:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/bitfinex-api-node/-/bitfinex-api-node-2.0.0.tgz#74de4d99c4464bb0da22c05d785db1a402b90537"
   dependencies:
@@ -2124,16 +2124,6 @@ crypto-browserify@^3.11.0:
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
-
-cryptoclients@^1.0.28:
-  version "1.0.28"
-  resolved "https://registry.yarnpkg.com/cryptoclients/-/cryptoclients-1.0.28.tgz#3563c9e771766eed1956ca57449cfb3192c2d634"
-  dependencies:
-    async "^2.6.1"
-    bitfinex-api-node "^2.0.0"
-    node-bitstamp "^1.7.0"
-    node.bittrex.api "^1.0.0"
-    poloniex-api-node "^1.9.0"
 
 css-color-names@0.0.4:
   version "0.0.4"
@@ -3963,7 +3953,7 @@ https-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
 
-https-proxy-agent@^2.1.0:
+https-proxy-agent@^2.1.0, https-proxy-agent@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-2.2.1.tgz#51552970fa04d723e04c56d04178c3f92592bbc0"
   dependencies:
@@ -5278,6 +5268,18 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
 
+node-binance-api@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/node-binance-api/-/node-binance-api-0.8.3.tgz#e0d3e8aa37c92394fe923e00a4f50c055a1b1760"
+  dependencies:
+    async "^2.6.1"
+    https-proxy-agent "^2.2.1"
+    request "^2.85.0"
+    socks-proxy-agent "^4.0.1"
+    string-hash "^1.1.3"
+    url "^0.11.0"
+    ws "^4.1.0"
+
 node-bitstamp@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/node-bitstamp/-/node-bitstamp-1.7.0.tgz#21a064ddb8bc377bca1db528ab529070d5236a0d"
@@ -5936,7 +5938,7 @@ pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
 
-poloniex-api-node@^1.9.0:
+poloniex-api-node@^1.7.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/poloniex-api-node/-/poloniex-api-node-1.9.0.tgz#b2243c22e129962595e3df4c1a1457a384ea9465"
   dependencies:
@@ -7530,7 +7532,7 @@ strict-uri-encode@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
 
-string-hash@1.1.3:
+string-hash@1.1.3, string-hash@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/string-hash/-/string-hash-1.1.3.tgz#e8aafc0ac1855b4666929ed7dd1275df5d6c811b"
 
@@ -8411,6 +8413,13 @@ ws@^3.0.0, ws@~3.3.1:
     async-limiter "~1.0.0"
     safe-buffer "~5.1.0"
     ultron "~1.1.0"
+
+ws@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-4.1.0.tgz#a979b5d7d4da68bf54efe0408967c324869a7289"
+  dependencies:
+    async-limiter "~1.0.0"
+    safe-buffer "~5.1.0"
 
 ws@^5.1.1:
   version "5.2.2"

@@ -68,6 +68,10 @@ const openedMainWindow = (event) => {
   if (!settings.has('firstOpening')) event.sender.send('REDIRECT', {redirectTo: '/onboarding'})
 }
 
+const updateJWT = (event) => {
+ console.log(event);
+};
+
 const handlers = {
   'BUY_LIMIT': handleNewOrder,
   'SELL_LIMIT': handleNewOrder,
@@ -75,7 +79,8 @@ const handlers = {
   'REQUEST_SETTINGS': sendSettings,
   'CANCEL_ORDER': handleCancelOrder,
   'SAVE_CREDENTIALS': saveCredentials,
-  'OPENED_MAIN_WINDOW': openedMainWindow
+  'OPENED_MAIN_WINDOW': openedMainWindow,
+  'UPDATE_JWT': updateJWT
 }
 
 const handleRest = () => {
