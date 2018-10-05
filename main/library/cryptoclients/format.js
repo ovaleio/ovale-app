@@ -92,7 +92,6 @@ format = {
 		},
 		to: {
 			order: (order) => {
-				console.log(order);
 				return {
 					amount: parseFloat(order.amount),
 					rate: parseFloat(order.rate),
@@ -128,10 +127,10 @@ format.orders = function (orders, exchange) {
 		break;
 
 		case 'poloniex':
-
-			Object.keys(orders).map((e, i) => {
-				formattedOrders = orders[e].map((order) => ({
-					"pair": format.poloniex.from.pair(e),
+			//res looks like { BTC_EOS: [], ... } 
+			Object.keys(orders).map((pair, i) => {
+				const orderByPair = orders[pair].map((order) => ({
+					"pair": format.poloniex.from.pair(pair),
 					"type": order.type,
 					"exchange": "poloniex",
 					"amount": parseFloat(order.startingAmount),
@@ -140,7 +139,9 @@ format.orders = function (orders, exchange) {
 					"date": new Date(order.date),
 					"id": order.orderNumber
 				}))
+				formattedOrders = formattedOrders.concat(orderByPair);
 			})
+
 			break;
 
 		case 'bitfinex':
