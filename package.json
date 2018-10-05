@@ -80,6 +80,7 @@
   },
   "dependencies": {
     "@sentry/node": "4.0.3",
+    "@zeit/next-css": "^1.0.1",
     "about-window": "^1.12.1",
     "async": "^2.6.0",
     "bitfinex-api-node": "^2.0.0-beta",

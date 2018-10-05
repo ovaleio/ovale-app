@@ -35,7 +35,7 @@ class Root extends React.Component {
 
     // Check
     if(settingsReducer.jwt === null) {
-      store.dispatch(push('/onboarding'));
+      //store.dispatch(push('/onboarding'));
     }
 
     // Send to main the OPENED MAIN WINDOW event

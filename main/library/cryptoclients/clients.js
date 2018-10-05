@@ -110,6 +110,7 @@ const methods = {
 			var data = get().then((data) => callback(null, data));
 		},
 		balances: (callback) => {
+			console.log('ok')
 			const get = async () => {
 				const data = await lib.rest.balance().then(({body:data}) => data);
 				var formattedData = format['balances'](data, 'bitstamp');
