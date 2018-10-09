@@ -70,6 +70,37 @@ const connectWS = {
     'binance': (lib) => {
         lib.websockets.miniTicker(handleTickerData.binance);
         return lib;
+    },
+    'kraken': (lib) => {
+        const getTicker = async () => {
+            const symbols = await lib.api('AssetPairs');
+
+            //ask for ticker for all symbols
+            if (symbols.error.length === 0) {
+                let pairs = [];
+                let altPairs = {};
+                Object.keys(symbols.result).filter(s => s.indexOf('.d') === -1).forEach(key => {
+                    pairs.push(symbols.result[key].altname);
+                    altPairs[key] = symbols.result[key].altname;
+                });
+                pairs = pairs.join(',');
+                console.log ('kraken', pairs);
+
+
+                //Fetch every 5 seconds
+                setInterval ( async () => {
+                    const res = await lib.api('Ticker', { pair: pairs});
+                    if (res.error.length) {
+                        console.log ('Error fetching Kraken tickers', res.error)
+                    }
+                    else {
+                        handleTickerData.kraken(res.result, altPairs)
+                    }
+                }, 5000)
+            }
+        }
+        getTicker();
+        return lib;
     }
 }
 
@@ -96,6 +127,12 @@ const handleTickerData = {
       Object.keys(markets).forEach((pair) => {
         //console.log(pair, markets[pair].close);
         updateTickers("binance", pair, markets[pair].close)
+      })
+    },
+    "kraken": (markets, altPairs) => {
+      //altPairs is a mapping object because Kraken uses different types of symbols
+      Object.keys(markets).forEach((pair) => {
+        updateTickers("kraken", altPairs[pair], markets[pair].o)
       })
     }
 }
@@ -142,6 +179,7 @@ const closeSockets = (exchangeSockets) => {
         'poloniex': (lib) => lib.closeWebSocket(),
         'bittrex': (lib) => null,
         'binance': (lib) => null,
+        'kraken': (lib) => null,
     }
 
     if (exchangeSockets) {

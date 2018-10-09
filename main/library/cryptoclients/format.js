@@ -92,7 +92,6 @@ format = {
 		},
 		to: {
 			order: (order) => {
-				console.log(order);
 				return {
 					amount: parseFloat(order.amount),
 					rate: parseFloat(order.rate),
@@ -103,6 +102,23 @@ format = {
 			}
 		}
 	},
+	"kraken": {
+		from: {
+			pair: (e) => e,
+			currency: (c) => c.substring(1,4)
+		},
+		to: {
+			order: (order) => {
+				return {
+					pair: order.pair,
+					type: order.type,
+					ordertype: 'limit',
+					volume: order.amount,
+					price: order.rate,
+				}
+			}
+		}
+	}
 }
 
 format.flatten = (obj) => {
@@ -178,6 +194,23 @@ format.orders = function (orders, exchange) {
 				"id": order.orderId 
 			}) );
 			break;
+
+		case 'kraken':
+			orders = orders.open;
+			Object.keys(orders).forEach((txid, i) => {
+				let o = orders[txid]
+				let order = {
+					"pair": format.kraken.from.pair(o.descr.pair),
+					"type": o.descr.type,
+					"exchange": 'kraken',
+					"amount": parseFloat(o.vol),
+					"rate": parseFloat(o.descr.price),
+					"date": new Date(o.opentm * 1000),
+					"id": txid
+				}
+				formattedOrders.push(order);
+			});
+			break;
 	}
 
 	formattedOrders.forEach((e) => { e.symbol = e.exchange + ':' + e.pair}); //e.g. bitfinex:BTC-USD
@@ -239,7 +272,7 @@ format.balances = function (balances, exchange) {
 					"type": balance.type,
 					"balance": parseFloat(balance.amount),
 					"available": parseFloat(balance.available),
-
+					"pending": ""
 				}
 				if (formattedBalance.balance > 0) formattedBalances.push(formattedBalance);
 			});
@@ -286,6 +319,22 @@ format.balances = function (balances, exchange) {
 					}
 					formattedBalances.push(formattedBalance);
 				}
+			})
+			break;
+
+		case 'kraken':
+			Object.keys(balances).map((currency, i) => {
+				const formattedCurrency = format.kraken.from.currency(currency);
+
+				var formattedBalance = {
+					"ticker": "kraken:" + formattedCurrency,
+					"currency": formattedCurrency,
+					"exchange": "kraken",
+					"balance": parseFloat(balances[currency]),
+					"available": parseFloat(balances[currency]),
+					"pending": ""
+				}
+				formattedBalances.push(formattedBalance);
 			})
 			break;
 	}

@@ -30,12 +30,7 @@ const handleData = (type, exchange, callback) => {
 				return callback(null, []);
 			}
 
-			console.log(data);
-
 			var formattedData = format[type](data, exchange);
-
-			console.log(formattedData);
-
 			callback(null, formattedData);
 		}
 	}
@@ -140,7 +135,6 @@ const methods = {
 		passOrder: (order, callback) => {
 			order = format.bitstamp.to.order(order);
 			const get = async () => {
-				console.log(order);
 				const data = await lib.rest[`${order.type}LimitOrder`](order.amount, order.price, order.pair);
 			}
 			var data = get().then((data) => callback(null, data)).catch((err) => callback(err));
@@ -162,7 +156,7 @@ const methods = {
 		},
 		cancelOrder: (order, callback) => {
 			order = format.binance.to.order(order);
-			console.log(order);
+			//console.log(order);
 			lib.cancel(order.pair, order.id, (err, res, symbol) => {
 				console.log(err, res, symbol)
 				callback(err, res);
@@ -172,12 +166,62 @@ const methods = {
 			order = format.binance.to.order(order);
 			lib[order.type](order.pair, order.amount, order.rate, {type:'LIMIT'}, callback);
 		},
+	}),
+	kraken: (lib) => ({
+		orders: (callback) => {
+			const get = async () => {
+				const res = await lib.api('OpenOrders');
+				if (res.error) console.log(res.error);
+
+				const formattedOrders = format['orders'](res.result, 'kraken');
+				return formattedOrders;
+			}
+			get().then((data) => callback(null, data)).catch((err) => callback(err));
+		},
+		balances: (callback) => {
+			const get = async () => {
+				const res = await lib.api('Balance');
+				if (res.error) console.log(res.error);
+
+				const formattedBalances = format['balances'](res.result, 'kraken');
+				return formattedBalances;
+			}
+			get().then((data) => callback(null, data)).catch((err) => callback(err));
+		},
+		trades: (callback) => {
+			const get = async () => {
+				const res = await lib.api('TradesHistory');
+				if (res.error) console.log(res.error);
+
+				const formattedTrades = format['trades'](res.result, 'kraken');
+				return formattedTrades;
+			}
+			get().then((data) => callback(null, data)).catch((err) => callback(err));
+		},
+		cancelOrder: (order, callback) => {
+			const cancel = async () => {
+				const res = await lib.api('CancelOrder', {txid: order.id});
+				return res.result;
+			}
+			cancel().then((data) => callback(null, data));
+		},
+		passOrder: (order, callback) => {
+			order = format.kraken.to.order(order);
+			const pass = async () => {
+				const res = await lib.api('AddOrder', order);
+				if (res.error) console.log(res.error);
+				else {
+					return res.result;
+				}
+			}
+			pass().then((data) => callback(null, data));
+		},
 	})
 }
 
 class Clients {
 	constructor (options) {
-		this.supportedExchanges = options.supportedExchanges || ['bitfinex', 'poloniex', 'bittrex', 'bitstamp', 'binance'];
+		this.supportedExchanges = options.supportedExchanges || ['bitfinex', 'poloniex', 'bittrex', 'bitstamp', 'binance', 'kraken'];
 		this.methods = methods
 
 		this.exchanges = this.supportedExchanges.filter(e => options.credentials[e] && options.credentials[e].apikey)
@@ -213,6 +257,10 @@ class Clients {
 					  test: false // If you want to use sandbox mode where orders are simulated
 					});
 					return instance;
+				case 'kraken':
+					const Kraken = require('kraken-api');
+					const instanceKraken = new Kraken(o.apikey, o.apisecret)
+					return instanceKraken;
 				default:
 					return null
 			}
@@ -239,7 +287,7 @@ class Clients {
 	}
 
 	isValidOrder(order) {
-		console.log('d', order);
+		console.log('Pass Order', order);
 		return (
 			(order.type === 'buy' || order.type === 'sell') &&
 			order.rate > 0 &&

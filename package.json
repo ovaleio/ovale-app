@@ -96,6 +96,7 @@
     "electron-updater": "3.0.3",
     "express": "^4.16.2",
     "history": "^4.7.2",
+    "kraken-api": "^1.0.0",
     "material-ui": "^0.20.0",
     "next-redux-wrapper": "^1.3.5",
     "node-binance-api": "^0.8.3",
