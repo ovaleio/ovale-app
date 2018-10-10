@@ -110,7 +110,7 @@ format = {
 		to: {
 			order: (order) => {
 				return {
-					pair: order.pair,
+					pair: order.pair.replace(/^(\w+)-(\w+)/, '$2$1').replace(/BTC/, 'XBT'),
 					type: order.type,
 					ordertype: 'limit',
 					volume: order.amount,

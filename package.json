@@ -1,9 +1,9 @@
 {
   "name": "Ovale",
   "author": "John Thillaye <john@jaytee.club>",
-  "description": "Local multi-exchange trading client. Supports Bitfinex, Bittrex, Poloniex.",
+  "description": "Local multi-exchange trading client. Supports Bitfinex, Bittrex, Poloniex, Binance, Kraken.",
   "productName": "Ovale",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "main/index.js",
   "license": "MIT",
   "repository": "ovaleio/ovale_releases",
