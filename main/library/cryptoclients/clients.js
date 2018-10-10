@@ -153,6 +153,7 @@ const methods = {
 			// binance.trades("SNMBTC", (error, trades, symbol) => {
 			//   console.log(symbol+" trade history", trades);
 			// });
+			return callback(null, []);
 		},
 		cancelOrder: (order, callback) => {
 			order = format.binance.to.order(order);
@@ -193,7 +194,7 @@ const methods = {
 				const res = await lib.api('TradesHistory');
 				if (res.error) console.log(res.error);
 
-				const formattedTrades = format['trades'](res.result, 'kraken');
+				const formattedTrades = format['trades'](res.result.trades, 'kraken');
 				return formattedTrades;
 			}
 			get().then((data) => callback(null, data)).catch((err) => callback(err));
@@ -281,6 +282,8 @@ class Clients {
 
 	getAsync(methodName, callback) {
 		return async.parallel(this.get(methodName), (err, results) => {
+			if (err) console.log(err);
+			console.log(results);
 			results = format.flatten(results);
 			callback(err, results);
 		});

@@ -84,8 +84,8 @@ const connectWS = {
                     altPairs[key] = symbols.result[key].altname;
                 });
                 pairs = pairs.join(',');
-                console.log ('kraken', pairs);
-
+                
+                //console.log ('kraken', pairs)
 
                 //Fetch every 5 seconds
                 setInterval ( async () => {

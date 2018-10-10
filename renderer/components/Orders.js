@@ -22,7 +22,7 @@ class Orders extends react.Component {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td style={{textAlign: 'center'}}>
-            {ExchangesIcons[`${order.exchange}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
+            {ExchangesIcons[`${order.exchange}Icon`]({viewBox: '0 0 128 128', style: styles.logoExchange})}
           </td>
           <td style={styles.symbol} onClick={() => dispatch(setCurrentTicker({symbol: order.symbol})) }>
             {order.pair}
