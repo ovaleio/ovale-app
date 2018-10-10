@@ -12,6 +12,8 @@ class MessageBar extends React.Component {
 
     	const { showSnackbar, message, messageType, style, redirectTo, delay, dispatch} = this.props;
 
+    	if (typeof message !== 'string') return null;
+
 		return (
 			<div>
 				<Snackbar

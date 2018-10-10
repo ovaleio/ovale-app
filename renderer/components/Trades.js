@@ -18,6 +18,8 @@ class Trades extends react.Component {
     render () {
         var { trades, delay, dispatch} = this.props;
 
+        console.log(trades);
+
         const rows = trades.map((trade, i) => {
             return (
                 <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>

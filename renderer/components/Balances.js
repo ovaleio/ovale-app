@@ -21,7 +21,7 @@ class Balances extends react.Component {
       return (
         <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={{textAlign: 'center'}}>
-            {ExchangesIcons[`${balance.exchange}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
+            {ExchangesIcons[`${balance.exchange}Icon`]({viewBox: '0 0 128 128', style: styles.logoExchange})}
           </td>
           <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={styles.currency}>
             {balance.currency}
