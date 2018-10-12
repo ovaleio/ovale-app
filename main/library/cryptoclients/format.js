@@ -549,7 +549,7 @@ format.trades = function(trades, exchange, pair) {
 	//compute total amount of btc for each trade
 	formattedTrades.forEach((t) => {t.total = t.amount * t.rate});
 
-	console.log(formattedTrades);
+	//console.log(formattedTrades);
 
 
 	return formattedTrades;

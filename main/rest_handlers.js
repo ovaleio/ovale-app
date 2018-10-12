@@ -45,7 +45,7 @@ const handleNewOrder = (event, {orders}, clients) => {
   clients.passOrders(orders, (err,res) => {
     if (err) {
       const error = err && typeof err === 'Error' ? err.toString() : (err.message || 'Erreur')
-      console.log('c', error)
+      console.log('Error Passing Order', error)
       event.sender.send('WEBSOCKET_ERROR', {message: error})
     } else {
       event.sender.send('ADD_ORDERS', {orders});
