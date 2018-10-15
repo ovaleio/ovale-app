@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": "ovaleio/ovale_releases",
   "scripts": {
-    "start": "electron . --inspect",
+    "start": "electron .",
     "reset": "electron . --reset",
     "test": "mocha",
     "build": "next build renderer && next export renderer",
@@ -20,7 +20,8 @@
     "win": "npm run buidprod && electron-builder -w -p never",
     "linux": "npm run buidprod && electron-builder -l -p never",
     "publish": "npm run buidprod && electron-builder -mlw -p always",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "bundle": {
     "name": "Ovale"
@@ -65,27 +66,36 @@
     }
   },
   "devDependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
     "babel-plugin-inline-import": "^2.0.6",
-    "electron": "2.0.10",
+    "css-loader": "^1.0.0",
     "electron-builder": "20.28.4",
     "electron-packager": "^10.1.0",
     "electron-redux-devtools": "^0.3.4",
     "eslint": "^5.6.0",
-    "next": "^4.0",
+    "mini-css-extract-plugin": "^0.4.4",
     "react": "^16.0",
     "react-dom": "^16.0",
     "react-hot-loader": "^4.0.0-beta.18",
     "rimraf": "^2.6.2",
-    "webpack": "^3.10.0"
+    "@storybook/react": "^3.4.11",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0"
   },
   "dependencies": {
     "@sentry/node": "4.0.3",
-    "@zeit/next-css": "^1.0.1",
     "about-window": "^1.12.1",
     "async": "^2.6.0",
+    "axios": "^0.18.0",
     "bitfinex-api-node": "^2.0.0-beta",
-    "css-loader": "^0.28.9",
     "diff-json": "^0.1.11",
+    "dotenv": "^6.1.0",
+    "electron": "^3.0.4",
+    "electron-config": "^1.0.0",
     "electron-context-menu": "^0.9.1",
     "electron-debug": "^2.0.0",
     "electron-devtools-installer": "^2.2.4",
@@ -97,18 +107,23 @@
     "electron-updater": "3.0.3",
     "express": "^4.16.2",
     "history": "^4.7.2",
+    "jsonwebtoken": "^8.3.0",
     "kraken-api": "^1.0.0",
     "material-ui": "^0.20.0",
+    "next": "^7.0.2",
     "next-redux-wrapper": "^1.3.5",
     "node-binance-api": "^0.8.3",
     "node-bitstamp": "^1.7.0",
     "node.bittrex.api": "^1.0.0",
     "poloniex-api-node": "^1.7.0",
+    "react-flexbox-grid": "^2.1.2",
     "react-interval": "^2.0.2",
     "react-moment": "^0.6.9",
+    "react-progress-button": "^5.1.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-validation": "^3.0.7",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
     "redux-devtools-extension": "^2.13.2",
@@ -119,6 +134,8 @@
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "style-loader": "^0.19.1",
-    "update-electron-app": "^1.3.0"
+    "update-electron-app": "^1.3.0",
+    "validator": "^10.8.0",
+    "webpack": "^4.20.2"
   }
 }

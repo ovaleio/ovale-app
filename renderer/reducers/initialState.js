@@ -4,6 +4,9 @@ module.exports = {
 		currentTab: 'Orders',
 		status: {}
 	},
+	user: {
+		email:''
+	},
 	ticker: {
 		currentTickerSymbol: 'bitfinex:USD-BTC',
 		price: 0,

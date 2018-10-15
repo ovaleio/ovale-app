@@ -1,5 +1,6 @@
 const changesets = require('diff-json');
 const defaultSettings = require('./defaultSettings');
+const log = require('electron-log');
 
 
 // Classe pour pouvoir conserver la flexibilité du provider de settings (pas sûr de conserver electron-settings)
@@ -12,7 +13,7 @@ class Settings {
 
   // Lance la procédure de vérification des données contenues dans electron-settings
   start() {
-
+    log.info('user-settings');
     if (!this.settingsProvider.has('init') || process.argv[2] === '--reset') {
 
       this.settingsProvider.setAll(Object.assign({init: Date.now()}, this.defaultSettings));
@@ -21,7 +22,7 @@ class Settings {
     } else {
 
       let changes = changesets.diff(this.settingsProvider.getAll(), this.defaultSettings);
-      console.log(changes)
+      log.info(changes);
       if(changes.length >0) {
         for(let change in changes){
           switch (changes[change].type){
@@ -53,7 +54,7 @@ class Settings {
   updateSetting(change){
 
     if (change.key === "supportedExchanges"){
-      console.log("changed :", change.key);
+      log.info("changed :", change.key);
 
       let supported = this.settingsProvider.get('supportedExchanges');
 
@@ -70,7 +71,7 @@ class Settings {
 
     }
     if (change.key === "credentials"){
-      console.log("changed :", change.key);
+      log.info("changed :", change.key);
 
       let supported = this.settingsProvider.get('credentials');
       for(let i=0; i<change.changes.length; i++) {

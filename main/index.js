@@ -8,15 +8,9 @@ const {
     ipcMain
 }                       = require('electron');
 
-const Sentry = require('@sentry/node');
-Sentry.init({ dsn: 'https://0b3e9bc318ef4ec586a2da0e258f4aab@sentry.io/1286691' });
-
 
 const log = require('electron-log');
-
 log.info('App starting...');
-
-
 
 // Logging on each launch for unhandled errors.
 // Specify another logger to send each log with each error.
@@ -24,34 +18,35 @@ log.info('App starting...');
 const unhandled = require('electron-unhandled');
 unhandled({logger:log.info, showDialog:false});
 
-
 const isDev             = require('electron-is-dev');
 
 const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
-
-
 const prepareNext       = require('electron-next');
 const { resolve }       = require('app-root-path');
 
-// Electron Settingss
+// Electron Settings
 // @see https://www.npmjs.com/package/electron-settings
 const settingsProvider  = require('electron-settings');
 
 // Loading Business Application
-const Settings          = require('./library/settings/index.js');
-const updater          = require('./library/updater.js');
+const Settings          = require('./library/user-settings/index.js');
+const updater           = require('./library/updater.js');
 const MenuTemplate      = require('./library/menu.js');
 const HandleRest        = require('./rest_handlers.js');
 const HandleSockets     = require('./websocket-server.js');
 
-
 const settings = new Settings(settingsProvider);
+
+// Sentry
+if (!isDev){
+    const Sentry = require('@sentry/node');
+    Sentry.init({ dsn: 'https://0b3e9bc318ef4ec586a2da0e258f4aab@sentry.io/1286691' });
+}
 
 const createWindow = () => {
 
     settings.start();
-
 
     startIPCHandler();
 
@@ -66,7 +61,7 @@ const createWindow = () => {
         height: 654,
         icon: iconPath,
         webPreferences: {
-            webSecurity: false // @todo : WHY ?
+            webSecurity: true // @todo : WHY ?
         }
     });
 
@@ -133,6 +128,7 @@ app.on('window-all-closed', () => {
 // Sets global variables in main process to be usable on renderer process.
 // @see http://electron.rocks/tag/global/
 function startIPCHandler() {
+    global.api = (isDev)?"http://localhost:8200":"https://api.ovale.io";
     global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
     global.websockets = HandleSockets.init();
     global.rest = HandleRest();

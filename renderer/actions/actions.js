@@ -105,3 +105,9 @@ export const requestSettings = () => {
 		emit('REQUEST_SETTINGS')
 	}
 };
+
+
+//USERS
+export const USER_LOGGED_IN = createAction('USER_LOGGED_IN');
+export const login = credentials => dispatch =>
+	api.user.login(credentials).then(user => dispatch(userLoggedin(user)));

@@ -64,12 +64,18 @@ const saveCredentials = (event, credentials) => {
   handleRest();
 }
 
+
+
 const openedMainWindow = (event) => {
   if (!settings.has('firstOpening')) event.sender.send('REDIRECT', {redirectTo: '/onboarding'})
 }
 
-const updateJWT = (event) => {
- console.log(event);
+const updateJWT = (event,payload) => {
+  if(payload !== undefined) {
+    if(settings.set('jwt', payload)){
+      event.sender.send('WEBSOCKET_SUCCESS', {message: 'You are sucessfully connected !'});
+    }
+  }
 };
 
 const handlers = {

@@ -1,0 +1,49 @@
+body {
+    background-color:#123932;
+    color: #ccc;
+    margin: 0;
+    padding:0;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.input {
+    border: 1px solid #858585;
+    background-color: rgba(6,6,6,0.3);
+    color: white;
+    width:100%;
+    padding: 10px;
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.input:focus {
+    border: 1px solid #858585;
+}
+
+.input:focus::-webkit-input-placeholder {
+    color:white
+}
+.button {
+    cursor:pointer;
+    background-color: #6EB487;
+    border:0px;
+    color: white;
+    text-align:center;
+    text-transform: uppercase;
+    width:100%;
+    padding: 10px;
+    font-size:16px;
+    box-shadow: rgba(0,0,0,0.15) 1px 2px 4px 2px;
+}
+button:disabled {
+    background-color: rgb(117, 131, 122);
+    color:#ccc;
+    cursor:not-allowed;
+}
+
+.form-error {
+    color:red;
+}
