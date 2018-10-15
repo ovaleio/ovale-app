@@ -92,7 +92,6 @@ format = {
 		},
 		to: {
 			order: (order) => {
-				console.log(order);
 				return {
 					amount: parseFloat(order.amount),
 					rate: parseFloat(order.rate),
@@ -103,6 +102,23 @@ format = {
 			}
 		}
 	},
+	"kraken": {
+		from: {
+			pair: (e) => e.replace(/XBT/, "BTC").replace(/^(\w+)(\w{3})$/, "$2-$1"),
+			currency: (c) => c.replace(/XBT/, "BTC").substring(1,4)
+		},
+		to: {
+			order: (order) => {
+				return {
+					pair: order.pair.replace(/^(\w+)-(\w+)/, '$2$1').replace(/BTC/, 'XBT'),
+					type: order.type,
+					ordertype: 'limit',
+					volume: order.amount,
+					price: order.rate,
+				}
+			}
+		}
+	}
 }
 
 format.flatten = (obj) => {
@@ -128,10 +144,10 @@ format.orders = function (orders, exchange) {
 		break;
 
 		case 'poloniex':
-
-			Object.keys(orders).map((e, i) => {
-				formattedOrders = orders[e].map((order) => ({
-					"pair": format.poloniex.from.pair(e),
+			//res looks like { BTC_EOS: [], ... } 
+			Object.keys(orders).map((pair, i) => {
+				const orderByPair = orders[pair].map((order) => ({
+					"pair": format.poloniex.from.pair(pair),
 					"type": order.type,
 					"exchange": "poloniex",
 					"amount": parseFloat(order.startingAmount),
@@ -140,7 +156,9 @@ format.orders = function (orders, exchange) {
 					"date": new Date(order.date),
 					"id": order.orderNumber
 				}))
+				formattedOrders = formattedOrders.concat(orderByPair);
 			})
+
 			break;
 
 		case 'bitfinex':
@@ -177,6 +195,23 @@ format.orders = function (orders, exchange) {
 				"date": new Date(order.time),
 				"id": order.orderId 
 			}) );
+			break;
+
+		case 'kraken':
+			orders = orders.open;
+			Object.keys(orders).forEach((txid, i) => {
+				let o = orders[txid]
+				let order = {
+					"pair": format.kraken.from.pair(o.descr.pair),
+					"type": o.descr.type,
+					"exchange": 'kraken',
+					"amount": parseFloat(o.vol),
+					"rate": parseFloat(o.descr.price),
+					"date": new Date(o.opentm * 1000),
+					"id": txid
+				}
+				formattedOrders.push(order);
+			});
 			break;
 	}
 
@@ -239,7 +274,7 @@ format.balances = function (balances, exchange) {
 					"type": balance.type,
 					"balance": parseFloat(balance.amount),
 					"available": parseFloat(balance.available),
-
+					"pending": ""
 				}
 				if (formattedBalance.balance > 0) formattedBalances.push(formattedBalance);
 			});
@@ -286,6 +321,22 @@ format.balances = function (balances, exchange) {
 					}
 					formattedBalances.push(formattedBalance);
 				}
+			})
+			break;
+
+		case 'kraken':
+			Object.keys(balances).map((currency, i) => {
+				const formattedCurrency = format.kraken.from.currency(currency);
+
+				var formattedBalance = {
+					"ticker": "kraken:" + formattedCurrency,
+					"currency": formattedCurrency,
+					"exchange": "kraken",
+					"balance": parseFloat(balances[currency]),
+					"available": parseFloat(balances[currency]),
+					"pending": ""
+				}
+				formattedBalances.push(formattedBalance);
 			})
 			break;
 	}
@@ -476,10 +527,30 @@ format.trades = function(trades, exchange, pair) {
 		case 'bitstamp':
 			console.log(trades)
 			break;
+		case 'kraken':
+			Object.keys(trades).forEach((txid) => {
+				let trade = trades[txid];
+				let pair = format[exchange].from.pair(trade.pair);
+				let formattedTrade = {
+					"symbol": exchange + ':' + pair,
+					"pair": pair,
+					"exchange": exchange,
+					"date": new Date(trade.time * 1000),
+					"type": trade.type,
+					"amount": parseFloat(trade.vol),
+					"rate": parseFloat(trade.price),
+					"fee": parseFloat(trade.fee)
+				}
+				formattedTrades.push(formattedTrade);
+			})
+			break;
 	}
 
 	//compute total amount of btc for each trade
 	formattedTrades.forEach((t) => {t.total = t.amount * t.rate});
+
+	console.log(formattedTrades);
+
 
 	return formattedTrades;
 }
