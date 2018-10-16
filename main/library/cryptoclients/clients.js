@@ -172,7 +172,10 @@ const methods = {
 		orders: (callback) => {
 			const get = async () => {
 				const res = await lib.api('OpenOrders');
-				if (res.error) console.log(res.error);
+				if (res.error) {
+					console.log(res.error);
+					return [];
+				}
 
 				const formattedOrders = format['orders'](res.result, 'kraken');
 				return formattedOrders;

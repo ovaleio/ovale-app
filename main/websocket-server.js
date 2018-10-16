@@ -87,7 +87,7 @@ const connectWS = {
                 
                 //console.log ('kraken', pairs)
 
-                //Fetch every 5 seconds
+                //Fetch every 8 seconds
                 setInterval ( async () => {
                     const res = await lib.api('Ticker', { pair: pairs});
                     if (res.error.length) {
@@ -96,7 +96,7 @@ const connectWS = {
                     else {
                         handleTickerData.kraken(res.result, altPairs)
                     }
-                }, 5000)
+                }, 8000)
             }
         }
         getTicker();
@@ -132,7 +132,7 @@ const handleTickerData = {
     "kraken": (markets, altPairs) => {
       //altPairs is a mapping object because Kraken uses different types of symbols
       Object.keys(markets).forEach((pair) => {
-        updateTickers("kraken", altPairs[pair], markets[pair].o)
+        updateTickers("kraken", altPairs[pair], markets[pair].c[0])
       })
     }
 }

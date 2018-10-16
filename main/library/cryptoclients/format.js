@@ -105,7 +105,8 @@ format = {
 	"kraken": {
 		from: {
 			pair: (e) => e.replace(/XBT/, "BTC").replace(/^(\w+)(\w{3})$/, "$2-$1"),
-			currency: (c) => c.replace(/XBT/, "BTC").substring(1,4)
+			pair2: (e) => e.replace(/XBT/, "BTC").replace(/^[XZ]?(\w+?)[XZ]?(\w{3})$/, "$2-$1"),
+			currency: (c) => c.replace(/XBT/, "BTC").replace(/[XZ](\w{3,5})$/, "$1")
 		},
 		to: {
 			order: (order) => {
@@ -530,7 +531,7 @@ format.trades = function(trades, exchange, pair) {
 		case 'kraken':
 			Object.keys(trades).forEach((txid) => {
 				let trade = trades[txid];
-				let pair = format[exchange].from.pair(trade.pair);
+				let pair = format[exchange].from.pair2(trade.pair);
 				let formattedTrade = {
 					"symbol": exchange + ':' + pair,
 					"pair": pair,
@@ -548,9 +549,6 @@ format.trades = function(trades, exchange, pair) {
 
 	//compute total amount of btc for each trade
 	formattedTrades.forEach((t) => {t.total = t.amount * t.rate});
-
-	//console.log(formattedTrades);
-
 
 	return formattedTrades;
 }
