@@ -135,6 +135,7 @@ app.on('window-all-closed', () => {
 function startIPCHandler() {
     global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
     global.firstOpening = settingsProvider.get('firstOpening') || settings.defaultSettings.firstOpening;
+    global.analytics = settingsProvider.get('enableAnalytics') ? require('universal-analytics')('UA-111994635-1') : false;
     global.websockets = HandleSockets.init();
     global.rest = HandleRest();
 }
