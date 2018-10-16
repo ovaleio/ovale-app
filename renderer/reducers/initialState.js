@@ -5,7 +5,8 @@ module.exports = {
 		status: {}
 	},
 	user: {
-		email:''
+		email:'',
+		message:''
 	},
 	ticker: {
 		currentTickerSymbol: 'bitfinex:USD-BTC',

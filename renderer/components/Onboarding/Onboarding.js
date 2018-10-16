@@ -1,16 +1,16 @@
 import React from 'react';
-import { ipcRenderer } from 'electron';
-
+import {connect} from 'react-redux';
+import { mapStateToProps } from '../../selectors/users'
+import {emailLogin} from '../../actions/actions'
 import Login from './Login'
 import Login2 from './Login2'
 
 import "./css/onboarding.css"
 
 class Onboarding extends React.Component {
-  submitEmail(email){
-      console.log(email)
-  }
+
   render() {
+		const { dispatch } = this.props
 
     return (
         <div className="row center-xs">
@@ -26,7 +26,10 @@ class Onboarding extends React.Component {
             {/* BODY */}
             <div className="row onboarding-body around-sm">
               <div className="col-xs-5">
-                <Login2 submit={this.submitEmail}/>
+                <Login2 submit={(email) => {
+				    				dispatch(emailLogin(email));
+				    			}}/>
+
               </div>
             </div>
 
@@ -38,4 +41,4 @@ class Onboarding extends React.Component {
 }
 
 
-export default Onboarding
+export default connect(mapStateToProps)(Onboarding)

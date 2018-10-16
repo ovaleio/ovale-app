@@ -23,6 +23,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  
   "bundle": {
     "name": "Ovale"
   },
@@ -128,6 +129,7 @@
     "redux-actions": "^2.2.1",
     "redux-devtools-extension": "^2.13.2",
     "redux-electron-store": "^0.6.2",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "request": "^2.83.0",
     "reselect": "^3.0.1",

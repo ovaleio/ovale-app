@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-
+import logger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers'
 import initialState from './reducers/initialState'
@@ -23,7 +23,11 @@ export default function initStore () {
   	rootReducer,
   	initialState,
     composeEnhancers(
-  		applyMiddleware(historyMiddleware, thunkMiddleware.withExtraArgument({ emit }))
+  		applyMiddleware(
+        historyMiddleware,
+        thunkMiddleware.withExtraArgument({ emit }),
+        logger
+      )
   	)
   )
 

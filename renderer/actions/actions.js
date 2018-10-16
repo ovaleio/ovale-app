@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions'
+import api from "../api/api";
 
 //COMMON
 export const switchTab = createAction('SWITCH_TAB');
@@ -108,6 +109,13 @@ export const requestSettings = () => {
 
 
 //USERS
-export const USER_LOGGED_IN = createAction('USER_LOGGED_IN');
-export const login = credentials => dispatch =>
-	api.user.login(credentials).then(user => dispatch(userLoggedin(user)));
+export const emailSuccess = createAction('EMAIL_SUCCESS');
+export const emailError = createAction('EMAIL_ERROR');
+
+export const emailLogin = (email) => (dispatch) => {
+	api.user.emailLogin(email).then(res=>{
+		dispatch(emailSuccess(res))
+	}).catch(e=>{
+		dispatch(emailError())
+	})
+};

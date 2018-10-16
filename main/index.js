@@ -20,6 +20,11 @@ unhandled({logger:log.info, showDialog:false});
 
 const isDev             = require('electron-is-dev');
 
+// We load the dotdev config
+require('dotenv').config()
+process.env.API =(isDev)?process.env.DEV_API:process.env.PROD_API;
+
+
 const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
 const prepareNext       = require('electron-next');

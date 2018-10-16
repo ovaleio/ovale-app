@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Error from './Error.js';
 import validator from 'validator';
@@ -16,13 +16,13 @@ function validate(email) {
   return errors;
 }
 
-class Login extends React.Component {
+class Login2 extends React.Component {
   constructor() {
     super();
     this.state = {
       requestFullfiled:'',
       buttonText:'Login',
-      email : "",
+      email : "slashbinslashnoname@gmail.com",
       disabled : 'disabled',
       errors: []
     }
@@ -52,15 +52,13 @@ class Login extends React.Component {
   }
 
   render() {
-    const {dispatch, email } = this.props;
-
 
     if (this.state.errors.length>0) {
       var Errors = <Error errors={this.state.errors} />
     } else {
       var Errors = "";
     }
-
+    
     return (
 
 
@@ -91,10 +89,9 @@ class Login extends React.Component {
 }
 
 
-Login.PropTypes = {
-  email: PropTypes.string.isRequired,
-  submit: PropTypes.func.isRequired
+Login2.propTypes = {
+  submit: propTypes.func.isRequired
 }
 
 
-export default connect()(Login)
+export default connect()(Login2)

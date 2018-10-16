@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const withCss = require('@zeit/next-css');
-require('dotenv').config()
 
 
 module.exports = withCss({
@@ -19,10 +18,6 @@ module.exports = withCss({
       (plugin) => (plugin.constructor.name !== 'UglifyJsPlugin')
     )
     return config
-  },
-  env: {
-    DEV_API: 'http://localhost:8200',
-    PROD_API: 'https://api.ovale.io/api'
   },
   exportPathMap() {
     // Let Next.js know where to find the entry page
