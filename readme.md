@@ -8,7 +8,7 @@ CryptoTrader is a unified trading client for cryptocurrency exchanges.
 - Bittrex
 - Poloniex
 - Binance (v 0.1.7)
-- Binance (v 0.1.9)
+- Kraken (v 0.1.9)
 
 ## How to run
 
@@ -29,3 +29,8 @@ Launch the electron app
 ## How to build 
 
 `npm run dist`
+
+
+# onboarding
+
+Onboarding process is (described here)[Onboarding.md]
