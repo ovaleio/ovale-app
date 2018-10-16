@@ -33,4 +33,4 @@ Launch the electron app
 
 # onboarding
 
-Onboarding process is (described here)[Onboarding.md]
+Onboarding process is [described here](Onboarding.md)
