@@ -12,7 +12,9 @@ const userReducer = handleActions({
     return { 
       ...state, 
       exists:true,
-      email: email
+      user: {
+        email
+      } 
     }
   },
   // email Login
@@ -21,7 +23,7 @@ const userReducer = handleActions({
     return { 
       ...state,
       exists:false,
-      email:""
+      user:{}
     }
   }
 }, initialState.user);

@@ -5,8 +5,13 @@ module.exports = {
 		status: {}
 	},
 	user: {
-		email:'',
-		message:''
+		exists:false,
+		message:'',
+		user:{
+			email:"",
+			password:""
+		},
+		step:1
 	},
 	ticker: {
 		currentTickerSymbol: 'bitfinex:USD-BTC',
