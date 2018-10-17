@@ -26,11 +26,6 @@ const sendSettings = (event) => {
 const handleCancelOrder = (event, order, clients) => {
   event.sender.send('WEBSOCKET_PENDING', {message: 'Cancelling order...'})
 
-  // Save event if tracking is enabled
-  if (global.analytics) {
-    global.analytics.event("Cancel Order", "Click").send();
-  }
-
   clients.get('cancelOrder', order.exchange)(order, (err, res) => {
     console.log(err,res);
     if (err) {
@@ -46,11 +41,6 @@ const handleCancelOrder = (event, order, clients) => {
 
 const handleNewOrder = (event, {orders}, clients) => {
   event.sender.send('WEBSOCKET_PENDING', {message: 'Passing order...'})
-
-  // Save event if tracking is enabled
-  if (global.analytics) {
-    global.analytics.event("Pass New Order", "Click").send();
-  }
 
   clients.passOrders(orders, (err,res) => {
     if (err) {
@@ -68,12 +58,6 @@ const saveCredentials = (event, credentials) => {
   global.credentials = credentials;
   settings.set('credentials', global.credentials);
   settings.set('lastSaved', Date.now());
-
-  // Save event if tracking is enabled
-  if (global.analytics) {
-    global.analytics.event("Save Credentials", "Click").send();
-  }
-
 
   event.sender.send('WEBSOCKET_SUCCESS', {message: 'Settings saved !'});
   handleSockets.restart()
