@@ -5,9 +5,9 @@ module.exports = {
 		status: {}
 	},
 	user: {
-		exists:false,
 		message:'',
 		user:{
+			name:"",
 			email:"",
 			password:""
 		},

@@ -1,37 +1,26 @@
-import React from 'react';
-import propTypes from 'prop-types';
+import React, { Component } from 'react'
+
 import {connect} from 'react-redux';
-import Error from './Error.js';
-import validator from 'validator';
-import {emailSetMessage} from '../../actions/actions'
 import { mapStateToProps } from '../../selectors/users'
+import {emailSetMessage, userName} from '../../actions/actions'
+import Error from './Error';
 
-function validate(email) {
-  // store err in a single array
-  const errors = [];
-
-  if (!validator.isEmail(email)){
-    errors.push("Email is not valid");
-  }
-
-  return errors;
-}
-
-class Login2 extends React.Component {
+class Name extends Component {
+  
   constructor() {
     super();
     this.state = {
-      requestFullfiled:'',
-      buttonText:'Login',
-      email : "",
+      name:'',
+      buttonText:'Next',
       disabled : 'disabled',
       errors: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  
   handleChange = e => {
+    // We remove the errors if there is novalue at all
     if(e.target.value==="") {
       this.setState({errors:[]})
     }
@@ -43,23 +32,19 @@ class Login2 extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { email } = this.state;
+    const { name, errors } = this.state;
 
-    // Validation
-    const errors = validate(email);
-    this.setState({errors})
-    
     if(errors.length === 0) {
-      this.props.submit(this.state.email);
+      this.props.dispatch(userName(name))
     }
     return false;
   }
 
   render() {
+   
+    const {  message, dispatch } = this.props;
 
-    const { message, dispatch } = this.props
-
-    if(message) {
+    if(message != "") {
       this.state.errors.push(message);
       dispatch(emailSetMessage(''));
     }
@@ -70,30 +55,35 @@ class Login2 extends React.Component {
       var Errors = [];
     }
     
-
-    
     return (
-
       <div>
-        {this.state.requestFullfiled}
-        <div className="row center-xs">
+       
+       <div className="row">
+          <div className="col-xs-12">
+            <p>
+              Welcome to OVALE! How should we call you? 
+            </p>
+          </div>
+        </div>
+        <div className="row">
           <div className="col-xs-12">
             <form name="login" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="col-xs-12">
                   <input type="text"
                     className="input col-xs-12" 
-                    name="email" 
-                    placeholder="Enter your email here" 
-                    value={this.state.email} 
+                    name="name" 
+                    placeholder="Type your name"
+                    value={this.state.name}
                     onChange={e => this.handleChange(e)} />
                 </div>
               </div>
               {Errors}
-              <button id="loginButton"  disabled={!this.state.email} className="button col-xs-12">{this.state.buttonText}</button>
+              <button id="loginButton"  disabled={!this.state.name} className="button col-xs-12">{this.state.buttonText}</button>
             </form>
           </div>
         </div>
+        
         
       </div>
     )
@@ -101,9 +91,4 @@ class Login2 extends React.Component {
 }
 
 
-Login2.propTypes = {
-  submit: propTypes.func.isRequired
-}
-
-
-export default connect(mapStateToProps)(Login2)
+export default connect(mapStateToProps)(Name)

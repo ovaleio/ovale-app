@@ -6,26 +6,79 @@ import initialState from './initialState';
 
 const userReducer = handleActions({
  
-  // email Login
+  /*
+  Email Success : When a user is successfully authentified by the api
+  */
   [actions.emailSuccess](state, {payload: email}) {
     console.log('ok')
     return { 
       ...state, 
-      exists:true,
       user: {
         email
-      } 
+      },
+      step:2
     }
   },
-  // email Login
-  [actions.emailError](state) {
+ 
+  /*
+  Email Error : When a user encouters an unexpected result
+  */
+  [actions.apiUnreachable](state,{} ) {
     console.log('nok')
     return { 
       ...state,
-      exists:false,
-      user:{}
+      message: 'Api unreachable'
     }
+  },
+
+  /*
+  Email NOT FOUND : When a user is not authentified by the api (not yet registered)
+  */
+ [actions.emailNotFound](state, {payload: email}) {
+  return { 
+    ...state,
+    user: {
+      email
+    },
+    step:3,
+    message: ""
   }
+},
+
+  /*
+  set Message
+  */
+  [actions.emailSetMessage](state,{payload: message} ) {
+    return { 
+      ...state,
+      message
+    }
+  },
+
+  /*
+  Digits SUCCESS : When a user has successfully entered the 6 digits
+  */
+  [actions.digitsSuccess](state) {
+    return { 
+      ...state,
+      step:4,
+      message: ""
+    }
+  },
+
+  /*
+  userName : When a user edits his name
+  */
+ [actions.userName](state, {payload: name}) {
+   console.log(state)
+  return { 
+      ...state,
+      user: {...state.user, name},
+      step:5,
+      message: ""
+    }
+  },
+
 }, initialState.user);
 
 export default userReducer

@@ -109,13 +109,37 @@ export const requestSettings = () => {
 
 
 //USERS
-export const emailSuccess = createAction('EMAIL_SUCCESS');
-export const emailError = createAction('EMAIL_ERROR');
+export const apiUnreachable     = createAction('API_ERROR');
+
+export const emailSetMessage    = createAction('EMAIL_SETMESSAGE');
+export const emailSuccess 		= createAction('EMAIL_SUCCESS');
+export const emailNotFound		= createAction('EMAIL_NOT_FOUND');
+export const digitsSuccess 		= createAction('DIGITS_SUCCESS');
+export const digitsError		= createAction('DIGITS_ERROR');
+export const userName			= createAction('USER_NAME');
 
 export const emailLogin = (email) => (dispatch) => {
 	api.user.emailLogin(email).then(res=>{
 		dispatch(emailSuccess(res))
 	}).catch(e=>{
-		dispatch(emailError())
+		if(e.e === 404) {
+			dispatch(apiUnreachable(e))
+		} else {
+			dispatch(emailNotFound(email))
+		}
+		
 	})
 };
+
+export const digitsCheck = (email, digits) => (dispatch) => {
+	api.user.checkDigits({email, digits}).then(res=>{
+		dispatch(digitsSuccess())
+	}).catch(e=>{
+		if(e.e === 404) {
+			dispatch(apiUnreachable(e))
+		} else {
+			dispatch(emailSetMessage('Wrong digits for your email, verify your last received email'))
+		}
+	})
+};
+

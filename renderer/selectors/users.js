@@ -2,6 +2,8 @@ import { createSelector } from 'reselect'
 
 export const mapStateToProps = (state) => {
 	return {
-		email: state.userReducer.email,
+		message: state.userReducer.message,
+		user: state.userReducer.user,
+		step: state.userReducer.step,
 	}
 }
