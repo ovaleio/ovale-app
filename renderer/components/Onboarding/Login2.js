@@ -24,7 +24,7 @@ class Login2 extends React.Component {
       requestFullfiled:'',
       buttonText:'Login',
       email : "",
-      disabled : 'disabled',
+      disabled : false,
       errors: []
     }
     this.handleChange = this.handleChange.bind(this);
@@ -32,6 +32,10 @@ class Login2 extends React.Component {
   }
 
   handleChange = e => {
+    if(this.state.disabled === true)
+    {
+      this.state.disabled = false;
+    }
     if(e.target.value==="") {
       this.setState({errors:[]})
     }
@@ -42,12 +46,13 @@ class Login2 extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    
 
     const { email } = this.state;
 
     // Validation
     const errors = validate(email);
-    this.setState({errors})
+    this.setState({disabled:true, errors})
     
     if(errors.length === 0) {
       this.props.submit(this.state.email);
@@ -89,8 +94,8 @@ class Login2 extends React.Component {
                     onChange={e => this.handleChange(e)} />
                 </div>
               </div>
+              <button id="loginButton"  disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
-              <button id="loginButton"  disabled={!this.state.email} className="button col-xs-12">{this.state.buttonText}</button>
             </form>
           </div>
         </div>

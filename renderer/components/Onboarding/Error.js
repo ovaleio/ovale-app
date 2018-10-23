@@ -4,17 +4,16 @@ import "./css/error.css";
 class Error extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
   }
 
   render() {
 
     return (
-      <ul className="error">
+      <div className="error">
          {this.props.errors.map(error => (
-            <li key={error}>Error: {error}</li>
+           <div>Error: {error}</div>
          ))}   
-      </ul>
+      </div>
     )
   }
 }

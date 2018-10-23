@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 
 import {connect} from 'react-redux';
 import { mapStateToProps } from '../../selectors/users'
-import {emailSetMessage, editName} from '../../actions/actions'
+import {userLogin, emailSetMessage} from '../../actions/actions'
 import Error from './Error';
 
-class Name extends Component {
+class PasswordLogin extends Component {
   
   constructor() {
     super();
     this.state = {
-      name:'',
+      password:'',
       buttonText:'Next',
       disabled : 'disabled',
       errors: []
@@ -32,11 +32,11 @@ class Name extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    const { name, errors } = this.state;
-    const {user, jwt}  = this.props;
+    const { password, errors } = this.state;
+    const {user}  = this.props;
 
     if(errors.length === 0) {
-      this.props.dispatch(editName(user.email, name, jwt))
+      this.props.dispatch(userLogin(user.email, password))
     }
     return false;
   }
@@ -62,7 +62,7 @@ class Name extends Component {
        <div className="row">
           <div className="col-xs-12 onboarding-text-header">
             <p>
-              Welcome to OVALE! How should we call you? 
+              Welcome back ! Please enter your password.
             </p>
           </div>
         </div>
@@ -71,15 +71,15 @@ class Name extends Component {
             <form name="login" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="col-xs-12">
-                  <input type="text"
+                  <input type="password"
                     className="input col-xs-12" 
-                    name="name" 
-                    placeholder="Type your name"
+                    name="password" 
+                    placeholder="Your password"
                     value={this.state.name}
                     onChange={e => this.handleChange(e)} />
                 </div>
               </div>
-              <button id="loginButton"  disabled={!this.state.name} className="button col-xs-12">{this.state.buttonText}</button>
+              <button id="loginButton"  disabled={!this.state.password} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
             </form>
           </div>
@@ -92,4 +92,4 @@ class Name extends Component {
 }
 
 
-export default connect(mapStateToProps)(Name)
+export default connect(mapStateToProps)(PasswordLogin)

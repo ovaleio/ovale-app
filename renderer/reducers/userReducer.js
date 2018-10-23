@@ -7,18 +7,28 @@ import initialState from './initialState';
 const userReducer = handleActions({
  
   /*
-  Email Success : When a user is successfully authentified by the api
+  Email Success : When a user email is successfully authentified by the api
   */
-  [actions.emailSuccess](state, {payload: email}) {
-    console.log('ok')
-    return { 
-      ...state, 
-      user: {
-        email
-      },
-      step:2
-    }
-  },
+ [actions.emailSuccess](state, {payload: email}) {
+  return { 
+    ...state, 
+    user: {
+      email
+    },
+    step:10
+  }
+},
+
+/*
+  Login Success : When a user is successfully authentified by the api
+  */
+ [actions.loginSuccess](state, {payload: res}) {
+  return { 
+    ...state, 
+    jwt: res.token,
+    step:666
+  }
+},
  
   /*
   Email Error : When a user encouters an unexpected result
@@ -40,7 +50,7 @@ const userReducer = handleActions({
     user: {
       email
     },
-    step:3,
+    step:2,
     message: ""
   }
 },
@@ -58,8 +68,20 @@ const userReducer = handleActions({
   /*
   Digits SUCCESS : When a user has successfully entered the 6 digits
   */
-  [actions.digitsSuccess](state) {
+  [actions.digitsSuccess](state,{payload:jwt}) {
     return { 
+      ...state,
+      jwt: jwt.result,
+      step:3,
+      message: ""
+    }
+  },
+
+  /*
+  When a user successfully creeated an account
+  */
+ [actions.registerSuccess](state) {
+  return { 
       ...state,
       step:4,
       message: ""
@@ -70,11 +92,22 @@ const userReducer = handleActions({
   userName : When a user edits his name
   */
  [actions.userName](state, {payload: name}) {
-   console.log(state)
   return { 
       ...state,
       user: {...state.user, name},
-      step:5,
+      step:666,
+      message: ""
+    }
+  },
+
+
+  /*
+  Down step
+  */
+ [actions.onboardingStepDown](state) {
+  return { 
+      ...state,
+      step:state.step--,
       message: ""
     }
   },

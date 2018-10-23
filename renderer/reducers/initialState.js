@@ -11,6 +11,7 @@ module.exports = {
 			email:"",
 			password:""
 		},
+		jwt:'',
 		step:1
 	},
 	ticker: {

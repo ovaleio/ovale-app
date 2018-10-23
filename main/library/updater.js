@@ -19,15 +19,6 @@ const updater = {
 
         autoUpdater.on('update-available', function(info) {
             log.info(info);
-
-            if(Notification.isSupported()) {
-                let notif = new Notification({
-                    title:"New update available",
-
-                    body:"Downloading a new update (v" + info.version+") for Ovale.",
-                });
-                notif.show();
-            }
         });
 
         autoUpdater.on('update-not-available', function(info) {

@@ -16,18 +16,21 @@ class EmailVerification extends Component {
     this.state = {
       digits:'',
       buttonText:'Next',
-      disabled : 'disabled',
+      disabled : false,
       errors: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   validate() {
     // store err in a single array
     const errors = [];
   
     if (!validator.isNumeric(this.state.digits)){
+      errors.push("Digits are not valids");
+    }
+    if (this.state.digits.length !== 6){
       errors.push("Digits are not valids");
     }
   
@@ -38,6 +41,11 @@ class EmailVerification extends Component {
     // When typing, we remove the errors
     if(e.target.value==="") {
       this.setState({errors:[]})
+    }
+
+    if(this.state.disabled === true)
+    {
+      this.state.disabled = false;
     }
     this.setState({
       [e.target.name]: e.target.value
@@ -51,7 +59,7 @@ class EmailVerification extends Component {
 
     // Validation
     const errors = this.validate();
-    this.setState({errors})
+    this.setState({disabled:true, errors})
     
     if(errors.length === 0) {
       this.props.submit(digits);
@@ -78,17 +86,14 @@ class EmailVerification extends Component {
       <div>
        
        <div className="row">
-          <div className="col-xs-12">
+          <div className="col-xs-12 onboarding-text-header">
             <p>
-              Oh it’s your first time here ! 
+              Oh, it’s your first time here ! 
             </p>
             <p>
               We have sent you a confirmation code by email.
             </p>
-            <br />
-            <p>
-              Please enter the 6 digits code below
-            </p>
+            <p>Please enter the 6 digits code below.</p>
           </div>
         </div>
         <div className="row">
@@ -104,8 +109,8 @@ class EmailVerification extends Component {
                     onChange={e => this.handleChange(e)} />
                 </div>
               </div>
+              <button id="loginButton"  disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
-              <button id="loginButton"  disabled={!this.state.digits} className="button col-xs-12">{this.state.buttonText}</button>
             </form>
           </div>
         </div>

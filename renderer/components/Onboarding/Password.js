@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import {connect} from 'react-redux';
 import { mapStateToProps } from '../../selectors/users'
-import {emailSetMessage, userName} from '../../actions/actions'
+import {register, emailSetMessage} from '../../actions/actions'
 import Error from './Error';
 
 class Password extends Component {
@@ -20,7 +20,15 @@ class Password extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   
+
+  validate() {
+    
+  }
+
   handleChange = e => {
+
+    this.validate();
+
     // We remove the errors if there is novalue at all
     if(e.target.value==="") {
       this.setState({errors:[]})
@@ -34,9 +42,10 @@ class Password extends Component {
     e.preventDefault();
 
     const { password, errors } = this.state;
-
+    const {  user, jwt, dispatch } = this.props;
+console.log(jwt)
     if(errors.length === 0) {
-      this.props.dispatch(password(password))
+      dispatch(register(user.email, password, jwt))
     }
     return false;
   }
@@ -60,9 +69,9 @@ class Password extends Component {
       <div>
        
        <div className="row">
-          <div className="col-xs-12">
+          <div className="col-xs-12 onboarding-text-header">
             <p>
-              Alright {user.name} ! Let's protect your account
+              Alright {user.name} ! Let's protect your account, create a password.
             </p>
           </div>
         </div>

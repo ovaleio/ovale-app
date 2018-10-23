@@ -110,17 +110,37 @@ export const requestSettings = () => {
 
 //USERS
 export const apiUnreachable     = createAction('API_ERROR');
-
 export const emailSetMessage    = createAction('EMAIL_SETMESSAGE');
+
+export const onboardingStepDown = createAction('ONBOARDING_STEPDOWN');
+
 export const emailSuccess 		= createAction('EMAIL_SUCCESS');
 export const emailNotFound		= createAction('EMAIL_NOT_FOUND');
+
 export const digitsSuccess 		= createAction('DIGITS_SUCCESS');
 export const digitsError		= createAction('DIGITS_ERROR');
+
 export const userName			= createAction('USER_NAME');
+export const registerSuccess 	= createAction('REGISTER_SUCCESS');
+
+export const loginSuccess 	    = createAction('LOGIN_SUCCESS');
+
+export const userLogin = (email, password) => (dispatch) => {
+	api.user.emailLogin(email, password).then(res=>{
+		dispatch(loginSuccess(res.email))
+	}).catch(e=>{
+		if(e.e === 404) {
+			dispatch(apiUnreachable(e))
+		} else {
+			dispatch(emailSetMessage(e.message))
+		}
+		
+	})
+};
 
 export const emailLogin = (email) => (dispatch) => {
 	api.user.emailLogin(email).then(res=>{
-		dispatch(emailSuccess(res))
+		dispatch(emailSuccess(res.email))
 	}).catch(e=>{
 		if(e.e === 404) {
 			dispatch(apiUnreachable(e))
@@ -131,9 +151,33 @@ export const emailLogin = (email) => (dispatch) => {
 	})
 };
 
+export const register = (email, password, jwt) => (dispatch) => {
+	api.user.register(email, password, jwt).then(res=>{
+		dispatch(registerSuccess(res))
+	}).catch(e=>{
+		if(e.e === 404) {
+			dispatch(apiUnreachable(e))
+		} else {
+			dispatch(apiUnreachable(e))
+		}
+	})
+};
+
+export const editName = (email, name, jwt) => (dispatch) => {
+	api.user.editName(email, name, jwt).then(res=>{
+		dispatch(userName(name))
+	}).catch(e=>{
+		if(e.e === 404) {
+			dispatch(apiUnreachable(e))
+		} else {
+			dispatch(apiUnreachable(e))
+		}
+	})
+};
+
 export const digitsCheck = (email, digits) => (dispatch) => {
 	api.user.checkDigits({email, digits}).then(res=>{
-		dispatch(digitsSuccess())
+		dispatch(digitsSuccess(res))
 	}).catch(e=>{
 		if(e.e === 404) {
 			dispatch(apiUnreachable(e))
