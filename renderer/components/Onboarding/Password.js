@@ -22,8 +22,6 @@ class Password extends Component {
   
   handleChange = e => {
 
-    this.validate();
-
     // We remove the errors if there is novalue at all
     if(e.target.value==="") {
       this.setState({errors:[]})
