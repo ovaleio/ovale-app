@@ -24,10 +24,13 @@ const settingsReducer = handleActions({
   		}
   	}
   },
-  [actions.updateJWT](state, {payload: jwt}) {
+  [actions.updateEmail](state, {payload: email}) {
     return  {
       ...state,
-      jwt: jwt
+      user:{
+        ...user,
+        email:email
+      } 
     };
   }
 }, initialState.settings);

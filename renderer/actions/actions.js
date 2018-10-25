@@ -95,9 +95,9 @@ export const saveSettings = createAction('SAVE_SETTINGS');
 export const handleChangeSettings = createAction('HANDLE_CHANGE_SETTINGS');
 export const receiveSettings = createAction('SETTINGS');
 
-export const updateJWT = () => {
+export const updateEmail = () => {
   return (dispatch, getState, {emit}) => {
-    emit('UPDATE_JWT')
+    emit('UPDATE_EMAIL')
   }
 };
 
@@ -126,17 +126,23 @@ export const registerSuccess 	= createAction('REGISTER_SUCCESS');
 export const loginSuccess 	    = createAction('LOGIN_SUCCESS');
 
 export const userLogin = (email, password) => (dispatch) => {
-	api.user.emailLogin(email, password).then(res=>{
-		dispatch(loginSuccess(res.email))
+	api.user.userLogin(email, password).then(res=>{
+		//email && jwt
+		dispatch(loginSuccess(res))
 	}).catch(e=>{
 		if(e.e === 404) {
 			dispatch(apiUnreachable(e))
 		} else {
-			dispatch(emailSetMessage(e.message))
+			dispatch(emailSetMessage('This account is not found.'))
 		}
 		
 	})
 };
+
+export const settingsEmail = (email)=> (dispatch) => {
+	dispatch(emailSuccess(email))
+};
+
 
 export const emailLogin = (email) => (dispatch) => {
 	api.user.emailLogin(email).then(res=>{

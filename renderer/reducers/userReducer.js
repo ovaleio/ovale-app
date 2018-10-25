@@ -19,13 +19,20 @@ const userReducer = handleActions({
   }
 },
 
+ 
 /*
   Login Success : When a user is successfully authentified by the api
   */
  [actions.loginSuccess](state, {payload: res}) {
+   console.log("action login success", res.jwt)
   return { 
-    ...state, 
-    jwt: res.token,
+    ...state,
+    user: {
+      ...state.user,
+      email: res.email,
+      jwt: res.jwt
+    },
+    
     step:666
   }
 },
@@ -58,10 +65,10 @@ const userReducer = handleActions({
   /*
   set Message
   */
-  [actions.emailSetMessage](state,{payload: message} ) {
+  [actions.emailSetMessage](state,{payload: message}) {
     return { 
       ...state,
-      message
+      message: message
     }
   },
 

@@ -20,11 +20,6 @@ class Password extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   
-
-  validate() {
-    
-  }
-
   handleChange = e => {
 
     this.validate();
@@ -43,21 +38,28 @@ class Password extends Component {
 
     const { password, errors } = this.state;
     const {  user, jwt, dispatch } = this.props;
-console.log(jwt)
+    console.log(jwt)
     if(errors.length === 0) {
       dispatch(register(user.email, password, jwt))
     }
     return false;
   }
 
-  render() {
-   
-    const {  user,  message, dispatch } = this.props;
+  componentDidMount() {
+    const { message } = this.state;
+    const { dispatch } = this.props;
 
     if(message != "") {
-      this.state.errors.push(message);
+      this.setState({message});
       dispatch(emailSetMessage(''));
     }
+  }
+
+  render() {
+   
+    const {  user, dispatch } = this.props;
+
+    
     // Grab 'em to the user
     if (this.state.errors.length>0 ) {
       var Errors = <Error errors={this.state.errors} />

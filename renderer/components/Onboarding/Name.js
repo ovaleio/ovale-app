@@ -20,6 +20,7 @@ class Name extends Component {
   }
   
   handleChange = e => {
+    this.state.disabled= "";
     // We remove the errors if there is novalue at all
     if(e.target.value==="") {
       this.setState({errors:[]})
@@ -34,6 +35,8 @@ class Name extends Component {
 
     const { name, errors } = this.state;
     const {user, jwt}  = this.props;
+
+    this.state.disabled = "disabled"
 
     if(errors.length === 0) {
       this.props.dispatch(editName(user.email, name, jwt))

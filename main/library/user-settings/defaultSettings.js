@@ -1,7 +1,11 @@
 const supportedExchanges = ['bitfinex', 'bittrex', 'poloniex', 'binance', 'kraken'];
 
 const settings = {
-	jwt:null,
+	user:{
+		email:null,
+		jwt:null,
+		validUntil:null
+	},
     lastCheckUpdate:0,
 	firstOpening: true,
 	restDelay: {

@@ -10,8 +10,8 @@ class Error extends React.Component {
 
     return (
       <div className="error">
-         {this.props.errors.map(error => (
-           <div>Error: {error}</div>
+         {this.props.errors.map((error, key) => (
+           <div key={key}>Error: {error}</div>
          ))}   
       </div>
     )

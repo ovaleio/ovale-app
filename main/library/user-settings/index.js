@@ -21,16 +21,13 @@ class Settings {
 
     } else {
 
-      let changes = changesets.diff(this.settingsProvider.getAll(), this.defaultSettings);
+      let changes = changesets.diff(this.settingsProvider.getAll(),this.defaultSettings);
       log.info(changes);
       if(changes.length >0) {
         for(let change in changes){
           switch (changes[change].type){
             case "add":
               this.addSetting(changes[change]);
-              break;
-            case "remove":
-              this.removeSetting(changes[change]);
               break;
             case "update":
               this.updateSetting(changes[change]);
@@ -44,14 +41,11 @@ class Settings {
   addSetting(change){
     this.settingsProvider.set(change.key, change.value);
   }
-  removeSetting(change){
-    if (change.key !== "init"){
-      this.settingsProvider.delete(change.key);
-    }
-  }
 
   // Update local Setting with the new defaultSetting format
   updateSetting(change){
+
+    if(change.key == "user") return;
 
     if (change.key === "supportedExchanges"){
       log.info("changed :", change.key);
@@ -68,15 +62,15 @@ class Settings {
         }
       }
       this.settingsProvider.set(change.key, supported);
-
     }
     if (change.key === "credentials"){
-      log.info("changed :", change.key);
 
       let supported = this.settingsProvider.get('credentials');
       for(let i=0; i<change.changes.length; i++) {
 
         if( change.changes[i].type === "add") {
+          log.info("changed add:", change.key);
+
           console.log(change.changes[i].key)
           console.log(change.changes[i].value)
           supported[change.changes[i].key] = change.changes[i].value;
@@ -84,7 +78,6 @@ class Settings {
         }
       }
       this.settingsProvider.set(change.key, supported);
-
     }
   }
 

@@ -35,6 +35,10 @@ class Login extends React.Component {
   }
 
   handleChange = e => {
+    if(this.state.disabled === true)
+    {
+      this.state.disabled = false;
+    }
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -62,10 +66,10 @@ class Login extends React.Component {
         // if we are successfull.
         .then( res => {
 
-          if(res.data.token !== undefined){
+          if(res.data.email !== undefined){
 
             // Update JWT
-            ipcRenderer.send('UPDATE_JWT', res.data.token);
+            ipcRenderer.send('UDPATE_EMAIL', {mail: res.data.email, jwt:res.data.jwt});
 
             // Erase errors and redirect
             this.setState({
@@ -73,6 +77,8 @@ class Login extends React.Component {
               errors: []
             })
 
+          } else {
+            throw new Error('unexpected error on login')
           }
         })
         //we catch errors

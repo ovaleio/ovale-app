@@ -12,7 +12,7 @@ class PasswordLogin extends Component {
     this.state = {
       password:'',
       buttonText:'Next',
-      disabled : 'disabled',
+      disabled : false,
       errors: []
     }
     this.handleChange = this.handleChange.bind(this);
@@ -20,6 +20,10 @@ class PasswordLogin extends Component {
   }
   
   handleChange = e => {
+    if(this.state.disabled === true)
+    {
+      this.state.disabled = false;
+    }
     // We remove the errors if there is novalue at all
     if(e.target.value==="") {
       this.setState({errors:[]})
@@ -31,38 +35,39 @@ class PasswordLogin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
+    this.state.disabled="disabled";
     const { password, errors } = this.state;
-    const {user}  = this.props;
+    const {user, dispatch}  = this.props;
+    this.setState({disabled:true})
 
     if(errors.length === 0) {
-      this.props.dispatch(userLogin(user.email, password))
+      dispatch(userLogin(user.email, password))
     }
     return false;
   }
 
+  
   render() {
-   
-    const {  message, dispatch } = this.props;
+    const {  user, message, dispatch } = this.props;
 
     if(message != "") {
       this.state.errors.push(message);
       dispatch(emailSetMessage(''));
     }
-    // Grab 'em to the user
-    if (this.state.errors.length>0 ) {
+
+   // Grab 'em to the user
+   if (this.state.errors.length>0 ) {
       var Errors = <Error errors={this.state.errors} />
     } else {
       var Errors = [];
     }
-    
     return (
       <div>
        
        <div className="row">
           <div className="col-xs-12 onboarding-text-header">
             <p>
-              Welcome back ! Please enter your password.
+              Welcome back {user.email} !<br />Please enter your password.
             </p>
           </div>
         </div>
@@ -79,7 +84,7 @@ class PasswordLogin extends Component {
                     onChange={e => this.handleChange(e)} />
                 </div>
               </div>
-              <button id="loginButton"  disabled={!this.state.password} className="button col-xs-12">{this.state.buttonText}</button>
+              <button id="loginButton"  disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
             </form>
           </div>

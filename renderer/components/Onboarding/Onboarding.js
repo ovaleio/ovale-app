@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import {
   Redirect
 } from 'react-router-dom'
+import settings from 'electron-settings';
 import {ipcRenderer} from 'electron'
 import { mapStateToProps } from '../../selectors/users'
 
-import {emailLogin, digitsCheck} from '../../actions/actions'
+import {emailLogin,emailSuccess, digitsCheck} from '../../actions/actions'
 
 // Inside Components
 import Login2            from './Login2'
@@ -19,12 +20,20 @@ import "./css/onboarding.css"
 
 class Onboarding extends React.Component {
 
-  render() {
-    const { user, step, jwt,  dispatch } = this.props
-    let view;
 
+  render() {
+    const { user, step,  dispatch } = this.props
+
+
+    
+
+    let view;
     // Si Step 1, on print Login2 (dispatch here, @todo put le dispatch dans le composant)
     if(step===1) {
+      let userSettings = settings.get('user');
+      if(userSettings.email) {
+        dispatch(emailSuccess(userSettings.email))
+      }
       view = <Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
     }
     
@@ -50,11 +59,12 @@ class Onboarding extends React.Component {
       view = <PasswordLogin />
     }
 
+    // both login and register display this state
     // Si Step 666, on save le jwt et balance sur l'accueil
     if(step===666) {
-      // Send jwt
-      ipcRenderer.send('UPDATE_JWT', jwt)
-      view = <Redirect to='/' />
+      console.log(user)
+      ipcRenderer.send('UPDATE_USER', {email:user.email, jwt:user.jwt})
+      view = <Redirect to='/app' />
     }
 
 

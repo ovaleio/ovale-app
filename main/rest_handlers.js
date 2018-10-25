@@ -70,9 +70,10 @@ const openedMainWindow = (event) => {
   if (!settings.has('firstOpening')) event.sender.send('REDIRECT', {redirectTo: '/onboarding'})
 }
 
-const updateJWT = (event,payload) => {
+const updateUser = (event,payload) => {
+  console.log("Payload", payload)
   if(payload !== undefined) {
-    if(settings.set('jwt', payload)){
+    if(settings.set('user', payload)){
       event.sender.send('WEBSOCKET_SUCCESS', {message: 'You are sucessfully connected !'});
     }
   }
@@ -86,7 +87,7 @@ const handlers = {
   'CANCEL_ORDER': handleCancelOrder,
   'SAVE_CREDENTIALS': saveCredentials,
   'OPENED_MAIN_WINDOW': openedMainWindow,
-  'UPDATE_JWT': updateJWT
+  'UPDATE_USER': updateUser
 }
 
 const handleRest = () => {

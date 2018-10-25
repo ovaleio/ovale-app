@@ -15,15 +15,11 @@ import Settings from '../components/Settings'
 import Onboarding from '../components/Onboarding/Onboarding.js'
 import MessageBar from '../components/MessageBar'
 
-import Drift from '../components/Drift';
-
 import initStore from '../initStore'
 import history from '../history';
 import { init as websocketInit } from '../websocket'
 
 import settings from 'electron-settings';
-
-import jwt from "jsonwebtoken"
 
 // CSS
 import "../styles/css/flexboxgrid.css";
@@ -34,15 +30,6 @@ const muiTheme = getMuiTheme({ userAgent: 'all', fontFamily: 'Lato, Helvetica, s
 const store = initStore();
 websocketInit(store);
 
-  // First Landing
-  if(settings.get('jwt') === null) {
-    console.log("No JWT");
-    store.dispatch(push('/onboarding'));
-  }
-  if(jwt.decode(settings.get('jwt'))) {
-    console.log("JWT found : ");
-    store.dispatch(push('/'));
-  }
 class Root extends React.Component {
 
   render () {
@@ -56,12 +43,11 @@ class Root extends React.Component {
             <MuiThemeProvider muiTheme={muiTheme}>
               <div>
                 <Switch>
-                  <Route exact path="/" component={App} />
+                  <Route exact path="/" component={Onboarding} />
+                  <Route path="/app" component={App} />
                   <Route path="/settings" component={Settings} />
-                  <Route path="/onboarding" component={Onboarding} />
                 </Switch>
                 <MessageBar />
-                <Drift appId="i5mesw6sgieb" />
               </div>
             </MuiThemeProvider>
           </div>
