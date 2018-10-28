@@ -20,20 +20,18 @@ import "./css/onboarding.css"
 
 class Onboarding extends React.Component {
 
-
+  componentDidMount() {
+    let userSettings = settings.get('user');
+      if(userSettings.email) {
+        dispatch(emailSuccess(userSettings.email))
+      }
+  }
   render() {
     const { user, step,  dispatch } = this.props
-
-
-    
 
     let view;
     // Si Step 1, on print Login2 (dispatch here, @todo put le dispatch dans le composant)
     if(step===1) {
-      let userSettings = settings.get('user');
-      if(userSettings.email) {
-        dispatch(emailSuccess(userSettings.email))
-      }
       view = <Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
     }
     

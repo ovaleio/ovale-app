@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { ipcRenderer } from 'electron'
 
 import Tickers from '../components/Tickers'
 import TickerInfo from '../components/TickerInfo'
@@ -15,13 +14,8 @@ import styles from '../styles/Main'
 
 class App extends React.Component {
 
-  componentDidMount(){
-    // Send to main the OPENED MAIN WINDOW event
-    ipcRenderer.send('OPENED_MAIN_WINDOW');
-  }
-
   render () {
-    const { currentTab, dispatch} = this.props;
+    const { currentTab } = this.props;
     
     const OrdersOrTabs = currentTab === 'Orders' ? (<Orders />) : (<Trades />)
 

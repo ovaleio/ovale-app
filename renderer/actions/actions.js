@@ -97,7 +97,7 @@ export const receiveSettings = createAction('SETTINGS');
 
 export const updateEmail = () => {
   return (dispatch, getState, {emit}) => {
-    emit('UPDATE_EMAIL')
+    emit('UPDATE_USER')
   }
 };
 
