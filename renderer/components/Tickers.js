@@ -46,7 +46,10 @@ class Tickers extends react.Component {
 
   	return (
   		<div>
-	      	<SearchTickerForm onChange={(e) => dispatch(setSearchQueryTickers({query: e.target.value}))}/>
+			  <SearchTickerForm
+			   onChange={(e) => dispatch(setSearchQueryTickers({query: e.target.value}))}
+			   onSubmit={(e)=> e.preventDefault()}
+			   />
 	  		<div>
 	  			<div style={styles.categoryHeader} className="row">
 	  				<div className="col-xs-10">Tickers</div>
