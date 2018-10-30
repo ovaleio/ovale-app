@@ -11,7 +11,6 @@ const styles = {
     overflow: "hidden"
   },
   leftColumn: {
-    padding: 0,
     borderRight: "1px solid rgba(0,0,0,0.7)"
   },
   userDataContainer: {

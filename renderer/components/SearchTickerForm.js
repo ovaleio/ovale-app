@@ -3,18 +3,23 @@ import styles from '../styles/SearchTickerForm'
 
 class SearchTickerForm extends react.Component {
   render () {
-	  const { onChange } = this.props
+		const { onChange, onSubmit } = this.props
 	  return (
-		<form style={styles.form}>
-	        <input
-	          name="searchQuery"
-	          autoComplete="off" 
-	          type="text"
-	          onChange={onChange}
-	          placeholder="Search tickers"
-	          style={styles.input}
-	        />
-		</form>
+		<div className="row">
+			<div className="col-xs-12">
+				<form style={styles.form}	onSubmit={onSubmit}>
+					<input
+						name="searchQuery"
+						autoComplete="off" 
+						type="text"
+						onChange={onChange}
+						placeholder="Search tickers"
+						style={styles.input}
+					/>
+				</form>
+			</div>
+		</div>
+		
 	  )
   }
 }

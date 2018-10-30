@@ -2,12 +2,10 @@ import React from 'react'
 import {ipcRenderer} from 'electron'
 import {
   Route,
-  Switch,
-  Redirect
+  Switch
 } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { ConnectedRouter, push } from 'react-router-redux';
-import Head from 'next/head'
+import { ConnectedRouter } from 'react-router-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -41,9 +39,6 @@ class Root extends React.Component {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <div>
-            <Head>
-              <title>OVALE</title>
-            </Head>
             <MuiThemeProvider muiTheme={muiTheme}>
               <div>
                 <Switch>

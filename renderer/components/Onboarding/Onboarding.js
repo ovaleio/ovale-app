@@ -12,8 +12,8 @@ import {emailLogin, emailSuccess,  digitsCheck} from '../../actions/actions'
 import Login2            from './Login2'
 import EmailVerification from './EmailVerification'
 import Name              from './Name'
-import Password              from './Password'
-import PasswordLogin              from './PasswordLogin'
+import Password          from './Password'
+import PasswordLogin     from './PasswordLogin'
 
 import "./css/onboarding.css"
 

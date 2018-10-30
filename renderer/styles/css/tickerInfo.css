@@ -1,0 +1,12 @@
+.tickerInfo {
+    padding:20px;
+    max-height:110px;
+}
+
+.tickerInfo .tickerSymbol {
+    font-size: 22px;
+}
+
+.tickerInfo .tickerPrice {
+    font-size: 22px;
+}

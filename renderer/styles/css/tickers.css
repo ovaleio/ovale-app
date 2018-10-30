@@ -1,0 +1,42 @@
+.tickers-main {
+    position:relative;
+    height:89vh;
+}
+.tickers-header {
+    padding: 2px 5px;
+    margin-bottom: 3px;
+    line-height: 26px;
+    background-color: rgba(0,0,0,0.25);
+    font-size:14px;
+    font-weight: bold;
+    color: #72EAD6;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+}
+
+.tickers-content { 
+    overflow-y: scroll;
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+}
+.tickers-row{
+    padding: 2px 2px;
+}
+
+.tickers-row > .tickers-logo-exchange {
+    height: 18px;
+    width: 18px;
+    color: #ccc;
+    text-align:left
+}
+.tickers-row > .symbol {
+    height: 12px;
+    width:12px;
+    color: #ccc;
+}
+.tickers-row > .tickers-prices {
+    text-overflow:ellipsis;
+    text-align:left
+}

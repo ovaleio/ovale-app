@@ -47,3 +47,11 @@ button:disabled {
 .form-error {
     color:red;
 }
+
+
+.row-even:nth-child(even) {background: inherit}
+.row-even:nth-child(odd) {background:rgba(0,0,0,0.4)}
+.row-even:hover:nth-child(even) {background: rgba(0,0,0,0.8)}
+.row-even:hover:nth-child(odd) {background:rgba(0,0,0,0.8)}
+
+
