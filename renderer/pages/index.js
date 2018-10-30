@@ -1,4 +1,5 @@
 import React from 'react'
+import {ipcRenderer} from 'electron'
 import {
   Route,
   Switch,
@@ -19,8 +20,6 @@ import initStore from '../initStore'
 import history from '../history';
 import { init as websocketInit } from '../websocket'
 
-import settings from 'electron-settings';
-
 // CSS
 import "../styles/css/flexboxgrid.css";
 import "../styles/css/global.css";
@@ -32,7 +31,12 @@ websocketInit(store);
 
 class Root extends React.Component {
 
+  componentDidMount() {
+    ipcRenderer.send('REQUEST_USER')
+  }
+
   render () {
+
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>

@@ -66,7 +66,7 @@ const createWindow = () => {
         height: 654,
         icon: iconPath,
         webPreferences: {
-            webSecurity: true // @todo : WHY ?
+            webSecurity: false // @todo : WHY ?
         }
     });
 
@@ -106,7 +106,7 @@ const createWindow = () => {
 
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
-        if(isDev) mainWindow.webContents.openDevTools({mode: 'detach'});
+        mainWindow.webContents.openDevTools({mode: 'detach'});
     });
 
     mainWindow.on('closed', () => {
@@ -133,7 +133,7 @@ app.on('window-all-closed', () => {
 // Sets global variables in main process to be usable on renderer process.
 // @see http://electron.rocks/tag/global/
 function startIPCHandler() {
-    global.api = (isDev)?"http://localhost:8200":"https://api.ovale.io";
+    process.env.npm_package_api = (isDev)?"http://localhost:8200":"http://localhost:8200";
     global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
     global.websockets = HandleSockets.init();
     global.rest = HandleRest();

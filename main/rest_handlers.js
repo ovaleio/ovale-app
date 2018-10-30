@@ -79,6 +79,12 @@ const updateUser = (event,payload) => {
   }
 };
 
+const requestUser = (event) => {
+  console.log("requestUser")
+  return event.sender.send('USER', settings.get('user'))
+}
+
+
 const handlers = {
   'BUY_LIMIT': handleNewOrder,
   'SELL_LIMIT': handleNewOrder,
@@ -87,7 +93,8 @@ const handlers = {
   'CANCEL_ORDER': handleCancelOrder,
   'SAVE_CREDENTIALS': saveCredentials,
   'OPENED_MAIN_WINDOW': openedMainWindow,
-  'UPDATE_USER': updateUser
+  'UPDATE_USER': updateUser,
+  'REQUEST_USER': requestUser
 }
 
 const handleRest = () => {

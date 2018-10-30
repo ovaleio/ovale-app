@@ -12,7 +12,11 @@ module.exports = {
 			password:""
 		},
 		jwt:'',
-		step:1
+		step:1,
+		userSettings:{
+			email:'',
+			jwt:''
+		}
 	},
 	ticker: {
 		currentTickerSymbol: 'bitfinex:USD-BTC',
@@ -63,5 +67,9 @@ module.exports = {
 			balances: 60000,
 			trades: 240000
 		},
+		user:{
+			email:'',
+			jwt:''
+		}
 	}
 }

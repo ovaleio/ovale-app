@@ -7,6 +7,7 @@
   "main": "main/index.js",
   "license": "MIT",
   "repository": "ovaleio/ovale_releases",
+  "api": "http://localhost:8200",
   "scripts": {
     "start": "electron .",
     "reset": "electron . --reset",
@@ -85,7 +86,8 @@
     "@storybook/addon-links": "^3.4.11",
     "@storybook/addons": "^3.4.11",
     "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0"
+    "babel-runtime": "^6.26.0",
+    "webpack": "^4.20.2"
   },
   "dependencies": {
     "@sentry/node": "4.0.3",
@@ -136,7 +138,6 @@
     "socket.io-client": "^2.0.4",
     "style-loader": "^0.19.1",
     "update-electron-app": "^1.3.0",
-    "validator": "^10.8.0",
-    "webpack": "^4.20.2"
+    "validator": "^10.8.0"
   }
 }

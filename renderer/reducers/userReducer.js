@@ -6,6 +6,8 @@ import initialState from './initialState';
 
 const userReducer = handleActions({
  
+
+
   /*
   Email Success : When a user email is successfully authentified by the api
   */
@@ -18,6 +20,8 @@ const userReducer = handleActions({
     step:10
   }
 },
+
+
 
  
 /*

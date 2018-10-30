@@ -1,6 +1,6 @@
 import axios from 'axios'
 const api = axios.create({
-  baseURL: process.env.API,
+  baseURL: process.env.npm_package_api,
   timeout: 5000 
 })
 export default {

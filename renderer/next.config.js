@@ -9,10 +9,6 @@ module.exports = withCss({
       __dirname: false
     }
     config.target = 'electron-renderer'
-    //config.module.rules.push({
-    //  test: /\.css$/,
-    //  loader: 'style-loader!css-loader',
-    //});
     config.plugins.push(new webpack.IgnorePlugin(/vertx/))
     config.plugins = config.plugins.filter(
       (plugin) => (plugin.constructor.name !== 'UglifyJsPlugin')

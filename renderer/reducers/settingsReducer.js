@@ -32,7 +32,18 @@ const settingsReducer = handleActions({
         email:email
       } 
     };
-  }
+  },
+
+  /*
+  USER : When the onboardin is loaded, we get the user from electron-settings via ipcrenderer
+  */
+ [actions.receiveUser](state, {payload: user}) {
+    return { 
+      ...state, 
+      user
+    }
+  },
+
 }, initialState.settings);
 
 export default settingsReducer

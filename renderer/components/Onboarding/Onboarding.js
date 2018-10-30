@@ -3,11 +3,10 @@ import {connect} from 'react-redux';
 import {
   Redirect
 } from 'react-router-dom'
-import settings from 'electron-settings';
 import {ipcRenderer} from 'electron'
 import { mapStateToProps } from '../../selectors/users'
 
-import {emailLogin,emailSuccess, digitsCheck} from '../../actions/actions'
+import {emailLogin, emailSuccess,  digitsCheck} from '../../actions/actions'
 
 // Inside Components
 import Login2            from './Login2'
@@ -20,19 +19,19 @@ import "./css/onboarding.css"
 
 class Onboarding extends React.Component {
 
-  componentDidMount() {
-    let userSettings = settings.get('user');
-      if(userSettings.email) {
-        dispatch(emailSuccess(userSettings.email))
-      }
-  }
-  render() {
-    const { user, step,  dispatch } = this.props
 
+  render() {
+    const { user,  step, userSettings, dispatch } = this.props
+    
+    
     let view;
     // Si Step 1, on print Login2 (dispatch here, @todo put le dispatch dans le composant)
     if(step===1) {
-      view = <Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
+      if(userSettings.email) {
+        dispatch(emailSuccess(userSettings.email))
+      } else {
+        view = <Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
+      }
     }
     
     

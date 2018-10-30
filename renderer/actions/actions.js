@@ -94,6 +94,8 @@ export const requestBalances = () => {
 export const saveSettings = createAction('SAVE_SETTINGS');
 export const handleChangeSettings = createAction('HANDLE_CHANGE_SETTINGS');
 export const receiveSettings = createAction('SETTINGS');
+export const receiveUser     = createAction('USER');
+
 
 export const updateEmail = () => {
   return (dispatch, getState, {emit}) => {
@@ -109,6 +111,7 @@ export const requestSettings = () => {
 
 
 //USERS
+
 export const apiUnreachable     = createAction('API_ERROR');
 export const emailSetMessage    = createAction('EMAIL_SETMESSAGE');
 
