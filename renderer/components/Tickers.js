@@ -2,16 +2,15 @@ import react from 'react'
 import { ipcRenderer } from 'electron'
 import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/tickers'
-import SearchTickerForm from './SearchTickerForm'
 import { setCurrentTicker, setSearchQueryTickers } from '../actions/actions'
 import { Link } from 'react-router-dom'
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import IconButton from 'material-ui/IconButton';
 import * as ExchangesIcons from './ExchangesIcons'
-
 import numberFormat from '../helpers/numberFormat';
-
 import '../styles/css/tickers.css'
+
+import SearchTickerForm from './SearchTickerForm'
 
 class Tickers extends react.Component {
 
@@ -59,7 +58,7 @@ class Tickers extends react.Component {
 			<div className="row tickers-header">
 				<div className="col-xs-12">
 					<div className="row">
-						<div className="col-xs-10">Tickers</div>
+						<div className="col-xs-10 widget-title">Tickers</div>
 						<div className="col-xs-2" style={{margin: 'auto', 'fontSize': '12px'}}>
 							<Link to="/settings" className="row" style={{textDecoration: 'none', color: '#DDD'}}>
 								<IconButton tooltip='Settings' style={{width: '16px', height: '16px', margin: 0, padding: 0, border: 0}} iconStyle={{color: 'rgba(255,255,255,0.9)', width: '16px', height: '16px', display: 'flex'}}>

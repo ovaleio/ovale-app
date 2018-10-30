@@ -20,11 +20,11 @@ class Orders extends react.Component {
 
     const rows = orders.map((order, i) => {
       return (
-        <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
+        <tr key={i} onClick={() => dispatch(setCurrentTicker({symbol: order.symbol}))} className="row-even cursor-pointer" style={Object.assign(styles.alternateRow(i),styles.tr)}>
           <td style={{textAlign: 'center'}}>
             {ExchangesIcons[`${order.exchange}Icon`]({viewBox: '0 0 128 128', style: styles.logoExchange})}
           </td>
-          <td style={styles.symbol} onClick={() => dispatch(setCurrentTicker({symbol: order.symbol})) }>
+          <td style={styles.symbol}>
             {order.pair}
           </td>
           <td>
@@ -43,8 +43,8 @@ class Orders extends react.Component {
     return (
       <div className="col-xs-6 col-xl-7" style={{overflowX: 'hidden', overflowY: 'scroll', padding: 0}}>
         <div style={styles.categoryHeader} className="row">
-          <div className="col-xs-2" style={styles.categoryHeaderTab}>Orders</div>
-          <div className="col-xs-2" style={styles.categoryHeaderTabInactive} onClick={() => dispatch(switchTab({tab: 'Trades'})) }>Trades</div>
+          <div className="col-xs-2 widget-title" style={styles.categoryHeaderTab}>Orders</div>
+          <div className="col-xs-2 widget-title" style={styles.categoryHeaderTabInactive} onClick={() => dispatch(switchTab({tab: 'Trades'})) }>Trades</div>
           <div className="col-xs-offset-7 col-xs-1" onClick={() => dispatch(requestOrders())}>
             <IconButton tooltip='Refresh' style={{width: '20px', height: '20px', margin: 0, padding: 0, border: 0}} iconStyle={{width: '20px', height: '20px', color: 'white'}}><NavigationRefresh /></IconButton>
           </div>

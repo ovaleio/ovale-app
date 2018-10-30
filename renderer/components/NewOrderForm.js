@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { mapStateToProps } from '../selectors/newOrder'
 import {buy, sell, setAmount, setPrice} from '../actions/actions'
 import styles from '../styles/NewOrderForm'
+import '../styles/css/newOrderForm.css'
 
 class NewOrderForm extends react.Component {
 
@@ -39,10 +40,10 @@ class NewOrderForm extends react.Component {
 			</div>*/}
 			<div className="row">
 				<div className="col-xs-6">
-					<button style={styles.buyButton} onClick={(e) => { e.preventDefault(); dispatch(buy(tickerSymbol, amount, price)) }}>BUY LIMIT</button>
+					<button className="neworder-buy" onClick={(e) => { e.preventDefault(); dispatch(buy(tickerSymbol, amount, price)) }}>BUY LIMIT</button>
 				</div>
 				<div className="col-xs-6">
-					<button style={styles.sellButton} onClick={(e) => { e.preventDefault(); dispatch(sell(tickerSymbol, amount, price)) }}>SELL LIMIT</button>
+					<button className="neworder-sell" onClick={(e) => { e.preventDefault(); dispatch(sell(tickerSymbol, amount, price)) }}>SELL LIMIT</button>
 				</div>
 			</div>
 		</form>

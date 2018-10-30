@@ -48,10 +48,19 @@ button:disabled {
     color:red;
 }
 
+.cursor-pointer {
+    cursor:pointer
+}
 
-.row-even:nth-child(even) {background: inherit}
+.rowHover:hover {
+    background-color: rgba(0,0,0,1)
+  }
+
+.row-even:nth-child(even) {background:transparent}
 .row-even:nth-child(odd) {background:rgba(0,0,0,0.4)}
 .row-even:hover:nth-child(even) {background: rgba(0,0,0,0.8)}
 .row-even:hover:nth-child(odd) {background:rgba(0,0,0,0.8)}
 
-
+.widget-title {
+    font-size:14px
+}

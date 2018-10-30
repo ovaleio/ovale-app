@@ -46,26 +46,6 @@ const styles = {
 	},
 	"buttonContainer": {
 		flexBasis: "47.5%"
-	},
-	"buyButton": {
-		width: "100%",
-	    height: "30px",
-	    backgroundColor: "#14ae35",
-	    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
-	    fontSize: "16px",
-	    border: "none",
-	    color: "white",
-	    borderRadius: 0
-	},
-	"sellButton": {
-		width: "100%",
-	    height: "30px",
-	    backgroundColor: "#ce3a00",
-	    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
-	    fontSize: "16px",
-	    border: "none",
-	    color: "white",
-	    borderRadius: 0
 	}
 }
 

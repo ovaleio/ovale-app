@@ -10,6 +10,8 @@ import NavigationRefresh from 'material-ui/svg-icons/navigation/refresh';
 import * as ExchangesIcons from './ExchangesIcons'
 import ReactInterval from 'react-interval'
 
+import '../styles/css/trades.css'
+
 class Trades extends react.Component {
     componentDidMount() {
         ipcRenderer.send('REQUEST_DATA', 'TRADES')
@@ -18,15 +20,13 @@ class Trades extends react.Component {
     render () {
         var { trades, delay, dispatch} = this.props;
 
-        console.log(trades);
-
         const rows = trades.map((trade, i) => {
             return (
-                <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
+                <tr key={i} onClick={() => dispatch(setCurrentTicker({symbol: trade.symbol}))} className="row-even cursor-pointer">
                     <td style={{textAlign: 'center'}}>
                         {ExchangesIcons[`${trade.exchange}Icon`]({viewBox: '0 0 124 124', style: styles.logoExchange})}
                     </td>
-                    <td onClick={() => dispatch(setCurrentTicker({symbol: trade.symbol}))}>{trade.pair}</td>
+                    <td>{trade.pair}</td>
                     <td>
                         <IconButton tooltip={trade.type} style={styles[trade.type + 'Type']} />
                     </td>
@@ -41,8 +41,8 @@ class Trades extends react.Component {
         return (
             <div className="col-xs-6 col-xl-7" style={{overflowY: 'scroll', padding: 0}}>
                 <div style={styles.categoryHeader} className="row">
-                    <div className="col-xs-2" style={styles.categoryHeaderTabInactive} onClick={() => dispatch(switchTab({tab: 'Orders'})) }>Orders</div>
-                    <div className="col-xs-2" style={styles.categoryHeaderTab}>Trades</div>
+                    <div className="col-xs-2 widget-title" style={styles.categoryHeaderTabInactive} onClick={() => dispatch(switchTab({tab: 'Orders'})) }>Orders</div>
+                    <div className="col-xs-2 widget-title" style={styles.categoryHeaderTab}>Trades</div>
                     <div className="col-xs-offset-7 col-xs-1" onClick={() => dispatch(requestTrades())}>
                         <IconButton tooltip='Refresh' style={{width: '20px', height: '20px', margin: 0, padding: 0, border: 0}} iconStyle={{width: '20px', height: '20px', color: 'white'}}><NavigationRefresh /></IconButton>
                     </div>

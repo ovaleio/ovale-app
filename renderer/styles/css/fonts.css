@@ -28,10 +28,4 @@
   input:focus, select:focus, textarea:focus,button:focus {
     outline: none
   }
-  .rowHover:hover {
-    background-color: rgba(0,0,0,1)
-  }
-
-  .cursor-pointer {
-    cursor:pointer
-  }
+ 

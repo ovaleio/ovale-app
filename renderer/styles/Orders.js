@@ -15,7 +15,6 @@ const styles = {
     padding: "2px 5px",
     lineHeight: "26px",
     backgroundColor: "rgba(0, 0, 0, 0.25)",
-    fontSize: "14px",
     color: "#72EAD6",
     margin: 0,
     boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
@@ -39,7 +38,6 @@ const styles = {
     opacity: 0.80,
     borderRadius: 0
   },
-  alternateRow: (i) => { return i % 2 ? {'backgroundColor': 'rgba(0,0,0,0.4)'} : {}},
   logoExchange: {
     width: '16px',
     height: '16px',

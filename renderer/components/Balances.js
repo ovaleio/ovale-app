@@ -19,11 +19,11 @@ class Balances extends react.Component {
 
     const rows = balances.map((balance, i) => {
       return (
-        <tr key={i} style={Object.assign(styles.alternateRow(i),styles.tr)}>
-          <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={{textAlign: 'center'}}>
+        <tr key={i} onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } className="row-even cursor-pointer">
+          <td style={{textAlign: 'center'}}>
             {ExchangesIcons[`${balance.exchange}Icon`]({viewBox: '0 0 128 128', style: styles.logoExchange})}
           </td>
-          <td onClick={() => dispatch(setCurrentTicker({symbol: balance.symbol})) } style={styles.currency}>
+          <td style={styles.currency}>
             {balance.currency}
           </td>
           <td>{balance.balance.toFixed(2)}</td>
@@ -38,7 +38,7 @@ class Balances extends react.Component {
     return (
       <div className="col-xs-6 col-xl-5" style={{overflowX: 'hidden', overflowY: 'scroll', borderLeft: '1px solid rgba(0,0,0, 0.7)', padding: 0}}>
         <div style={styles.categoryHeader} className="row">
-          <div className="col-xs-8">Balances</div>
+          <div className="col-xs-8 widget-title">Balances</div>
           <div className="col-xs-3">Total: {total.toFixed(2)} BTC</div>
           <div className="col-xs-1" onClick={() => dispatch(requestBalances())}>
             <IconButton tooltip='Refresh' style={{width: '20px', height: '20px', margin: 0, padding: 0, border: 0}} iconStyle={{width: '20px', height: '20px', color: 'white'}}><NavigationRefresh /></IconButton>
