@@ -19,7 +19,7 @@ class NewOrderForm extends react.Component {
 					<input style={styles.inputText} type="number" autoComplete="off" name="amount" id="amount" value={amount} onChange={(e) => { dispatch(setAmount({amount: e.target.value})) }}/>
 				</div>
 				<div  className="col-xs-6" style={styles.alignRight}>
-					<label htmlFor="price" style={styles.label} onClick={() => { dispatch(setPrice({price: currentPrice})) }}>PRICE</label>
+					<label htmlFor="price" style={styles.label} onClick={() => { dispatch(setPrice({price: currentPrice})) }}>PRICE {currencies[0]}</label>
 					<input style={styles.inputText} type="number" autoComplete="off" name="price" id="price" value={price} onChange={(e) => { dispatch(setPrice({price: e.target.value})) }} />
 				</div>
 			</div>
