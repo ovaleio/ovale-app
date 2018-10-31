@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux';
 import { mapStateToProps } from '../../selectors/users'
 import {register, emailSetMessage} from '../../actions/actions'
+import validator from 'validator'
 import Error from './Error';
 
 class Password extends Component {
@@ -13,22 +14,51 @@ class Password extends Component {
       password:'',
       password2:'',
       buttonText:'Next',
-      disabled : 'disabled',
+      disabled: true,
       errors: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validate = this.validate.bind(this);
+    this.erase = this.erase.bind(this);
+  }
+  erase = () => {
+    if(this.state.password ==='' && this.state.password === this.state.password2)
+    {
+      this.setState({errors:[], disabled:true});
+    }
+  }
+
+  validate = ()=>{
+    let errors = []
+    if (!validator.isLength(this.state.password, {min:8})){
+      errors.push("Your password should have at least 8 characters");
+    }
+    if (this.state.password2 != '' && this.state.password !== this.state.password2){
+      errors.push("Your passwords must match");
+    }
+    if (this.state.password2 === ''){
+      errors.push("You must enter 2 times your password.");
+    }
+    this.setState({errors});
+    this.setState({disabled: (errors.length>0)})
+    return (errors.length>0)?false:true;
   }
   
   handleChange = e => {
 
-    // We remove the errors if there is novalue at all
-    if(e.target.value==="") {
-      this.setState({errors:[]})
-    }
     this.setState({
       [e.target.name]: e.target.value
+    }, ()=> {
+      if(this.validate()) {
+        this.setState({disabled: false })
+      }
+      
+      this.erase();
     })
+    
+   
+   
   }
 
   handleSubmit(e) {
@@ -36,7 +66,7 @@ class Password extends Component {
 
     const { password, errors } = this.state;
     const {  user, jwt, dispatch } = this.props;
-    console.log(jwt)
+
     if(errors.length === 0) {
       dispatch(register(user.email, password, jwt))
     }
@@ -55,9 +85,6 @@ class Password extends Component {
 
   render() {
    
-    const {  user, dispatch } = this.props;
-
-    
     // Grab 'em to the user
     if (this.state.errors.length>0 ) {
       var Errors = <Error errors={this.state.errors} />
@@ -71,7 +98,7 @@ class Password extends Component {
        <div className="row">
           <div className="col-xs-12 onboarding-text-header">
             <p>
-              Alright {user.name} ! Let's protect your account, create a password.
+              Great! Now let's protect your account, create a password.
             </p>
           </div>
         </div>
@@ -85,7 +112,9 @@ class Password extends Component {
                       name="password" 
                       placeholder="Choose a password"
                       value={this.state.password}
-                      onChange={e => this.handleChange(e)} />
+                      onChange={e => this.handleChange(e)}
+                     
+                       />
                   </div>
                 </div>
                 <div className="row">
@@ -95,11 +124,13 @@ class Password extends Component {
                       name="password2" 
                       placeholder="Repeat your password"
                       value={this.state.password2}
-                      onChange={e => this.handleChange(e)} />
+                      onChange={e => this.handleChange(e)}
+                      onBlur={this.erase}
+                       />
                   </div>
                 </div>
+              <button id="loginButton" disabled={this.state.disabled} onClick={this.validate} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
-              <button id="loginButton"  disabled={(!this.state.password || !this.state.password2 ) || this.state.password != this.state.password2} className="button col-xs-12">{this.state.buttonText}</button>
             </form>
           </div>
         </div>
