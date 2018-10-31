@@ -2,7 +2,6 @@ import react from 'react'
 import { connect } from 'react-redux'
 import styles from '../styles/TickerChart'
 const remote = require('electron').remote;
-const path = require('path');
 
 class TickerChart extends react.Component {
 	componentDidMount() {
