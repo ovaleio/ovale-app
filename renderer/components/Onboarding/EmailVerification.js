@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import {connect} from 'react-redux';
 import { mapStateToProps } from '../../selectors/users'
-import {emailSetMessage, emailLogin} from '../../actions/actions'
+import {emailSetMessage, onboardingFirstStep} from '../../actions/actions'
 import Error from './Error';
 import validator from 'validator';
 
@@ -62,7 +62,7 @@ class EmailVerification extends Component {
     this.setState({disabled:true, errors})
     
     if(errors.length === 0) {
-      this.props.submit(digits);
+      dispatch(digitsCheck(user.email, digits))
     }
     return false;
   }
@@ -110,6 +110,8 @@ class EmailVerification extends Component {
               </div>
               <button id="loginButton"  disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
+              <p>Not you ? Try with <a href="#" onClick={() => dispatch(onboardingFirstStep())}>another account !</a></p>
+
             </form>
           </div>
         </div>

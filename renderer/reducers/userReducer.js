@@ -17,7 +17,7 @@ const userReducer = handleActions({
     user: {
       email
     },
-    step:10
+    step:4
   }
 },
 
@@ -120,6 +120,21 @@ const userReducer = handleActions({
       ...state,
       step:state.step--,
       message: ""
+    }
+  },
+
+   /*
+  First Screen
+  */
+ [actions.onboardingFirstStep](state) {
+  return { 
+      ...state,
+      user:{
+        email:''
+      },
+      step:1,
+      message: "",
+      userSettings:{email:''}
     }
   },
 

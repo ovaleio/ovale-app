@@ -115,6 +115,7 @@ export const requestSettings = () => {
 export const apiUnreachable     = createAction('API_ERROR');
 export const emailSetMessage    = createAction('EMAIL_SETMESSAGE');
 
+export const onboardingFirstStep= createAction('ONBOARDING_FIRSTSTEP');
 export const onboardingStepDown = createAction('ONBOARDING_STEPDOWN');
 
 export const emailSuccess 		= createAction('EMAIL_SUCCESS');

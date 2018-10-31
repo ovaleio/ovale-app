@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import {connect} from 'react-redux';
 import { mapStateToProps } from '../../selectors/users'
-import {userLogin, emailSetMessage} from '../../actions/actions'
+import {userLogin, onboardingFirstStep, emailSetMessage} from '../../actions/actions'
 import Error from './Error';
 
 class PasswordLogin extends Component {
@@ -35,7 +35,6 @@ class PasswordLogin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.state.disabled="disabled";
     const { password, errors } = this.state;
     const {user, dispatch}  = this.props;
     this.setState({disabled:true})
@@ -46,15 +45,19 @@ class PasswordLogin extends Component {
     return false;
   }
 
+  // dispatching an action based on state change
+  componentWillUpdate(nextProps, nextState) {
+    
+    if (nextProps.message != "") {
+      nextState.errors = [...nextState.errors, nextProps.message];
+      nextProps.dispatch(emailSetMessage(''));
+    }
+  }
+
   
   render() {
-    const {  user, message, dispatch } = this.props;
-
-    if(message != "") {
-      this.state.errors.push(message);
-      dispatch(emailSetMessage(''));
-    }
-
+    const {  user, dispatch } = this.props;
+   
    // Grab 'em to the user
    if (this.state.errors.length>0 ) {
       var Errors = <Error errors={this.state.errors} />
@@ -62,6 +65,7 @@ class PasswordLogin extends Component {
       var Errors = [];
     }
     return (
+      
       <div>
        
        <div className="row">
@@ -86,6 +90,12 @@ class PasswordLogin extends Component {
               </div>
               <button id="loginButton"  disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
+              <div className="row">
+                <div className="col-xs-12">
+                  <br />
+                  <p>Not you ? Try with <a href="#" onClick={() => dispatch(onboardingFirstStep())}>another account !</a></p>
+                </div>
+              </div>
             </form>
           </div>
         </div>

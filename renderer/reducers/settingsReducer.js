@@ -43,6 +43,18 @@ const settingsReducer = handleActions({
       user
     }
   },
+   /*
+  First Screen
+  */
+ [actions.onboardingFirstStep](state) {
+  return { 
+      ...state,
+      user:{
+        email:'',
+        jwt:''
+      }
+    }
+  },
 
 }, initialState.settings);
 

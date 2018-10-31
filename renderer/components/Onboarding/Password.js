@@ -129,7 +129,7 @@ class Password extends Component {
                        />
                   </div>
                 </div>
-              <button id="loginButton" disabled={this.state.disabled} onClick={this.validate} className="button col-xs-12">{this.state.buttonText}</button>
+              <button id="loginButton" disabled={this.state.disabled} onClick={alert('click')} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
             </form>
           </div>

@@ -26,7 +26,7 @@ class Onboarding extends React.Component {
     let view="";
     // Si Step 1, on print Login2 (dispatch here, @todo put le dispatch dans le composant)
     if(step===1) {
-      if(userSettings.email) {
+      if(userSettings.email !=='') {
         dispatch(emailSuccess(userSettings.email))
       } else {
         view = <Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
@@ -36,7 +36,7 @@ class Onboarding extends React.Component {
     
     // Si Step 2 sans email trouvé dans l'api, on register
     if(step===2) {
-      view = <EmailVerification submit={(digits) => {dispatch(digitsCheck(user.email, digits))}}/>
+      view = <EmailVerification />
     }
 
     // Si Step 3, on demande un mot de passe
@@ -44,8 +44,8 @@ class Onboarding extends React.Component {
       view = <Password/>
     }
     
-    // Si Step 10, on login
-    if(step===10) {
+    // Si Step 4, on login
+    if(step===4) {
       view = <PasswordLogin />
     }
 
