@@ -44,12 +44,6 @@ class Onboarding extends React.Component {
       view = <Password/>
     }
     
-    
-    // Si Step 4 on demande le nom de l'utilisateur
-    if(step===4) {
-      view = <Name/>
-    }
-       
     // Si Step 10, on login
     if(step===10) {
       view = <PasswordLogin />

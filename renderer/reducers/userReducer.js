@@ -94,7 +94,7 @@ const userReducer = handleActions({
  [actions.registerSuccess](state) {
   return { 
       ...state,
-      step:4,
+      step:666,
       message: ""
     }
   },
