@@ -23,8 +23,7 @@ class Onboarding extends React.Component {
   render() {
     const { user,  step, userSettings, dispatch } = this.props
     
-    
-    let view;
+    let view="";
     // Si Step 1, on print Login2 (dispatch here, @todo put le dispatch dans le composant)
     if(step===1) {
       if(userSettings.email) {
@@ -59,7 +58,6 @@ class Onboarding extends React.Component {
     // both login and register display this state
     // Si Step 666, on save le jwt et balance sur l'accueil
     if(step===666) {
-      console.log(user)
       ipcRenderer.send('UPDATE_USER', {email:user.email, jwt:user.jwt})
       view = <Redirect to='/app' />
     }

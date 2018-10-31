@@ -22,7 +22,7 @@ class Login2 extends React.Component {
     super();
     this.state = {
       requestFullfiled:'',
-      buttonText:'Login',
+      buttonText:'Next',
       email : "",
       disabled : false,
       errors: []
@@ -80,9 +80,16 @@ class Login2 extends React.Component {
     return (
 
       <div>
-        {this.state.requestFullfiled}
+        
         <div className="row center-xs">
           <div className="col-xs-12">
+            <div className="row">
+              <div className="col-xs-12 onboarding-text-header">
+                <p>
+                  Welcome to your trading client. Please sign in to your account, if you don't have an account we will create one for you.
+                </p>
+              </div>
+            </div>
             <form name="login" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="col-xs-12">
