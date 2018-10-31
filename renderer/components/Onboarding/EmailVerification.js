@@ -88,12 +88,11 @@ class EmailVerification extends Component {
        <div className="row">
           <div className="col-xs-12 onboarding-text-header">
             <p>
-              Oh, it’s your first time here ! 
+              Thank you for signing up to OVALE
             </p>
             <p>
-              We have sent you a confirmation code by email.
+              We have sent a confirmation code to your email. Please enter the 6-digit code below
             </p>
-            <p>Please enter the 6 digits code below.</p>
           </div>
         </div>
         <div className="row">
