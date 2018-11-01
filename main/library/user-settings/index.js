@@ -13,7 +13,6 @@ class Settings {
 
   // Lance la procédure de vérification des données contenues dans electron-settings
   start() {
-    log.info('user-settings');
     if (!this.settingsProvider.has('init') || process.argv[2] === '--reset') {
 
       this.settingsProvider.setAll(Object.assign({init: Date.now()}, this.defaultSettings));
@@ -22,7 +21,6 @@ class Settings {
     } else {
 
       let changes = changesets.diff(this.settingsProvider.getAll(),this.defaultSettings);
-      log.info(changes);
       if(changes.length >0) {
         for(let change in changes){
           switch (changes[change].type){
@@ -48,7 +46,6 @@ class Settings {
     if(change.key == "user") return;
 
     if (change.key === "supportedExchanges"){
-      log.info("changed :", change.key);
 
       let supported = this.settingsProvider.get('supportedExchanges');
 
@@ -69,7 +66,6 @@ class Settings {
       for(let i=0; i<change.changes.length; i++) {
 
         if( change.changes[i].type === "add") {
-          log.info("changed add:", change.key);
 
           console.log(change.changes[i].key)
           console.log(change.changes[i].value)

@@ -234,7 +234,7 @@ class Clients {
 					const p = require('poloniex-api-node');
 					return new p(o.apikey, o.apisecret, { socketTimeout: 15000, version: 2});
 				case 'bittrex':
-					const t = require('../exchanges/node.bittrex.api'); 
+					const t = require('node-bittrex-api'); 
 					t.options(o); 
 					return t; 
 				case 'bitfinex':
