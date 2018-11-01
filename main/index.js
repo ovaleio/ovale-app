@@ -16,7 +16,7 @@ log.info('App starting...');
 // Specify another logger to send each log with each error.
 // @see https://github.com/sindresorhus/electron-unhandled
 const unhandled = require('electron-unhandled');
-unhandled({logger:log.info, showDialog:true});
+unhandled({logger:log.info, showDialog:false});
 
 const isDev             = require('electron-is-dev');
 
