@@ -1,3 +1,9 @@
+html, body {
+    height:100%;
+}
+body{
+    background-image: linear-gradient(37deg, #122421, #213935 43%, #2c4945);
+}
 .onboarding-header {
     margin-top: 45px;
 }
