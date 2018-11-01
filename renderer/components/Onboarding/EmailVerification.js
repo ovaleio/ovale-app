@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 
 import {connect} from 'react-redux';
 import { mapStateToProps } from '../../selectors/users'
-import {emailSetMessage, onboardingFirstStep} from '../../actions/actions'
+import {emailSetMessage, digitsCheck, onboardingFirstStep} from '../../actions/actions'
 import Error from './Error';
 import validator from 'validator';
-
 
 
 
@@ -17,7 +16,8 @@ class EmailVerification extends Component {
       digits:'',
       buttonText:'Next',
       disabled : false,
-      errors: []
+      errors: [],
+      resendMail:''
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,6 +55,7 @@ class EmailVerification extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
+   
     const { digits } = this.state;
 
     // Validation
@@ -62,11 +63,18 @@ class EmailVerification extends Component {
     this.setState({disabled:true, errors})
     
     if(errors.length === 0) {
-      this.props.dispatch(digitsCheck(user.email, digits))
+      this.props.dispatch(digitsCheck(this.props.user.email, digits))
     }
     return false;
   }
-
+  componentDidMount(){
+     // Launch a timer that display the message
+     setTimeout(()=>{
+      this.setState({
+        resendMail:  <p>Not you ? Try with <a href="#" onClick={() => this.state.dispatch(onboardingFirstStep())}>another account !</a></p>
+      })
+    }, 15000)
+  }
   render() {
    
     const {  message, dispatch } = this.props;
@@ -110,7 +118,9 @@ class EmailVerification extends Component {
               </div>
               <button id="loginButton"  disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
-              <p>Not you ? Try with <a href="#" onClick={() => dispatch(onboardingFirstStep())}>another account !</a></p>
+
+              <br />
+              {this.state.resendMail}
 
             </form>
           </div>

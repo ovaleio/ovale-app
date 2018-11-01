@@ -26,7 +26,7 @@ class Onboarding extends React.Component {
     let view="";
     // Si Step 1, on print Login2 (dispatch here, @todo put le dispatch dans le composant)
     if(step===1) {
-      if(userSettings.email !=='') {
+      if(userSettings.email) {
         dispatch(emailSuccess(userSettings.email))
       } else {
         view = <Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
