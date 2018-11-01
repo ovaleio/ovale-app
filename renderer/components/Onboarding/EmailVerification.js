@@ -68,12 +68,14 @@ class EmailVerification extends Component {
     return false;
   }
   componentDidMount(){
+    const { dispatch } = this.props;
+
      // Launch a timer that display the message
      setTimeout(()=>{
       this.setState({
-        resendMail:  <p>Not you ? Try with <a href="#" onClick={() => this.state.dispatch(onboardingFirstStep())}>another account !</a></p>
+        resendMail:  <p>You didn't received the email ? <a href="#" onClick={() => dispatch(resendEmail(this.props.user.email))}>Please resend the email</a></p>
       })
-    }, 15000)
+    }, 60000)
   }
   render() {
    

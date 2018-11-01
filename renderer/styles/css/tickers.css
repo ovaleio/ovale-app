@@ -21,22 +21,24 @@
     height:100%;
     width:100%;
 }
-.tickers-row{
+.tickers-content .tickers-row{
     padding: 2px 2px;
+    font-size: 12px;
+    line-height:18px;
 }
 
-.tickers-row > .tickers-logo-exchange {
+.tickers-content .tickers-row > .tickers-logo-exchange {
     height: 18px;
     width: 18px;
     color: #ccc;
     text-align:left
 }
-.tickers-row > .symbol {
+.tickers-content .tickers-row > .symbol {
     height: 12px;
     width:12px;
     color: #ccc;
 }
-.tickers-row > .tickers-prices {
+.tickers-content .tickers-row > .tickers-prices {
     text-overflow:ellipsis;
     text-align:left
 }

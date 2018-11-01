@@ -12,6 +12,7 @@ const userReducer = handleActions({
   Email Success : When a user email is successfully authentified by the api
   */
  [actions.emailSuccess](state, {payload: email}) {
+   email = email.toLowerCase();
   return { 
     ...state, 
     user: {
@@ -45,7 +46,6 @@ const userReducer = handleActions({
   Email Error : When a user encouters an unexpected result
   */
   [actions.apiUnreachable](state,{} ) {
-    console.log('nok')
     return { 
       ...state,
       message: 'Api unreachable'
