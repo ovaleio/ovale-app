@@ -62,7 +62,7 @@ class EmailVerification extends Component {
     this.setState({disabled:true, errors})
     
     if(errors.length === 0) {
-      dispatch(digitsCheck(user.email, digits))
+      this.props.dispatch(digitsCheck(user.email, digits))
     }
     return false;
   }
