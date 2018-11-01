@@ -3,6 +3,9 @@
 #next
 src
 
+#macos
+.DS_Store
+
 # build output
 dist
 renderer/.next

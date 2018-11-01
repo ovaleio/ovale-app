@@ -108,7 +108,6 @@
     "mini-css-extract-plugin": "^0.4.4",
     "css-loader": "^1.0.0",
     "@zeit/next-css": "^1.0.1",
-    "@zeit/next-sass": "^1.0.1",
     "@sentry/node": "4.0.3",
     "about-window": "^1.12.1",
     "async": "^2.6.0",

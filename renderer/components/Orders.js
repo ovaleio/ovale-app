@@ -20,7 +20,7 @@ class Orders extends react.Component {
 
     const rows = orders.map((order, i) => {
       return (
-        <tr key={i} onClick={() => dispatch(setCurrentTicker({symbol: order.symbol}))} className="row-even cursor-pointer" style={Object.assign(styles.alternateRow(i),styles.tr)}>
+        <tr key={i} onClick={() => dispatch(setCurrentTicker({symbol: order.symbol}))} className="row-even cursor-pointer">
           <td style={{textAlign: 'center'}}>
             {ExchangesIcons[`${order.exchange}Icon`]({viewBox: '0 0 128 128', style: styles.logoExchange})}
           </td>
