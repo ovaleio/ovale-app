@@ -173,7 +173,10 @@ const methods = {
 		orders: (callback) => {
 			const get = async () => {
 				const res = await lib.api('OpenOrders');
-				if (res.error) console.log(res.error);
+				if (res.error) {
+					console.log(res.error);
+					return [];
+				}
 
 				const formattedOrders = format['orders'](res.result, 'kraken');
 				return formattedOrders;
@@ -209,14 +212,17 @@ const methods = {
 		},
 		passOrder: (order, callback) => {
 			order = format.kraken.to.order(order);
+			console.log(order);
 			const pass = async () => {
 				const res = await lib.api('AddOrder', order);
-				if (res.error) console.log(res.error);
+				if (res.error) {
+					throw new Error(res.error.join(', '));
+				}
 				else {
 					return res.result;
 				}
 			}
-			pass().then((data) => callback(null, data));
+			pass().then((data) => callback(null, data)).catch(callback);
 		},
 	})
 }
@@ -260,7 +266,7 @@ class Clients {
 					});
 					return instance;
 				case 'kraken':
-					const Kraken = require('kraken-api');
+					const Kraken = require('./exchanges/kraken');
 					const instanceKraken = new Kraken(o.apikey, o.apisecret)
 					return instanceKraken;
 				default:
@@ -284,7 +290,7 @@ class Clients {
 	getAsync(methodName, callback) {
 		return async.parallel(this.get(methodName), (err, results) => {
 			if (err) console.log(err);
-			console.log(results);
+			//console.log(results);
 			results = format.flatten(results);
 			callback(err, results);
 		});

@@ -27,7 +27,7 @@ export const currentTickerBalanceSelector = createSelector(
 export const filterSearchSelector = createSelector(
   balancesSelector,
   searchQuerySelector,
-  (items, searchQuery) => items.filter((b) => b.symbol.match(new RegExp(searchQuery, 'i')))
+  (items, searchQuery) => items.filter((b) => b.symbol && b.symbol.match(new RegExp(searchQuery, 'i')))
 )
 
 export const balancesWithPriceSelector = createSelector(
