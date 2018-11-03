@@ -1,5 +1,4 @@
 import axios from 'axios'
-console.log(process.env)
 const apiUrl = (process.env.NODE_ENV !=='development')?process.env.npm_package_api:process.env.npm_package_api_dev;
 const api = axios.create({
   baseURL: apiUrl,
@@ -50,26 +49,6 @@ export default {
       })
     },
 
-
-    // editName
-    editName: (email, name, jwt) => {
-      return api.post('/users/edit/name', {email, name, jwt})
-      .then(res => res.data)
-      .catch(function (error) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          throw {e:error.response.status, message:error.response.data}
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          throw {e:404, message:"API not reachable"}
-        } else {
-          throw {e:404, message:"API not reachable"}
-        }
-      })
-    },
     
     // Check password 
     // Endpoint : /users/authenticate/password
