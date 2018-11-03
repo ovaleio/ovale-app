@@ -1,22 +1,21 @@
 const { format }        = require('url');
-const path              = require('path');
 const {
     BrowserWindow,
     app,
     session,
-    Menu,
-    ipcMain
+    Menu
 }                       = require('electron');
 
 
 const log = require('electron-log');
+console.log = log.info;
 log.info('App starting...');
 
 // Logging on each launch for unhandled errors.
 // Specify another logger to send each log with each error.
 // @see https://github.com/sindresorhus/electron-unhandled
 const unhandled = require('electron-unhandled');
-unhandled({logger:log.info, showDialog:false});
+unhandled({logger:log.info, showDialog:true});
 
 const isDev             = require('electron-is-dev');
 
@@ -32,6 +31,7 @@ const settingsProvider  = require('electron-settings');
 // Loading Business Application
 const Settings          = require('./library/user-settings/index.js');
 const updater           = require('./library/updater.js');
+const icons             = require('./library/icons');
 const MenuTemplate      = require('./library/menu.js');
 const HandleRest        = require('./rest_handlers.js');
 const HandleSockets     = require('./websocket-server.js');
@@ -46,30 +46,48 @@ if (!isDev){
 
 const createWindow = () => {
 
-    settings.start();
+    console.log("ico")
+    const iconPath = icons.getIcon();
 
-    startIPCHandler();
-
-    const iconPath = path.join(__dirname, 'assets/icons/mac/icon.icns');
-
+    console.log("mainwindow")
     let mainWindow;
-
     mainWindow = new BrowserWindow({
-        backgroundColor: '#123932',
         show: false,
         width: 1200,
         height: 654,
-        icon: iconPath,
+        center:true,
+        backgroundColor: '#123932',
+        icon:iconPath,
         webPreferences: {
             webSecurity: false // @todo : WHY ?
         }
     });
 
+
+    if(isDev){
+        installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+          console.log(`Added Extension:  ${name}`);
+        })
+          .catch((err) => {
+            console.log('An error occurred: ', err);
+          });
+  
+        installExtension(REDUX_DEVTOOLS).then((name) => {
+          console.log(`Added Extension:  ${name}`);
+        })
+          .catch((err) => {
+            console.log('An error occurred: ', err);
+          });
+      }
+
+
+    console.log("muitheme")
     //for muiTheme
     session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
         details.requestHeaders['User-Agent'] = 'all';
         callback({ cancel: false, requestHeaders: details.requestHeaders });
     });
+
 
     let devPath = 'http://localhost:8000/';
     let prodPath = format({
@@ -78,33 +96,18 @@ const createWindow = () => {
         slashes: true
     });
 
-    if(isDev){
-      installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
-        console.log(`Added Extension:  ${name}`);
-      })
-        .catch((err) => {
-          console.log('An error occurred: ', err);
-        });
-
-      installExtension(REDUX_DEVTOOLS).then((name) => {
-        console.log(`Added Extension:  ${name}`);
-      })
-        .catch((err) => {
-          console.log('An error occurred: ', err);
-        });
-    }
-
     let loadedUrl = isDev ? devPath : prodPath;
+    console.log("path : ", loadedUrl )
     mainWindow.loadURL(loadedUrl);
-
-    updater.update();
-
+    
     mainWindow.once('ready-to-show', () => {
+        console.log("ready-to-show")
         mainWindow.show();
         if(isDev) mainWindow.webContents.openDevTools({mode: 'detach'});
     });
 
     mainWindow.on('closed', () => {
+        console.log("closed")
         mainWindow = null
     })
 
@@ -113,9 +116,20 @@ const createWindow = () => {
 
 // Prepare the renderer once the app is ready
 app.on('ready',  async () => {
+
     Menu.setApplicationMenu(Menu.buildFromTemplate(MenuTemplate));
     await prepareNext('./renderer');
-    createWindow();
+    await createWindow();
+
+    console.log("settings")
+    settings.start();
+
+    console.log("ipc")
+    startIPCHandler();
+
+    console.log("updater : ")
+    updater.update();
+
 });
 
 // Quit the app once all windows are closed
