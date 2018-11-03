@@ -94,6 +94,7 @@ export default {
       })
     },
 
+   
 
     register:   (email, password, jwt) => {console.log(jwt)
       return api.post('/users/register', {email, password, jwt})

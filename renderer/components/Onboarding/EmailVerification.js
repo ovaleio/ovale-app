@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import {connect} from 'react-redux';
 import { mapStateToProps } from '../../selectors/users'
-import {emailSetMessage, digitsCheck, onboardingFirstStep} from '../../actions/actions'
+import {emailSetMessage, digitsCheck, emailLogin} from '../../actions/actions'
 import Error from './Error';
 import validator from 'validator';
 
@@ -21,6 +21,8 @@ class EmailVerification extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.setTimer     = this.setTimer.bind(this);
+    this.resendMail   = this.resendMail.bind(this);
   }
 
   validate() {
@@ -68,15 +70,27 @@ class EmailVerification extends Component {
     return false;
   }
   componentDidMount(){
-    const { dispatch } = this.props;
-
-     // Launch a timer that display the message
-     setTimeout(()=>{
-      this.setState({
-        resendMail:  <p>You didn't received the email ? <a href="#" onClick={() => dispatch(resendEmail(this.props.user.email))}>Please resend the email</a></p>
-      })
-    }, 60000)
+     this.setTimer(60);
   }
+  
+  // Launch a timer that display the message
+  setTimer(timeInSec) {
+    setTimeout(()=>{
+      this.setState({
+        resendMail:  <p>You didn't received the email ? <a href="#" onClick={this.resendMail}>Please resend the email</a></p>
+      })
+    }, timeInSec * 1000)
+  }
+
+  resendMail() {
+    const { user,  dispatch } = this.props;
+    dispatch(emailLogin(user.email))
+    this.setState({
+      resendMail:  ''
+    })
+    this.setTimer(80)
+  }
+
   render() {
    
     const {  message, dispatch } = this.props;
@@ -112,7 +126,8 @@ class EmailVerification extends Component {
                 <div className="col-xs-12">
                   <input type="text"
                     className="input col-xs-12" 
-                    name="digits" 
+                    name="digits"
+                    autofocus 
                     placeholder="000000"
                     value={this.state.digits}
                     onChange={e => this.handleChange(e)} />

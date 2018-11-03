@@ -110,6 +110,7 @@ class Password extends Component {
                     <input type="password"
                       className="input col-xs-12" 
                       name="password" 
+                      autofocus
                       placeholder="Choose a password"
                       value={this.state.password}
                       onChange={e => this.handleChange(e)}

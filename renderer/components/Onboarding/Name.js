@@ -77,6 +77,7 @@ class Name extends Component {
                   <input type="text"
                     className="input col-xs-12" 
                     name="name" 
+                    autofocus
                     placeholder="Type your name"
                     value={this.state.name}
                     onChange={e => this.handleChange(e)} />

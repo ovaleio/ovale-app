@@ -111,6 +111,7 @@ class Login extends React.Component {
                   <input type="text"
                     className="input col-xs-12" 
                     name ="email" 
+                    autofocus
                     placeholder="Enter your email here" 
                     value={this.state.email} 
                     onChange={e => this.handleChange(e)} />

@@ -143,6 +143,8 @@ export const userLogin = (email, password) => (dispatch) => {
 	})
 };
 
+
+
 export const settingsEmail = (email)=> (dispatch) => {
 	dispatch(emailSuccess(email))
 };
