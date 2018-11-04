@@ -33,7 +33,7 @@ websocketInit(store);
 class Root extends React.Component {
 
   componentDidMount() {
-    ipcRenderer.send('REQUEST_USER')
+    ipcRenderer.send('REQUEST_USER');
   }
 
   render () {

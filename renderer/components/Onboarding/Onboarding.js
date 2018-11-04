@@ -67,20 +67,18 @@ class Onboarding extends React.Component {
   }
 
   showStep1() {
-    const {  step, userSettings, dispatch } = this.props
-    //Si step 1 et que l'on a en magasin un email user, on dispatch emailsuccess.
-    if(step===1) {
-      if(userSettings.email) {
-        dispatch(emailSuccess(userSettings.email))
-      } else {
-        this.setState({
-          view:<Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
-        }) 
-      }
+    const {  userSettings, dispatch } = this.props
+    //Si step 1 et que l'on a en magasin un email user, on dispatch emailsuccess
+    if(userSettings.email) {
+      dispatch(emailSuccess(userSettings.email))
+    } else {
+      this.setState({
+        view:<Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
+      }) 
     }
   }
   componentDidMount() {
-    this.showStep1()
+    this.showStep1();
   }
   render() {
     

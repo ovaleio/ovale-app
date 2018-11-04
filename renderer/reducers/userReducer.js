@@ -22,24 +22,38 @@ const userReducer = handleActions({
   }
 },
 
-
+ 
+/*
+  Received user : when a user is successfully connected
+  */
+ [actions.receiveUser](state, {payload: user}) {
+  console.log("Received User", user)
+ return { 
+   ...state,
+   user: {
+     ...state.user,
+     email:user.email
+   },
+   step:4
+ }
+},
 
  
 /*
   Login Success : When a user is successfully authentified by the api
   */
  [actions.loginSuccess](state, {payload: res}) {
-   console.log("action login success", res.jwt)
-  return { 
-    ...state,
-    user: {
-      ...state.user,
-      email: res.email,
-      jwt: res.jwt
-    },
-    
-    step:666
-  }
+  console.log("action login success", res.jwt)
+ return { 
+   ...state,
+   user: {
+     ...state.user,
+     email: res.email,
+     jwt: res.jwt
+   },
+   
+   step:666
+ }
 },
  
   /*

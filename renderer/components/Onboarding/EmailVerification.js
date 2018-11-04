@@ -127,7 +127,7 @@ class EmailVerification extends Component {
                   <input type="text"
                     className="input col-xs-12" 
                     name="digits"
-                    autofocus 
+                    autoFocus 
                     placeholder="000000"
                     value={this.state.digits}
                     onChange={e => this.handleChange(e)} />
