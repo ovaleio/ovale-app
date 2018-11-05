@@ -46,7 +46,7 @@ if (!isDev){
 
 const createWindow = () => {
 
-    console.log("ico")
+    console.log("icons")
     const iconPath = icons.getIcon();
 
     console.log("mainwindow")
