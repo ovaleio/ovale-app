@@ -93,7 +93,7 @@
     "app-root-path": "^2.1.0",
     "async": "^2.6.0",
     "axios": "^0.18.0",
-    "bitfinex-api-node": "^2.0.1",
+    "bitfinex-api-node": "^2.0.2",
     "css-loader": "^1.0.0",
     "diff-json": "^0.1.11",
     "electron-config": "^1.0.0",

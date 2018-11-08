@@ -24,6 +24,7 @@ const handleData = (type, exchange, callback) => {
 		}
 	}
 	else {
+
 		return (err, data) => {
 			if (err) {
 				console.log(err);
