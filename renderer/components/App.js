@@ -1,6 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+
+// CheckLicence
+import Checklicence from '../components/CheckLicence'
 import Tickers from '../components/Tickers'
 import TickerInfo from '../components/TickerInfo'
 import TickerChart from '../components/TickerChart'
@@ -12,7 +15,11 @@ import Trades from '../components/Trades'
 import { mapStateToProps } from '../selectors/common'
 import styles from '../styles/Main'
 
-class App extends React.Component {
+class App extends React.Component { 
+  constructor() {
+    super();
+  }
+
 
   render () {
     const { currentTab } = this.props;
@@ -21,6 +28,7 @@ class App extends React.Component {
 
     return (
       <div style={styles.main}>
+        <Checklicence />
         <div id="leftColumn" style={styles.leftColumn} className="col-xs-3 col-sm-2">
           <Tickers />
         </div>

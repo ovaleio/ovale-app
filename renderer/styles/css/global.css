@@ -26,6 +26,43 @@ body {
 .input:focus::-webkit-input-placeholder {
     color:white
 }
+.dialog {
+    border: 1px solid #484848;
+    max-width:500px;
+    width: 50% !important;
+}
+.dialog-font-bg{
+    background-color:#141414;
+    color:white !important;
+    font-size:14px !important;
+}
+.dialog-title{
+    border-bottom: 1px solid #484848;
+    line-height:0px !important;
+}
+.dialog-content{
+    padding: 24px 24px 24px !important;
+}
+
+.btn-primary button {
+    background-color:#6eb487 !important;
+    border-radius:0px !important;
+}
+.btn-primary button span {
+    color:#d2ded9 !important;
+}
+.btn-primary button:hover {
+    background-color:#568f6a !important;
+}
+.btn-secondary {
+    background-color:#122421 !important;
+    color:#d2ded9 !important;
+    border-radius:0px !important;
+}
+.btn-secondary:hover {
+    background-color:#19312d !important;
+}
+
 .button {
     cursor:pointer;
     background-color: #6EB487;

@@ -11,13 +11,13 @@ const log = require('electron-log');
 console.log = log.info;
 log.info('App starting...');
 
+const isDev             = require('electron-is-dev');
+
 // Logging on each launch for unhandled errors.
 // Specify another logger to send each log with each error.
 // @see https://github.com/sindresorhus/electron-unhandled
 const unhandled = require('electron-unhandled');
-unhandled({logger:log.info, showDialog:true});
-
-const isDev             = require('electron-is-dev');
+unhandled({logger:log.info, showDialog:false});
 
 const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 

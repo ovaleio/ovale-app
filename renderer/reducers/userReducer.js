@@ -6,8 +6,6 @@ import initialState from './initialState';
 
 const userReducer = handleActions({
  
-
-
   /*
   Email Success : When a user email is successfully authentified by the api
   */
@@ -32,9 +30,9 @@ const userReducer = handleActions({
    ...state,
    user: {
      ...state.user,
-     email:user.email
-   },
-   step:4
+     email:user.email,
+     jwt: user.jwt
+   }
  }
 },
 
@@ -105,11 +103,15 @@ const userReducer = handleActions({
   /*
   When a user successfully creeated an account
   */
- [actions.registerSuccess](state) {
+ [actions.registerSuccess](state,{payload:res}) {
   return { 
       ...state,
       step:666,
-      message: ""
+      message: "",
+      user:{
+        email:res.email,
+        jwt:res.jwt
+      }
     }
   },
 

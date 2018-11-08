@@ -6,6 +6,6 @@ export const mapStateToProps = (state) => {
 		user: state.userReducer.user,
 		userSettings: state.settingsReducer.user,
 		step: state.userReducer.step,
-		jwt: state.userReducer.jwt
+		jwt: state.userReducer.user.jwt
 	}
 }

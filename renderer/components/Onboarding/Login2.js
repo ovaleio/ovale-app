@@ -34,7 +34,7 @@ class Login2 extends React.Component {
   handleChange = e => {
     if(this.state.disabled === true)
     {
-      this.state.disabled = false;
+      this.setState({disabled:false});
     }
     if(e.target.value==="") {
       this.setState({errors:[]})

@@ -22,12 +22,10 @@ class PasswordLogin extends Component {
   handleChange = e => {
     if(this.state.disabled === true)
     {
-      this.state.disabled = false;
+      this.setState({disabled:false});
     }
     // We remove the errors if there is novalue at all
-    if(e.target.value==="") {
-      this.setState({errors:[]})
-    }
+    this.setState({errors:[]})
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -42,6 +40,7 @@ class PasswordLogin extends Component {
     if(errors.length === 0) {
       dispatch(userLogin(user.email, password))
     }
+    this.setState({disabled:false})
     return false;
   }
 
@@ -83,12 +82,13 @@ class PasswordLogin extends Component {
                   <input type="password"
                     className="input col-xs-12" 
                     name="password" 
+                    autoFocus
                     placeholder="Your password"
                     value={this.state.name}
                     onChange={e => this.handleChange(e)} />
                 </div>
               </div>
-              <button id="loginButton"  disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
+              <button id="loginButton" disabled={this.state.disabled} className="button col-xs-12">{this.state.buttonText}</button>
               {Errors}
               <div className="row">
                 <div className="col-xs-12">

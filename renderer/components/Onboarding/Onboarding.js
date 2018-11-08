@@ -6,7 +6,7 @@ import {
 import {ipcRenderer} from 'electron'
 import { mapStateToProps } from '../../selectors/users'
 
-import {emailLogin, emailSuccess,  digitsCheck} from '../../actions/actions'
+import {emailLogin, emailSuccess} from '../../actions/actions'
 
 // Inside Components
 import Login2            from './Login2'
@@ -68,6 +68,7 @@ class Onboarding extends React.Component {
 
   showStep1() {
     const {  userSettings, dispatch } = this.props
+    console.log(userSettings)
     //Si step 1 et que l'on a en magasin un email user, on dispatch emailsuccess
     if(userSettings.email) {
       dispatch(emailSuccess(userSettings.email))
@@ -75,10 +76,13 @@ class Onboarding extends React.Component {
       this.setState({
         view:<Login2 submit={(email) => {dispatch(emailLogin(email))}}/>
       }) 
-    }
+    } 
   }
   componentDidMount() {
-    this.showStep1();
+    ipcRenderer.send('REQUEST_USER');
+    ipcRenderer.on('USER', (event, result) => {
+      this.showStep1();
+    })
   }
   render() {
     

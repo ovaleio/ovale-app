@@ -34,6 +34,20 @@ const settingsReducer = handleActions({
     };
   },
 
+
+  /*
+  When a user successfully creeated an account
+  */
+ [actions.registerSuccess](state,{payload:res}) {
+  return { 
+      ...state,
+      user:{
+        email:res.email,
+        jwt:res.jwt
+      } 
+    }
+  },
+
   /*
   USER : When the onboardin is loaded, we get the user from electron-settings via ipcrenderer
   */

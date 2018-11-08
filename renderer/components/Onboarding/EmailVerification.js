@@ -6,8 +6,6 @@ import {emailSetMessage, digitsCheck, emailLogin} from '../../actions/actions'
 import Error from './Error';
 import validator from 'validator';
 
-
-
 class EmailVerification extends Component {
   
   constructor() {

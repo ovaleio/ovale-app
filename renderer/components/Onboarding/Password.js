@@ -66,7 +66,6 @@ class Password extends Component {
 
     const { password, errors } = this.state;
     const {  user, jwt, dispatch } = this.props;
-
     if(errors.length === 0) {
       dispatch(register(user.email, password, jwt))
     }

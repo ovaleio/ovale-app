@@ -131,6 +131,22 @@ export const loginSuccess 	    = createAction('LOGIN_SUCCESS');
 
 export const userLogin = (email, password) => (dispatch) => {
 	api.user.userLogin(email, password).then(res=>{
+		console.log(res)
+		//email && jwt
+		dispatch(loginSuccess(res))
+	}).catch(e=>{
+		if(e.e === 404) {
+			dispatch(apiUnreachable(e))
+		} else {
+			dispatch(emailSetMessage('This account is not found.'))
+		}
+		
+	})
+};
+
+
+export const checkLicence = (jwt) => (dispatch) => {
+	api.user.checkLicence(jwt).then(res=>{
 		//email && jwt
 		dispatch(loginSuccess(res))
 	}).catch(e=>{

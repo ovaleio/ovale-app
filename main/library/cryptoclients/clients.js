@@ -290,7 +290,6 @@ class Clients {
 	getAsync(methodName, callback) {
 		return async.parallel(this.get(methodName), (err, results) => {
 			if (err) console.log(err);
-			//console.log(results);
 			results = format.flatten(results);
 			callback(err, results);
 		});

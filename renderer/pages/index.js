@@ -14,8 +14,6 @@ import Settings from '../components/Settings'
 import Onboarding from '../components/Onboarding/Onboarding.js'
 import MessageBar from '../components/MessageBar'
 
-// Error Handler Component
-import ErrorsHandler from '../components/Errors'
 
 import initStore from '../initStore'
 import history from '../history';
@@ -33,13 +31,11 @@ websocketInit(store);
 class Root extends React.Component {
 
   componentDidMount() {
-    ipcRenderer.send('REQUEST_USER');
   }
 
   render () {
 
     return (
-      <ErrorsHandler>
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <div>
@@ -56,7 +52,6 @@ class Root extends React.Component {
             </div>
           </ConnectedRouter>
         </Provider>
-      </ErrorsHandler>
     )
   }
 }

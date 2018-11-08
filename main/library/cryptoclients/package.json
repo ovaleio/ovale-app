@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "^2.6.0",
-    "bitfinex-api-node": "^2.0.0-beta",
+    "bitfinex-api-node": "^2.0.1",
     "node-bitstamp": "^1.7.0",
     "node.bittrex.api": "^1.0.0",
     "poloniex-api-node": "^1.7.0"
