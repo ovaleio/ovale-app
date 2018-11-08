@@ -94,7 +94,10 @@ const userReducer = handleActions({
   [actions.digitsSuccess](state,{payload:jwt}) {
     return { 
       ...state,
-      jwt: jwt.result,
+      user:{
+        ...state.user,
+        jwt:jwt.result
+      },
       step:3,
       message: ""
     }
