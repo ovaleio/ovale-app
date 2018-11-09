@@ -104,7 +104,7 @@ class CheckLicence extends React.Component {
           open={this.state.expired}
           onRequestClose={this.handleQueDalle}
         >
-          Your period has expired. In order to continue using OVALE, you will have to subscribe to one of our plans.
+          Your trial period has expired. In order to continue using OVALE, you will have to subscribe to one of our plans.
         </Dialog>
       </div>
     );

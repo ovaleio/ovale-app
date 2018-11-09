@@ -47,6 +47,7 @@ body {
 .btn-primary button {
     background-color:#6eb487 !important;
     border-radius:0px !important;
+    text-shadow: 1px 1px 4px rgba(150, 150, 150, .96);
 }
 .btn-primary button span {
     color:#d2ded9 !important;
