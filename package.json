@@ -7,8 +7,6 @@
   "main": "main/index.js",
   "license": "MIT",
   "repository": "ovaleio/ovale_releases",
-  "api": "https://api.ovale.io",
-  "api_dev": "http://localhost:8200",
   "scripts": {
     "rebuild": "electron-rebuild -f -w node-bitrex-api",
     "postinstall": "electron-builder install-app-deps",

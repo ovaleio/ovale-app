@@ -1,5 +1,8 @@
 import axios from 'axios'
-const apiUrl = (process.env.NODE_ENV !=='development')?process.env.npm_package_api:process.env.npm_package_api_dev;
+
+// procesS.env not available in production scope.
+const apiUrl = (process.env.NODE_ENV !=='development')?'https://api.ovale.io':process.env.npm_package_api_dev;
+
 const api = axios.create({
   baseURL: apiUrl,
   timeout: 5000 
