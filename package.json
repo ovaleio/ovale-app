@@ -5,6 +5,7 @@
   "productName": "Ovale",
   "version": "0.1.10",
   "main": "main/index.js",
+  "api_dev": "http://localhost:8200",
   "license": "MIT",
   "repository": "ovaleio/ovale_releases",
   "scripts": {
