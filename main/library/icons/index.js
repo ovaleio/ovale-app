@@ -4,7 +4,7 @@ const path = require('path');
 
 const windows   = path.join(__dirname, '../assets/icons/win/icon.ico');
 const osx       = path.join(__dirname, '../assets/icons/mac/icon.icns');
-const linux     = path.join(__dirname, '../assets/icons/png/246x256.png');
+const linux     = path.join(__dirname, '../assets/icons/png/256x256.png');
 
 console.log(is)
 const icon = {
