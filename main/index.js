@@ -38,11 +38,23 @@ const HandleSockets     = require('./websocket-server.js');
 
 const settings = new Settings(settingsProvider);
 
+let mainWindow = null;
+let forceQuit = false;
+
+
 // Sentry
 if (!isDev){
     const Sentry = require('@sentry/node');
     Sentry.init({ dsn: 'https://0b3e9bc318ef4ec586a2da0e258f4aab@sentry.io/1286691' });
 }
+app.on('window-all-closed', () => {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
 
 const createWindow = () => {
 
@@ -50,7 +62,6 @@ const createWindow = () => {
     const iconPath = icons.getIcon();
 
     console.log("mainwindow")
-    let mainWindow;
     mainWindow = new BrowserWindow({
         show: false,
         width: 1400,
@@ -106,11 +117,51 @@ const createWindow = () => {
         if(isDev) mainWindow.webContents.openDevTools({mode: 'detach'});
     });
 
-    mainWindow.on('closed', () => {
-        console.log("closed")
-        mainWindow = null
-    })
+    
+    mainWindow.webContents.on('did-finish-load', () => {
+        // Handle window logic properly on macOS:
+        // 1. App should not terminate if window has been closed
+        // 2. Click on icon in dock should re-open the window
+        // 3. ⌘+Q should close the window and quit the app
+        if (process.platform === 'darwin') {
+        mainWindow.on('close', function(e) {
+            if (!forceQuit) {
+            e.preventDefault();
+            mainWindow.hide();
+            }
+        });
 
+        app.on('activate', () => {
+            mainWindow.show();
+        });
+
+        app.on('before-quit', () => {
+            forceQuit = true;
+        });
+        } else {
+        mainWindow.on('closed', () => {
+            mainWindow = null;
+        });
+        }
+    });
+
+
+  if (isDev) {
+    // auto-open dev tools
+    mainWindow.webContents.openDevTools({mode:'detach'});
+
+    // add inspect element on right click menu
+    mainWindow.webContents.on('context-menu', (e, props) => {
+      Menu.buildFromTemplate([
+        {
+          label: 'Inspect element',
+          click() {
+            mainWindow.inspectElement(props.x, props.y);
+          },
+        },
+      ]).popup(mainWindow);
+    });
+  }
 };
 
 
@@ -132,10 +183,6 @@ app.on('ready',  async () => {
 
 });
 
-// Quit the app once all windows are closed
-app.on('window-all-closed', () => {
-    app.quit()
-});
 
 
 // Start ipc handlers
