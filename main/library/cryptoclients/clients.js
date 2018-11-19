@@ -5,9 +5,7 @@
 //Load fundamentals
 const format = require('./format.js');
 const async = require('async');
-const os = require('os');
-const path = require('path');
-const fs = require('fs');
+
 
 const handleData = (type, exchange, callback) => {
 	// dirty conditional because bittrex lib sends err, data inversely && res.result has data
@@ -172,12 +170,15 @@ const methods = {
 	}),
 	kraken: (lib) => ({
 		orders: (callback) => {
+			console.log('Kraken order requested')
 			const get = async () => {
 				const res = await lib.api('OpenOrders');
-				if (res.error) {
-					console.log(res.error);
+				console.log('log res: ', res)
+				if (res.error.length>0) {
+					console.log('error kraken', res.error);
 					return [];
 				}
+				console.log('kraken open order;', res.result)
 
 				const formattedOrders = format['orders'](res.result, 'kraken');
 				return formattedOrders;
@@ -188,7 +189,7 @@ const methods = {
 			const get = async () => {
 				const res = await lib.api('Balance');
 				if (res.error) console.log(res.error);
-
+				console.log("Balance Api client Call;", res)
 				const formattedBalances = format['balances'](res.result, 'kraken');
 				return formattedBalances;
 			}
@@ -267,7 +268,7 @@ class Clients {
 					});
 					return instance;
 				case 'kraken':
-					const Kraken = require('./exchanges/kraken');
+					const Kraken = require('kraken-api');
 					const instanceKraken = new Kraken(o.apikey, o.apisecret)
 					return instanceKraken;
 				default:
@@ -290,7 +291,7 @@ class Clients {
 
 	getAsync(methodName, callback) {
 		return async.parallel(this.get(methodName), (err, results) => {
-			if (err) console.log(err);
+			if (err) console.log('getAsync : ', err);
 			results = format.flatten(results);
 			callback(err, results);
 		});

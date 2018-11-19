@@ -9,10 +9,10 @@ import { ConnectedRouter } from 'react-router-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import App from '../components/App'
-import Settings from '../components/Settings'
-import Onboarding from '../components/Onboarding/Onboarding.js'
-import MessageBar from '../components/MessageBar'
+import App from '../containers/App'
+import Settings from '../components/system/Settings'
+import Onboarding from '../components/system/Onboarding/Onboarding.js'
+import MessageBar from '../components/system/MessageBar'
 
 
 import initStore from '../initStore'
@@ -30,8 +30,6 @@ websocketInit(store);
 
 class Root extends React.Component {
 
-  componentDidMount() {
-  }
 
   render () {
 
@@ -42,7 +40,7 @@ class Root extends React.Component {
               <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
                   <Switch>
-                    <Route exact path="/" component={Onboarding} />
+                    <Route exact path="/" component={App} />
                     <Route path="/app" component={App} />
                     <Route path="/settings" component={Settings} />
                   </Switch>

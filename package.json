@@ -39,14 +39,6 @@
       "identity": "JAYTEE (ZP34UTX78F)",
       "icon": "main/assets/icons/mac/icon.icns"
     },
-    "files": [
-      "**/*",
-      "!renderer",
-      "renderer/out"
-    ],
-    "asarUnpack": [
-      "**/renderer/out/static/**/*"
-    ],
     "win": {
       "publisherName": "Developer ID Application: JAYTEE (ZP34UTX78F)",
       "target": [
@@ -66,8 +58,17 @@
         "AppImage",
         "deb",
         "tar.gz"
-      ]
-    }
+      ],
+      "icon": "main/assets/icons/mac/icon.icns"
+    },
+    "files": [
+      "**/*",
+      "!renderer",
+      "renderer/out"
+    ],
+    "asarUnpack": [
+      "**/renderer/out/static/**/*"
+    ]
   },
   "devDependencies": {
     "babel-plugin-inline-import": "^2.0.6",
@@ -77,12 +78,15 @@
     "electron-rebuild": "^1.8.2",
     "electron-redux-devtools": "^0.3.4",
     "eslint": "^5.6.0",
+    "file-loader": "^2.0.0",
     "next": "^7.0.2",
     "react": "^16.0",
     "react-dom": "^16.0",
     "react-hot-loader": "^4.0.0-beta.18",
     "rimraf": "^2.6.2",
-    "webpack": "^4.20.2"
+    "url-loader": "^1.1.2",
+    "webpack": "^4.20.2",
+    "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
     "@sentry/node": "4.0.3",
@@ -118,14 +122,17 @@
     "node-bitstamp": "^1.7.0",
     "node-bittrex-api": "^0.8.3",
     "poloniex-api-node": "^1.7.0",
+    "prop-types": "^15.6.2",
     "qs": "^6.5.2",
     "react-flexbox-grid": "^2.1.2",
+    "react-grid-layout": "^0.16.6",
     "react-interval": "^2.0.2",
     "react-moment": "^0.6.9",
     "react-progress-button": "^5.1.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-sortable-pane": "^1.0.4",
     "react-validation": "^3.0.7",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
@@ -135,6 +142,8 @@
     "redux-thunk": "^2.2.0",
     "request": "^2.83.0",
     "reselect": "^3.0.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.83.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "style-loader": "^0.19.1",

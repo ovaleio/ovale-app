@@ -84,6 +84,9 @@ class KrakenClient {
 	 * @return {Object}            The request object
 	 */
 	api(method, params, callback) {
+
+		console.log("APi call : ", method);
+		console.log("APi call params: ", params);
 		// Default params to empty object
 		if(typeof params === 'function') {
 			callback = params;
@@ -150,7 +153,7 @@ class KrakenClient {
 		const url  = this.config.url + path;
 
 		if(!params.nonce) {
-			params.nonce = new Date() * 1000; // spoof microsecond
+			params.nonce = (new Date() * 1000); // spoof microsecond
 		}
 
 		if(this.config.otp !== undefined) {

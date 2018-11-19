@@ -90,7 +90,7 @@ const connectWS = {
                 //Fetch every 8 seconds
                 setInterval ( async () => {
                     const res = await lib.api('Ticker', { pair: pairs});
-                    if (res.error.length) {
+                    if ( res.error.length > 0 ) {
                         console.log ('Error fetching Kraken tickers', res.error)
                     }
                     else {

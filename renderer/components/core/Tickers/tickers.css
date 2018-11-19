@@ -1,0 +1,29 @@
+
+
+
+
+.tickers-content { 
+    left:0;
+    top:0;
+}
+.tickers-content .tickers-row{
+    padding: 2px 2px;
+    font-size: 12px;
+    line-height:18px;
+}
+
+.tickers-content .tickers-row > .tickers-logo-exchange {
+    height: 18px;
+    width: 18px;
+    color: #ccc;
+    text-align:left
+}
+.tickers-content .tickers-row > .symbol {
+    height: 12px;
+    width:12px;
+    color: #ccc;
+}
+.tickers-content .tickers-row > .tickers-prices {
+    text-overflow:ellipsis;
+    text-align:right;
+}

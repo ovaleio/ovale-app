@@ -1,0 +1,16 @@
+html, body {
+    height:100%;
+}
+
+.onboarding-header {
+    margin-top: 45px;
+}
+.onboarding-text-header{
+    margin-bottom:25px;
+}
+.onboarding-text-header, .onboarding-text-header p {
+    font-size:14px;
+}
+.onboarding-body {
+    margin-top: 65px;
+}

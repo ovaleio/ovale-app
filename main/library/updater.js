@@ -6,6 +6,7 @@ const {
 }                       = require('electron');
 const { autoUpdater }   = require("electron-updater");
 const ElectronSettings  = require('electron-settings');
+const isDev  = require('electron-is-dev');
 const log = require('electron-log');
 
 autoUpdater.logger = log;
@@ -47,7 +48,7 @@ const updater = {
 
     },
     update: function(){
-
+        if(!isDev)
         this.checkForUpdates();
         this.updaterEvents();
 

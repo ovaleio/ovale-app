@@ -53,8 +53,8 @@ const createWindow = () => {
     let mainWindow;
     mainWindow = new BrowserWindow({
         show: false,
-        width: 1200,
-        height: 654,
+        width: 1400,
+        height: 800,
         center:true,
         backgroundColor: '#123932',
         icon:iconPath,

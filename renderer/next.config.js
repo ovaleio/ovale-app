@@ -1,7 +1,5 @@
 const webpack = require('webpack');
-const path = require('path');
 const withCss = require('@zeit/next-css');
-
 
 module.exports = withCss({
   webpack(config) {
@@ -13,6 +11,16 @@ module.exports = withCss({
     config.plugins = config.plugins.filter(
       (plugin) => (plugin.constructor.name !== 'UglifyJsPlugin')
     )
+    config.module.rules.push({
+      test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
+      use: {
+        loader: 'url-loader',
+        options: {
+          limit: 100000,
+          name: '[name].[ext]'
+        }
+      }
+    })
     return config
   },
   exportPathMap() {

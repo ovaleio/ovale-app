@@ -3,6 +3,9 @@ import { currentTickerSymbolSelector } from './ticker'
 import { tickersSelector } from './tickers'
 import { baseCurrencySelector } from './common'
 
+const treshold = 0.000001; // Balance in BTC (100 sat min)
+
+
 const getPrice = (obj, tickers, baseCurrency) => {
   if (obj.currency === baseCurrency) return 1;
   const symbol = `${obj.exchange}:${baseCurrency}-${obj.currency}`
@@ -36,7 +39,7 @@ export const balancesWithPriceSelector = createSelector(
   baseCurrencySelector,
   (items, tickers, baseCurrency) => items.map((b) => {
     const price = getPrice(b, tickers, baseCurrency)
-    return {...b, price: price, totalValue: price * b.balance}
+    return {...b, price: price, totalValue: (price * b.balance)}
   })
 )
 
@@ -45,14 +48,20 @@ export const totalSelector = createSelector(
   items => items.length ? items.map( b => b.totalValue ).reduce((acc, cur) => acc + cur) : 0
 )
 
+
 export const balancesWithShareSelector = createSelector(
   balancesWithPriceSelector,
   totalSelector,
   (items, total) => items.map((b) => ({...b, share: b.totalValue / total}))
 )
 
+export const filterZeroBalanceSelector = createSelector(
+  balancesWithShareSelector,
+  items => items.filter((b) => b.totalValue > treshold)
+)
+
 export const balancesSortedSelector = createSelector(
-	balancesWithShareSelector,
+	filterZeroBalanceSelector,
 	sortKeySelector,
 	sortDirectionSelector,
 	(items, sortKey, sortDirection) => {

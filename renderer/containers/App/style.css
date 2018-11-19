@@ -1,0 +1,46 @@
+
+  .react-draggable {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 20px;
+    border:1px solid rgba(0, 0, 0, 0.7);
+    border-radius:5px
+ }
+
+ /* Draggable Handle, title and others */
+ .react-draggable > .draggable-handle {
+    width:100%;
+    background-color:rgba(0, 0, 0, 0.4);
+    transition-timing-function: ease-in;
+    transition: 0.2s;
+    cursor:move;
+}
+.react-draggable > .draggable-handle:hover {
+    background-color:rgba(0, 0, 0, 0.7);
+}
+.react-draggable > .draggable-handle > .handle-title {
+    padding: 9px;
+}
+
+ /* Content */
+.react-draggable > .draggable-inside {
+    height: calc(100% - 36px);
+    position:relative;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+ /* Resizable */
+
+ .react-grid-item > .react-resizable-handle::after {
+     content: "";
+     position: absolute;
+     right: 3px;
+     bottom: 3px;
+     width: 5px;
+     height: 5px;
+     border-right: 2px solid rgba(214, 214, 214, 0.4);
+     border-bottom: 2px solid rgba(214, 214, 214, 0.4);
+  }
