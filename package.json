@@ -3,7 +3,7 @@
   "author": "John Thillaye <john@jaytee.club>",
   "description": "Local multi-exchange trading client. Supports Bitfinex, Bittrex, Poloniex, Binance, Kraken.",
   "productName": "Ovale",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "main": "main/index.js",
   "api_dev": "http://localhost:8200",
   "license": "MIT",
