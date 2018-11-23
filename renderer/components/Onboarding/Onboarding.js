@@ -26,6 +26,7 @@ class Onboarding extends React.Component {
   componentDidUpdate(prevProps){
     const { user,  step } = this.props
 
+
     //Wrap it in a conditionnal to avoid an infinite loop (see https://reactjs.org/docs/react-component.html#componentdidupdate)
     if(prevProps.step !== step) {
 
@@ -79,6 +80,7 @@ class Onboarding extends React.Component {
     } 
   }
   componentDidMount() {
+
     ipcRenderer.send('REQUEST_USER');
     ipcRenderer.on('USER', (event, result) => {
       this.showStep1();

@@ -24,19 +24,15 @@ const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = req
 const prepareNext       = require('electron-next');
 const { resolve }       = require('app-root-path');
 
-// Electron Settings
-// @see https://www.npmjs.com/package/electron-settings
-const settingsProvider  = require('electron-settings');
+
+
 
 // Loading Business Application
 const Settings          = require('./library/user-settings/index.js');
 const updater           = require('./library/updater.js');
 const icons             = require('./library/icons');
 const MenuTemplate      = require('./library/menu.js');
-const HandleRest        = require('./rest_handlers.js');
-const HandleSockets     = require('./websocket-server.js');
-
-const settings = new Settings(settingsProvider);
+const IPCHandler        = require('./ipc_handler.js');
 
 let mainWindow = null;
 let forceQuit = false;
@@ -173,10 +169,10 @@ app.on('ready',  async () => {
     await createWindow();
 
     console.log("settings")
-    settings.start();
+    SettingsHandler = new Settings();
 
     console.log("ipc")
-    startIPCHandler();
+    IPCHandler();
 
     console.log("updater : ")
     updater.update();
@@ -184,13 +180,3 @@ app.on('ready',  async () => {
 });
 
 
-
-// Start ipc handlers
-// Sets global variables in main process to be usable on renderer process.
-// @see http://electron.rocks/tag/global/
-function startIPCHandler() {
-    process.env.npm_package_api = (isDev)?"http://localhost:8200":"http://localhost:8200";
-    global.credentials = settingsProvider.get('credentials') || settings.defaultSettings.credentials;
-    global.websockets = HandleSockets.init();
-    global.rest = HandleRest();
-}

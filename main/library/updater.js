@@ -5,7 +5,6 @@ const {
     Notification
 }                       = require('electron');
 const { autoUpdater }   = require("electron-updater");
-const ElectronSettings  = require('electron-settings');
 const log = require('electron-log');
 
 autoUpdater.logger = log;
@@ -14,7 +13,7 @@ log.info('Update starting...');
 
 
 const updater = {
-    timeBetweenUpdates: 360000,
+    timeBetweenUpdates: 60*60*1000,
     updaterEvents: function(){
 
         autoUpdater.on('update-available', function(info) {
@@ -25,9 +24,12 @@ const updater = {
             console.log("Update not available ",info);
         });
 
-        autoUpdater.on('download-progress', function(progess) {
+        autoUpdater.on('download-progress', function(progress) {
+            
         });
         autoUpdater.on('update-downloaded', function(info) {
+
+
             const dialogOpts = {
                 type: 'info',
                 buttons: ['Restart', 'Later'],
@@ -39,10 +41,12 @@ const updater = {
             dialog.showMessageBox(dialogOpts, (response) => {
                 if (response === 0) autoUpdater.quitAndInstall();
             })
+
+            
         });
 
         autoUpdater.on('error', function(e) {
-            log.info(e);
+            log.error(e);
         });
 
     },
@@ -53,15 +57,8 @@ const updater = {
 
     },
     checkForUpdates: function() {
-        let lastUpdate = (ElectronSettings.has('lastCheckUpdate'))?ElectronSettings.get('lastCheckUpdate'):0;
-        let now =  Date.now();
-
-        if(lastUpdate === undefined || now - lastUpdate > this.timeBetweenUpdates ) {
-            autoUpdater.checkForUpdates();
-            let now = Date.now();
-            ElectronSettings.set('lastCheckUpdate', now);
-        }
-
+        autoUpdater.checkForUpdates();
+          
         //just in case, adds a set timeout on the update method to check every day
         setTimeout(()=>{
             autoUpdater.checkForUpdates();

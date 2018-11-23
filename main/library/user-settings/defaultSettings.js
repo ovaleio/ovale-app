@@ -1,4 +1,3 @@
-const supportedExchanges = ['bitfinex', 'bittrex', 'poloniex', 'binance', 'kraken'];
 
 const settings = {
 	user:{
@@ -13,8 +12,8 @@ const settings = {
 			balances: 60000,
 			trades: 240000
 	},
-	supportedExchanges: supportedExchanges,
-	credentials: supportedExchanges.reduce((o, exchange) => {o[exchange] = {"apikey": "", "apisecret": ""}; return o; }, {})
+	supportedExchanges: ['bitfinex', 'bittrex', 'poloniex', 'binance', 'kraken']
+
 }
 
 module.exports = settings;

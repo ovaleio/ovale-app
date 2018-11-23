@@ -1,7 +1,7 @@
 const {ipcRenderer} = require('electron')
 // Listen to messages listed on this array
 // then dispatch them on the store
-const messageTypes = ['ORDERS', 'TICKERS', 'TRADES', 'BALANCES', 'SETTINGS', 'USER', 'STATUS', 'WEBSOCKET_SUCCESS', 'WEBSOCKET_ERROR', 'WEBSOCKET_PENDING', 'UPDATE_USER', 'REMOVE_ORDER', 'ADD_ORDERS', 'OPEN_SNACKBAR_REDIRECT', 'RESET_DATA'];
+const messageTypes = ['ORDERS', 'TICKERS', 'TRADES', 'BALANCES', 'SETTINGS', 'USER','DECRYPT_SETTINGS','STATUS', 'WEBSOCKET_SUCCESS', 'WEBSOCKET_ERROR', 'WEBSOCKET_PENDING', 'UPDATE_USER', 'REMOVE_ORDER', 'ADD_ORDERS', 'OPEN_SNACKBAR_REDIRECT', 'RESET_DATA'];
 // const requestTypes = ['REQUEST_ORDERS', 'REQUEST_TICKERS', 'REQUEST_BALANCES', 'REQUEST_TRADES']
 
 const emit = (type, payload) => ipcRenderer.send(type, payload)

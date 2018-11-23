@@ -5,11 +5,9 @@
 //Load fundamentals
 const format = require('./format.js');
 const async = require('async');
-const os = require('os');
-const path = require('path');
-const fs = require('fs');
 
 const handleData = (type, exchange, callback) => {
+	console.log(type, exchange, callback)
 	// dirty conditional because bittrex lib sends err, data inversely && res.result has data
 	// todo: change lib to behave better
 	if (exchange === 'bittrex') {
@@ -37,6 +35,15 @@ const handleData = (type, exchange, callback) => {
 	}
 }
 
+
+
+
+/*
+
+METHODS, AVAILABL FOR CLIENTS
+Todo objectify
+
+*/
 const methods = {
 	'poloniex': (lib) => ({
 		orders: (callback) => {
@@ -230,12 +237,16 @@ const methods = {
 
 class Clients {
 	constructor (options) {
-		this.supportedExchanges = options.supportedExchanges || ['bitfinex', 'poloniex', 'bittrex', 'bitstamp', 'binance', 'kraken'];
-		this.methods = methods
-
-		this.exchanges = this.supportedExchanges.filter(e => options.credentials[e] && options.credentials[e].apikey)
+		this.credentials = options.credentials; //"credentials":{"binance":{"apikey":"","apisecret":""},"bitfinex":{"apikey":"","apisecret":""},"bittrex":{"apikey":"","apisecret":""},"kraken":{"apikey":"a","apisecret":"b"},"poloniex":{"apikey":"","apisecret":""}}}
+		this.methods = methods;
+		
+		this.exchanges = Object.keys(this.credentials).filter(e => { if(options.credentials[e].apikey) return e; })
 		this.libraries = this.exchanges.map((e) => {
+
 			var o = options.credentials[e];
+
+			console.log(o);
+
 			switch (e) {
 				case 'poloniex':
 					const p = require('poloniex-api-node');

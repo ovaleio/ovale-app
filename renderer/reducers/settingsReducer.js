@@ -5,12 +5,26 @@ import { ipcRenderer } from 'electron'
 
 
 const settingsReducer = handleActions({
+  
   [actions.saveSettings](state) {
     ipcRenderer.send('SAVE_CREDENTIALS', state.credentials)
     return state;
   },
+  [actions.decryptSettings](state, {payload: credentials}) {
+    console.log("on decrypt settings")
+    console.log(credentials)
+    return {
+        ...state,
+        credentials: credentials
+    }
+  },
+  
   [actions.receiveSettings](state, {payload: settings}) {
-    return settings;
+    console.log(settings)
+  	return {
+      ...state,
+      supportedExchanges: settings.supportedExchanges
+    }
   },
   [actions.handleChangeSettings](state, {payload: {target, exchange}}) {
   	return {
@@ -52,11 +66,12 @@ const settingsReducer = handleActions({
   USER : When the onboardin is loaded, we get the user from electron-settings via ipcrenderer
   */
  [actions.receiveUser](state, {payload: user}) {
-    return { 
-      ...state, 
-      user
-    }
-  },
+  return { 
+    ...state, 
+    user
+  }
+},
+
    /*
   First Screen
   */

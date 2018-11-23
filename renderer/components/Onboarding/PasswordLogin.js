@@ -10,7 +10,7 @@ class PasswordLogin extends Component {
   constructor() {
     super();
     this.state = {
-      password:'',
+      password:'G4h2c17x!',
       buttonText:'Next',
       disabled : false,
       errors: []
@@ -84,7 +84,7 @@ class PasswordLogin extends Component {
                     name="password" 
                     autoFocus
                     placeholder="Your password"
-                    value={this.state.name}
+                    value={this.state.password}
                     onChange={e => this.handleChange(e)} />
                 </div>
               </div>

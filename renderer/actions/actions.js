@@ -129,9 +129,12 @@ export const registerSuccess 	= createAction('REGISTER_SUCCESS');
 
 export const loginSuccess 	    = createAction('LOGIN_SUCCESS');
 
-export const userLogin = (email, password) => (dispatch) => {
+export const decryptSettings    = createAction('DECRYPT_SETTINGS');
+
+export const userLogin = (email, password) => (dispatch, getState, {emit}) => {
 	api.user.userLogin(email, password).then(res=>{
-		console.log(res)
+		// We launch a rest handler after typing the password
+		emit('LAUNCH_REST_HANDLER', password)
 		//email && jwt
 		dispatch(loginSuccess(res))
 	}).catch(e=>{

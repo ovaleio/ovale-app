@@ -1,26 +1,25 @@
 const {clients, format} = require('./library/cryptoclients');
-const settings = require('electron-settings');
 const {ipcMain} = require('electron');
-const handleSockets = require('./websocket-server');
+
+const Credentials = require('./library/user-settings/credentials');
+const WebsockerHandler = require('./websocket-server');
+
 
 //Catch orders & balances via rest api 
 const sendRestData = (event, channelName, clients) => {
   event.sender.send('WEBSOCKET_PENDING', {message: 'Loading ' + channelName});
 
   clients.getAsync(channelName.toLowerCase(), (err, data) => {
+
     if (err) {
       console.log(err);
       return event.sender.send('WEBSOCKET_ERROR',  {message: err})
     }
     data = format.flatten(data)
 
+
     return event.sender.send(channelName, data);
   });
-}
-
-const sendSettings = (event) => {
-  console.log("sendSettings")
-  return event.sender.send('SETTINGS', settings.getAll())
 }
 
 const handleCancelOrder = (event, order, clients) => {
@@ -54,61 +53,45 @@ const handleNewOrder = (event, {orders}, clients) => {
   })
 }
 
-const saveCredentials = (event, credentials) => {
-  global.credentials = credentials;
-  settings.set('credentials', global.credentials);
-  settings.set('lastSaved', Date.now());
-
-  event.sender.send('WEBSOCKET_SUCCESS', {message: 'Settings saved !'});
-  handleSockets.restart()
-  handleRest();
-}
-
-
-
-const openedMainWindow = (event) => {
-  if (!settings.has('firstOpening')) event.sender.send('REDIRECT', {redirectTo: '/onboarding'})
-}
-
-const updateUser = (event,payload) => {
-  console.log("Payload", payload)
-  if(payload !== undefined) {
-    if(settings.set('user', payload)){
-      event.sender.send('WEBSOCKET_SUCCESS', {message: 'You are sucessfully connected !'});
-    }
-  }
-};
-
-const requestUser = (event) => {
-  console.log("requestUser")
-  return event.sender.send('USER', settings.get('user'))
-}
-
 
 const handlers = {
   'BUY_LIMIT': handleNewOrder,
   'SELL_LIMIT': handleNewOrder,
   'REQUEST_DATA': sendRestData,
-  'REQUEST_SETTINGS': sendSettings,
   'CANCEL_ORDER': handleCancelOrder,
-  'SAVE_CREDENTIALS': saveCredentials,
-  'OPENED_MAIN_WINDOW': openedMainWindow,
-  'UPDATE_USER': updateUser,
-  'REQUEST_USER': requestUser
 }
 
-const handleRest = () => {
-  //Init Clients
-  const Clients = new clients({credentials: global.credentials});
+const RestHandler = (password, callback) => {
+  
+  global.password = password || global.password;
 
-  //Remount listeners
-  Object.keys(handlers).map((h) => {
-    ipcMain.removeAllListeners(h)
-    ipcMain.on(h, (event, data) => {
-      handlers[h](event, data, Clients);
-    });
-  })
-  return true;
+  //We launch a new object for accessing the credentials
+  CredentialsHandler = new Credentials(global.password);
+
+  // We get and send the credentiuals to implement a new client
+  // we make it accessible to global
+  CredentialsHandler.get().then(credentials => {
+
+    global.credentials = credentials
+
+    //Init Clients
+    global.clients = new clients({credentials: global.credentials});
+    
+    // Init Websocket Handler
+    global.websockets = WebsockerHandler.init();
+
+    //Remount listeners
+    Object.keys(handlers).map((h) => {
+      ipcMain.removeAllListeners(h)
+      ipcMain.on(h, (event, data) => {
+        handlers[h](event, data, global.clients);
+      });
+    })
+    callback(global.credentials);
+  }).catch(e=> {
+    console.error(e)
+  });
+  
 }
 
-module.exports = handleRest
+module.exports = RestHandler

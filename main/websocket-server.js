@@ -159,7 +159,9 @@ const initSockets = (credentials, channels) => {
     credentials = credentials || global.credentials;
     channels = channels || ['TICKERS'];
 
-    const Clients = new clients({credentials});
+    // global set in restHandler
+    const Clients = global.clients;
+
     socketState = {
         status: Clients.exchanges.reduce((o, exchange) => {o[exchange] = false; return o; }, {}),
         channels: channels.reduce((o, channelName) => {o[channelName] = {data: {}, lastSent: 0}; return o;}, {})

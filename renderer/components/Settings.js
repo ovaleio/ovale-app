@@ -52,7 +52,7 @@ const styles = {
 class Settings extends React.Component {
 
   componentDidMount() {
-    ipcRenderer.send('REQUEST_SETTINGS')
+    ipcRenderer.send('REQUEST_SETTINGS');
   }
 
   render() {

@@ -1,18 +1,34 @@
+// Copyright 2018 Ovale
+// Romain Lafforgue
+
+const electron = require('electron');
+const settingsProvider  = require('electron-settings');
+
 const changesets = require('diff-json');
 const defaultSettings = require('./defaultSettings');
-const log = require('electron-log');
-
-
-// Classe pour pouvoir conserver la flexibilité du provider de settings (pas sûr de conserver electron-settings)
+;
 
 class Settings {
-  constructor(settingsProvider) {
+  constructor() {
     this.settingsProvider = settingsProvider;
     this.defaultSettings = defaultSettings;
   }
 
-  // Lance la procédure de vérification des données contenues dans electron-settings
+  getAll() {
+    return  this.settingsProvider.getAll();
+  }
+
+  get(_name) {
+    return  this.settingsProvider.get(_name);
+  }
+
+  set(_name, _value) {
+    return  this.settingsProvider.set(_name, _value);
+  }
+
+  // Update file mechanism
   start() {
+
     if (!this.settingsProvider.has('init') || process.argv[2] === '--reset') {
 
       this.settingsProvider.setAll(Object.assign({init: Date.now()}, this.defaultSettings));
