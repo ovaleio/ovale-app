@@ -10,7 +10,7 @@ class PasswordLogin extends Component {
   constructor() {
     super();
     this.state = {
-      password:'G4h2c17x!',
+      password:'',
       buttonText:'Next',
       disabled : false,
       errors: []
