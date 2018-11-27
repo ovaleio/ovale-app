@@ -23,7 +23,7 @@
     "win": "npm run buidprod && electron-builder -w -p never",
     "win:nosign": "npm run buidprod && electron-builder -w -p never",
     "linux": "npm run buidprod && electron-builder -l -p never",
-    "publish": "npm run buidprod && electron-builder -ml -p always && export CSC_LINK= && export CSC_KEY_PASSWORD= && electron-builder -w -p always",
+    "publish": "npm run buidprod && electron-builder -mwl -p always",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
