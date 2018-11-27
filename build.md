@@ -28,10 +28,10 @@ La signature de l'application permet de profiter des fonctionnalités d'updates.
 Les variables globales à définir permettent à electron de trouver les ressources en local pour pouvoir signer l'application
 
 ```
-export DEBUG=electron-builder
+
+```export DEBUG=electron-builder
 export CSC_LINK=~/Downloads/certificatApplication.p12
 export CSC_KEY_PASSWORD=password
-```
 ### Tester la signature de l'app
 Pour tester la signature sous mac : 
 ```

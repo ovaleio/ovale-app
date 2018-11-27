@@ -1,7 +1,6 @@
 // Copyright 2018 Ovale
 // Romain Lafforgue
 
-const electron = require('electron');
 const settingsProvider  = require('electron-settings');
 
 const changesets = require('diff-json');
@@ -29,7 +28,7 @@ class Settings {
   // Update file mechanism
   start() {
 
-    if (!this.settingsProvider.has('init') || process.argv[2] === '--reset') {
+   if (this.settingsProvider.getAll()  === null || process.argv[2] === '--reset') {
 
       this.settingsProvider.setAll(Object.assign({init: Date.now()}, this.defaultSettings));
       return true;

@@ -170,6 +170,7 @@ app.on('ready',  async () => {
 
     console.log("settings")
     SettingsHandler = new Settings();
+    SettingsHandler.start();
 
     console.log("ipc")
     IPCHandler();

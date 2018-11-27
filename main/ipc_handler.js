@@ -38,6 +38,7 @@ const updateUser = (event,payload) => {
 
 const requestUser = (event) => {
   console.log("requestUser")
+  
   return event.sender.send('USER', settingsHandler.get('user'))
 }
 
