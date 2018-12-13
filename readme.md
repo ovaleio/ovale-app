@@ -1,7 +1,5 @@
 # OVALE 🛸
 
-![https://i.imgur.com/VdwF67k.png](https://i.imgur.com/VdwF67k.png)
-
 OVALE is a unified trading client for cryptocurrency exchanges.
 OVALE operates under the GNU General Public License (GPL).
 
