@@ -1,12 +1,16 @@
 # OVALE 🛸
 
+![https://i.imgur.com/VdwF67k.png](https://i.imgur.com/VdwF67k.png)
+
 OVALE is a unified trading client for cryptocurrency exchanges.
 OVALE operates under the GNU General Public License (GPL).
 
-The OVALE Trading Client make calls to a server for user login and data management.
+The OVALE Trading Client makes calls to a server for user login and data management.
 By default the server endpoint configuration is `https://api.ovale.io/`
 
 The server repo is located at https://github.com/ovaleio/ovale-api
+
+![https://i.imgur.com/28uE32d.png](https://i.imgur.com/28uE32d.png)
 
 ## Exchanges supported
 
